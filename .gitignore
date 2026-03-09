@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.venv
+dist
+dist-ssr
+dist-electron
+release
+apps/bootstrap-installer/src-tauri/target
+apps/bootstrap-installer/src-tauri/gen
+apps/bootstrap-installer/ui/styles.css
+*.local
+
+# Generated app-icon intermediates (keep build/icon.png and build/icon.icns)
+build/icon-source.png
+build/icon.iconset
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vercel
