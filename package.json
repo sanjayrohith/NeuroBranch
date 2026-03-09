@@ -1,0 +1,129 @@
+{
+  "name": "labo-ai",
+  "productName": "LABO AI",
+  "description": "Atomic neural architecture laboratory and agentic graph builder.",
+  "author": "LABO AI",
+  "license": "Apache-2.0",
+  "private": true,
+  "version": "0.1.53",
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "runtime:setup": "node scripts/setup-runtime.mjs",
+    "electron:dev": "npm run runtime:setup && npm run build:electron && concurrently -k \"vite --host 127.0.0.1\" \"wait-on tcp:5173 && VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
+    "electron:start": "npm run runtime:setup && npm run build && npm run build:electron && electron .",
+    "demo:agent": "npm run runtime:setup && npm run build && npm run build:electron && electron scripts/demo-agent.mjs",
+    "package:mac": "npm run build && npm run build:electron && electron-builder --mac dmg zip --publish never",
+    "package:mac:dir": "npm run build && npm run build:electron && electron-builder --mac dir --publish never",
+    "package:win": "npm run build && npm run build:electron && electron-builder --win nsis zip --x64 --publish never",
+    "package:win:dir": "npm run build && npm run build:electron && electron-builder --win dir --x64 --publish never",
+    "package:win:arm64": "npm run build && npm run build:electron && electron-builder --win nsis zip --arm64 --publish never",
+    "package:linux:dir": "npm run build && npm run build:electron && electron-builder --linux dir --publish never",
+    "version": "node scripts/sync-release-version.mjs",
+    "lint": "oxlint",
+    "test": "vitest run",
+    "test:ci": "vitest run --exclude electron/atomic-runtime.test.ts --exclude electron/generated-pytorch.test.ts --exclude electron/runtime.test.ts",
+    "test:desktop": "npm run runtime:setup && npm run build && npm run build:electron && vitest run src/App.*.test.tsx electron/atomic-runtime.test.ts electron/runtime.test.ts electron/security.test.ts electron/desktop-updates.test.ts electron/openai-credentials.test.ts electron/ask-labo.test.ts src/core/graph-placement.test.ts src/core/agentic-graph.test.ts src/core/pytorch-compiler.test.ts src/core/media-presets.test.ts && node scripts/desktop-smoke.mjs",
+    "preview": "vite preview"
+  },
+  "build": {
+    "appId": "ai.labo.desktop",
+    "productName": "LABO AI",
+    "artifactName": "LABO-AI-${version}-${arch}.${ext}",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "scripts/atomic_runtime.py",
+        "to": "runtime/atomic_runtime.py"
+      }
+    ],
+    "mac": {
+      "icon": "build/icon.icns",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "sign": "./scripts/mac-sign.cjs",
+      "artifactName": "LABO-AI-${version}-${arch}-mac.${ext}",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "icon": "apps/bootstrap-installer/src-tauri/icons/icon.ico",
+      "artifactName": "LABO-AI-${version}-${arch}-win.${ext}",
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "artifactName": "LABO-AI-${version}-${arch}-linux.${ext}",
+      "category": "Development",
+      "target": [
+        "AppImage"
+      ]
+    },
+    "nsis": {
+      "artifactName": "LABO-AI-${version}-${arch}.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "dmg": {
+      "artifactName": "LABO-AI-${version}-${arch}.${ext}",
+      "title": "LABO AI ${version}",
+      "backgroundColor": "#0d0f15",
+      "iconSize": 112,
+      "contents": [
+        {
+          "x": 140,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "@openai/codex": "^0.144.6",
+    "@xyflow/react": "^12.11.2",
+    "lucide-react": "^1.24.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "concurrently": "^10.0.3",
+    "electron": "^43.1.1",
+    "electron-builder": "^26.15.3",
+    "jsdom": "^29.1.1",
+    "oxlint": "^1.71.0",
+    "sass": "^1.101.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1",
+    "vitest": "^4.1.10",
+    "wait-on": "^9.0.10"
+  }
+}
