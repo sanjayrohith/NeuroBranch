@@ -1,0 +1,12 @@
+.git
+.vercel
+.venv
+node_modules
+release
+dist
+dist-electron
+build
+electron
+scripts
+docs
+*.log
