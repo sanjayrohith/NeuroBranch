@@ -1,0 +1,160 @@
+@use 'tokens' as *;
+
+.app-shell {
+  grid-template-rows: var(--labo-topbar-height) var(--labo-toolbar-height) minmax(0, 1fr) var(--labo-status-height);
+  color: var(--labo-text);
+  background:
+    radial-gradient(circle at 8% -14%, rgb(70 196 134 / 9%), transparent 30rem),
+    radial-gradient(circle at 93% -10%, rgb(124 117 255 / 9%), transparent 34rem),
+    var(--labo-bg-deep);
+}
+
+.app-shell.workspace-model { --labo-status-height: 60px; }
+
+.topbar {
+  padding-inline: 18px;
+  border-color: var(--labo-line);
+  background: rgb(8 11 12 / 94%);
+  box-shadow: 0 8px 30px rgb(0 0 0 / 18%);
+  backdrop-filter: blur(18px);
+}
+
+.runtime-electron.runtime-darwin .topbar { padding-left: 92px; }
+.runtime-electron.runtime-darwin.native-fullscreen .topbar { padding-left: 18px; }
+
+.brand {
+  width: 300px;
+  gap: 10px;
+  font-size: 15px;
+  letter-spacing: -.025em;
+
+  strong { font-weight: 650; }
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-color: rgb(112 224 173 / 34%);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 30% 20%, rgb(112 224 173 / 18%), transparent 58%),
+    linear-gradient(145deg, rgb(112 224 173 / 10%), rgb(111 199 212 / 5%) 50%, rgb(156 148 255 / 11%));
+  box-shadow: inset 0 0 18px rgb(112 224 173 / 5%), 0 8px 22px rgb(0 0 0 / 22%);
+
+  svg { width: 23px; height: 23px; }
+}
+
+.alpha-pill {
+  padding: 4px 6px;
+  border-color: rgb(156 148 255 / 35%);
+  border-radius: 5px;
+  color: #b3adff;
+  background: rgb(156 148 255 / 6%);
+  font-size: 9px;
+}
+
+.studio-navigation {
+  gap: 4px;
+  padding: 4px;
+  border-color: var(--labo-line);
+  border-radius: 10px;
+  background: rgb(3 6 7 / 72%);
+
+  button {
+    min-height: 32px;
+    padding-inline: 14px;
+    border-radius: 7px;
+    font-size: 11px;
+    transition: color .16s ease, background .16s ease, box-shadow .16s ease;
+  }
+
+  button[aria-pressed='true'] {
+    color: var(--labo-text);
+    background: linear-gradient(180deg, rgb(255 255 255 / 9%), rgb(255 255 255 / 4%));
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%), 0 5px 15px rgb(0 0 0 / 18%);
+  }
+}
+
+.header-actions {
+  width: 300px;
+  gap: 9px;
+}
+
+.ghost-button,
+.codex-button {
+  height: 34px;
+  padding-inline: 11px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.ghost-button {
+  @include control-surface;
+  color: #b5bfbc;
+}
+
+.codex-button {
+  @include control-surface(var(--labo-violet));
+  color: #eeecff;
+  background: linear-gradient(180deg, rgb(156 148 255 / 18%), rgb(156 148 255 / 8%));
+}
+
+.preset-menu > summary,
+.model-prompt-menu > summary {
+  min-height: 32px;
+  border-color: var(--labo-line);
+  border-radius: 7px;
+  padding-inline: 10px;
+  color: #c5cecb;
+  background: var(--labo-panel);
+  font-size: 9px;
+}
+
+.panel-visibility-button,
+.export-menu > summary,
+.atomic-player-controls button {
+  height: 31px;
+  border-color: var(--labo-line);
+  border-radius: 7px;
+  background: var(--labo-panel-raised);
+}
+
+.panel-visibility-button {
+  padding-inline: 9px;
+  color: #929c99;
+  font-size: 9px;
+}
+
+.panel-visibility-button[aria-pressed='true'] {
+  border-color: rgb(112 224 173 / 24%);
+  color: #d8e1de;
+  background: rgb(112 224 173 / 7%);
+}
+
+.export-menu > summary {
+  padding-inline: 10px;
+  border-color: rgb(112 224 173 / 28%);
+  color: #a6d7be;
+  background: rgb(112 224 173 / 7%);
+  font-size: 9px;
+}
+
+@media (max-width: 1560px) {
+  .brand,
+  .header-actions { width: 235px; }
+}
+
+@media (min-width: 2100px) {
+  :root {
+    --labo-topbar-height: 64px;
+    --labo-toolbar-height: 56px;
+    --labo-status-height: 31px;
+    --labo-tab-height: 44px;
+  }
+
+  .topbar { padding-inline: 22px; }
+  .brand { font-size: 17px; }
+  .studio-navigation button,
+  .ghost-button,
+  .codex-button { font-size: 12px; }
+}

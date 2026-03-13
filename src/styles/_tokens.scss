@@ -1,0 +1,121 @@
+:root {
+  --labo-bg-deep: #070a0b;
+  --labo-bg: #090c0d;
+  --labo-panel: #0f1415;
+  --labo-panel-raised: #151b1c;
+  --labo-surface: #1a2122;
+  --labo-line: rgb(214 231 225 / 10%);
+  --labo-line-soft: rgb(214 231 225 / 6%);
+  --labo-text: #edf3f1;
+  --labo-muted: #9aa6a2;
+  --labo-faint: #687470;
+  --labo-green: #91c7ad;
+  --labo-cyan: #91c3cc;
+  --labo-violet: #aaa4d6;
+  --labo-radius-sm: 7px;
+  --labo-radius: 10px;
+  --labo-shadow: 0 20px 60px rgb(0 0 0 / 28%);
+  --labo-topbar-height: 58px;
+  --labo-toolbar-height: 50px;
+  --labo-status-height: 28px;
+  --labo-tab-height: 40px;
+  --labo-library-width: clamp(230px, 14vw, 278px);
+  --labo-inspector-width: clamp(270px, 16vw, 320px);
+}
+
+@mixin control-surface($accent: null) {
+  @if $accent {
+    border: 1px solid color-mix(in srgb, $accent 30%, transparent);
+    background: color-mix(in srgb, $accent 9%, var(--labo-panel-raised));
+  } @else {
+    border: 1px solid var(--labo-line);
+    background: var(--labo-panel-raised);
+  }
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
+}
+
+@mixin mono-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+@mixin pastel-palette {
+/* One restrained pastel vocabulary across the complete desktop workspace. */
+.topbar,
+.workspace-toolbar,
+.statusbar,
+.ask-labo-header { background: var(--labo-bg); }
+
+.block-library,
+.inspector,
+.canvas-panel,
+.code-panel,
+.panel-tab,
+.training-canvas,
+.optimizer-library,
+.tokenizer-canvas { background-color: var(--labo-panel); }
+
+.studio-navigation,
+.view-switcher,
+.interaction-switcher,
+.target-switcher,
+.preset-menu > summary,
+.model-prompt-menu > summary {
+  background: var(--labo-bg-deep);
+  border-color: var(--labo-line);
+}
+
+.studio-navigation button[aria-pressed='true'],
+.view-switcher button[aria-pressed='true'],
+.target-switcher button[aria-pressed='true'] {
+  color: var(--labo-text);
+  background: color-mix(in srgb, var(--pastel-lavender) 10%, var(--labo-panel-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pastel-lavender) 18%, transparent);
+}
+
+.codex-button,
+.interaction-switcher button[aria-pressed='true'] {
+  color: #dedbee;
+  border-color: color-mix(in srgb, var(--pastel-lavender) 32%, transparent);
+  background: color-mix(in srgb, var(--pastel-lavender) 10%, var(--labo-panel-raised));
+}
+
+.library-family { border-top-color: var(--labo-line-soft); }
+.library-family summary { color: var(--labo-muted); }
+.library-family[open] > summary { color: var(--labo-text); }
+.library-family summary span {
+  color: var(--labo-faint);
+  border-color: var(--labo-line);
+  background: color-mix(in srgb, var(--labo-surface) 72%, transparent);
+}
+.catalog-family[open] > summary { color: var(--pastel-sage); }
+.library-block:hover {
+  color: var(--labo-text);
+  border-color: var(--labo-line);
+  background: color-mix(in srgb, var(--pastel-sage) 5%, var(--labo-panel));
+}
+
+.architecture-node,
+.tokenizer-atom,
+.optimizer-block,
+.qkv-composite {
+  border-color: var(--labo-line);
+  background: linear-gradient(180deg, var(--labo-surface), var(--labo-panel-raised));
+}
+.architecture-node.selected {
+  border-color: var(--pastel-lavender);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--pastel-lavender) 22%, transparent), 0 8px 24px rgb(0 0 0 / 26%);
+}
+
+.graph-edge.edge-query,
+.port-query { color: var(--pastel-blue); stroke: var(--pastel-blue); border-color: var(--pastel-blue); }
+.graph-edge.edge-key,
+.port-key { color: var(--pastel-amber); stroke: var(--pastel-amber); border-color: var(--pastel-amber); }
+.graph-edge.edge-value,
+.port-value { color: var(--pastel-lavender); stroke: var(--pastel-lavender); border-color: var(--pastel-lavender); }
+.graph-edge.edge-hidden,
+.port-hidden { color: #8b9995; stroke: #8b9995; border-color: #8b9995; }
+.port-image { color: var(--pastel-cyan); border-color: var(--pastel-cyan); }
+.port-video { color: var(--pastel-rose); border-color: var(--pastel-rose); }
+}
