@@ -1,0 +1,134 @@
+@use 'tokens' as *;
+
+// Shared by Model, Training and Tokenizer Studio. Studio-specific content
+// stays in its own component; the surrounding layout remains identical.
+.workspace-toolbar {
+  gap: 14px;
+  padding-inline: 14px;
+  border-color: var(--labo-line);
+  background: rgb(10 13 14 / 96%);
+  box-shadow: 0 7px 24px rgb(0 0 0 / 12%);
+}
+
+.toolbar-controls,
+.toolbar-meta { gap: 9px; }
+
+.view-switcher,
+.interaction-switcher,
+.target-switcher {
+  padding: 4px;
+  border-color: var(--labo-line);
+  border-radius: 9px;
+  background: rgb(4 7 8 / 72%);
+}
+
+.view-switcher button,
+.interaction-switcher button,
+.target-switcher button {
+  height: 31px;
+  border-radius: 6px;
+  padding-inline: 10px;
+  font-size: 10px;
+}
+
+.view-switcher button[aria-pressed='true'],
+.interaction-switcher button[aria-pressed='true'] {
+  color: #eff5f3;
+  background: linear-gradient(180deg, rgb(112 224 173 / 13%), rgb(111 199 212 / 7%));
+  box-shadow: inset 0 0 0 1px rgb(112 224 173 / 20%);
+}
+
+.toolbar-meta {
+  color: #77827f;
+  font-size: 9px;
+
+  > span:first-child { color: #9ca7a4; }
+}
+
+.workspace-grid {
+  grid-template-columns: var(--labo-library-width) minmax(660px, 1fr) var(--labo-inspector-width);
+  background: var(--labo-bg-deep);
+
+  &.inspector-hidden { grid-template-columns: var(--labo-library-width) minmax(660px, 1fr); }
+  &.library-hidden { grid-template-columns: minmax(660px, 1fr) var(--labo-inspector-width); }
+  &.library-hidden.inspector-hidden { grid-template-columns: minmax(660px, 1fr); }
+}
+
+.block-library,
+.inspector {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 1.5%), transparent 160px),
+    var(--labo-panel);
+}
+
+.block-library { border-color: var(--labo-line); }
+.inspector { border-color: var(--labo-line); }
+
+.library-drag-preview {
+  position: fixed;
+  z-index: 10000;
+  top: -1000px;
+  left: -1000px;
+  min-width: 170px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgb(170 164 214 / 42%);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: #e4ece9;
+  background: rgb(18 24 25 / 96%);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 42%);
+  font: 11px 'Inter', sans-serif;
+  pointer-events: none;
+}
+
+.panel-heading {
+  height: var(--labo-tab-height);
+  padding-inline: 14px;
+  gap: 8px;
+  border-color: var(--labo-line-soft);
+  color: #9aa5a1;
+  font-size: 10px;
+  letter-spacing: .11em;
+}
+
+.editor-grid {
+  border-inline: 0;
+  background: var(--labo-bg);
+}
+
+.view-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+.statusbar {
+  padding-inline: 13px;
+  gap: 20px;
+  border-color: var(--labo-line);
+  color: #68736f;
+  background: rgb(8 11 12 / 96%);
+  font-size: 9px;
+}
+
+.model-statusbar {
+  position: relative;
+  align-items: center;
+  padding-bottom: 0;
+}
+
+@media (max-width: 1560px) {
+  .toolbar-meta > span { display: none; }
+  .workspace-toolbar { gap: 8px; padding-inline: 10px; }
+  .toolbar-controls,
+  .toolbar-meta { gap: 6px; }
+  .interaction-switcher button { padding-inline: 8px; font-size: 9px; }
+}
+
+@media (max-width: 1380px) {
+  .panel-heading { padding-inline: 11px; }
+}
+
+@media (min-width: 2100px) {
+  .workspace-toolbar { padding-inline: 22px; }
+  .panel-heading { font-size: 11px; }
+}

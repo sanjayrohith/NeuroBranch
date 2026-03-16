@@ -1,0 +1,72 @@
+@use 'tokens' as *;
+
+.studio-button {
+  min-height: 31px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--labo-line);
+  border-radius: 7px;
+  padding: 0 10px;
+  color: var(--labo-muted);
+  background: color-mix(in srgb, var(--labo-surface) 68%, transparent);
+  font: 10px Inter, sans-serif;
+
+  &:hover:not(:disabled) { color: var(--labo-text); border-color: color-mix(in srgb, var(--labo-muted) 28%, transparent); background: var(--labo-surface); }
+  &:focus-visible { outline: 2px solid color-mix(in srgb, var(--labo-violet) 52%, transparent); outline-offset: 2px; }
+  &:disabled { opacity: .42; cursor: not-allowed; }
+}
+
+.studio-button-accent {
+  color: #e9e6f4;
+  border-color: color-mix(in srgb, var(--labo-violet) 34%, transparent);
+  background: color-mix(in srgb, var(--labo-violet) 10%, var(--labo-panel-raised));
+}
+
+.studio-button-danger { color: #d9aaa8; border-color: rgb(215 133 128 / 22%); }
+.studio-button-quiet { border-color: transparent; background: transparent; }
+
+.studio-icon-button { width: 31px; padding: 0; }
+
+.studio-segmented-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid var(--labo-line);
+  border-radius: 9px;
+  background: rgb(4 7 8 / 72%);
+
+  > button {
+    min-height: 31px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 0;
+    border-radius: 6px;
+    padding-inline: 10px;
+    color: var(--labo-muted);
+    background: transparent;
+    font-size: 10px;
+
+    &[aria-pressed='true'] {
+      color: var(--labo-text);
+      background: color-mix(in srgb, var(--labo-violet) 10%, var(--labo-panel-raised));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--labo-violet) 18%, transparent);
+    }
+  }
+}
+
+.studio-count-badge {
+  min-width: 22px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--labo-line);
+  border-radius: 999px;
+  padding: 2px 6px;
+  color: var(--labo-faint);
+  background: color-mix(in srgb, var(--labo-surface) 72%, transparent);
+  font: 8px var(--mono);
+}

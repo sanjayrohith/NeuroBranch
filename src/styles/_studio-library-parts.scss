@@ -1,0 +1,8 @@
+.library-family > summary .studio-count-badge { margin-left: auto; }
+
+.library-block > span:last-child {
+  min-width: 0;
+
+  > strong,
+  > small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
