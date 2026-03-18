@@ -1,0 +1,59 @@
+.studio-dialog.card-search-modal {
+  width: min(620px, 92vw);
+  max-height: 72vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  border-color: var(--labo-line);
+  background: var(--labo-panel);
+  box-shadow: var(--labo-shadow);
+
+  > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--labo-line);
+
+    > span { display: flex; align-items: center; gap: 8px; color: var(--labo-text); font-size: 11px; }
+  }
+
+  > input {
+    margin: 12px;
+    border: 1px solid var(--labo-line);
+    border-radius: 7px;
+    padding: 11px 12px;
+    outline: none;
+    color: var(--labo-text);
+    background: var(--labo-bg-deep);
+    font: 11px var(--mono);
+
+    &:focus { border-color: color-mix(in srgb, var(--labo-cyan) 54%, transparent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--labo-cyan) 8%, transparent); }
+  }
+}
+
+.card-search-results {
+  min-height: 80px;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  padding: 0 12px 12px;
+
+  > button {
+    display: grid;
+    gap: 4px;
+    border: 1px solid var(--labo-line);
+    border-radius: 7px;
+    padding: 10px 11px;
+    color: var(--labo-text);
+    background: var(--labo-panel-raised);
+    text-align: left;
+
+    &:hover { border-color: color-mix(in srgb, var(--labo-cyan) 32%, transparent); background: color-mix(in srgb, var(--labo-cyan) 6%, var(--labo-panel-raised)); }
+  }
+
+  strong { font-size: 10px; }
+  small,
+  p { margin: 0; color: var(--labo-faint); font: 8px/1.5 var(--mono); }
+}
