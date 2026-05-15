@@ -1,0 +1,98 @@
+@use 'tokens' as *;
+
+.graph-empty-state {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 46%;
+  width: min(410px, calc(100% - 72px));
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 28px 30px;
+  border: 1px solid rgb(112 224 173 / 13%);
+  border-radius: 16px;
+  color: var(--labo-muted);
+  background:
+    radial-gradient(circle at 50% 0%, rgb(112 224 173 / 10%), transparent 70%),
+    rgb(10 14 15 / 76%);
+  box-shadow: var(--labo-shadow), inset 0 1px 0 rgb(255 255 255 / 4%);
+  backdrop-filter: blur(16px);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  .graph-empty-mark {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgb(112 224 173 / 26%);
+    border-radius: 13px;
+    color: var(--labo-green);
+    background: linear-gradient(145deg, rgb(112 224 173 / 13%), rgb(156 148 255 / 7%));
+    box-shadow: 0 12px 30px rgb(0 0 0 / 25%);
+  }
+
+  strong {
+    display: block;
+    color: #edf4f1;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+  }
+
+  p {
+    max-width: 320px;
+    margin: 7px auto 0;
+    color: #87928e;
+    font-size: 11px;
+    line-height: 1.55;
+  }
+
+  small {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #65716d;
+    font: 9px 'JetBrains Mono', ui-monospace, monospace;
+  }
+}
+
+.code-empty-state {
+  min-height: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 40px;
+  color: #74807c;
+  background:
+    radial-gradient(circle at 50% 43%, rgb(156 148 255 / 6%), transparent 25rem),
+    #080b0c;
+  text-align: center;
+
+  > span {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 3px;
+    border: 1px solid rgb(156 148 255 / 22%);
+    border-radius: 13px;
+    color: var(--labo-violet);
+    background: rgb(156 148 255 / 8%);
+  }
+
+  strong { color: #e3e9e7; font-size: 14px; font-weight: 600; }
+  p { max-width: 360px; margin: 0; font-size: 10px; line-height: 1.6; }
+  code {
+    margin-top: 4px;
+    padding: 7px 10px;
+    border: 1px solid var(--labo-line);
+    border-radius: 7px;
+    color: #7d8985;
+    background: rgb(255 255 255 / 2%);
+    font: 9px 'JetBrains Mono', ui-monospace, monospace;
+  }
+}
