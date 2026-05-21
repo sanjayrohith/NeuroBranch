@@ -1,0 +1,134 @@
+// The Card Builder changes only the library payload. It deliberately reuses
+// StudioShell, GraphCanvas and the standard Model Studio footer.
+.card-builder-shell { display: contents; }
+
+.card-builder-workspace {
+  .card-builder-library-content {
+    box-sizing: border-box;
+    align-content: start;
+    grid-auto-rows: max-content;
+  }
+
+  .card-builder-save-family > label {
+    display: grid;
+    gap: 5px;
+    margin: 7px 3px;
+    color: var(--labo-muted);
+    font: 8px 'JetBrains Mono';
+  }
+
+  .card-builder-save-family[open] {
+    overflow: visible;
+    padding: 0 6px 8px;
+
+    > summary { margin-inline: -6px; }
+  }
+
+  .card-builder-save-family input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 29px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 7px;
+    color: var(--labo-text);
+    background: var(--labo-bg-deep);
+    font: 9px 'JetBrains Mono';
+  }
+
+  .card-builder-family-select,
+  .card-builder-save-family > .studio-choice-field { margin: 7px 3px; }
+
+  .card-builder-save-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding: 8px 3px 2px;
+  }
+
+  .card-builder-save-actions button {
+    min-height: 29px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--labo-muted);
+    background: var(--labo-panel-raised);
+    font: 8px 'JetBrains Mono';
+  }
+
+  .card-builder-save-family .create-custom-card-button {
+    border-color: color-mix(in srgb, var(--labo-green) 28%, var(--labo-line));
+    color: var(--labo-text);
+    background: color-mix(in srgb, var(--labo-green) 8%, var(--labo-panel-raised));
+  }
+
+  .card-builder-save-family .card-builder-cancel {
+    min-height: 25px;
+    border-color: transparent;
+    color: var(--labo-faint);
+    background: transparent;
+  }
+
+  .card-builder-save-actions button:disabled { opacity: .38; }
+
+  .model-card-modal-error {
+    margin: 6px 3px;
+    color: var(--pastel-rose);
+    font: 7px/1.45 'JetBrains Mono';
+  }
+}
+
+.card-builder-port-summary {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--labo-line);
+
+  > span {
+    color: var(--labo-faint);
+    font: 7px 'JetBrains Mono';
+    letter-spacing: 1px;
+  }
+
+  strong { color: var(--labo-text); font: 9px 'JetBrains Mono'; }
+}
+
+.card-builder-inspector-fields {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+
+  > label {
+    display: grid;
+    gap: 5px;
+    margin: 7px 3px;
+    color: var(--labo-muted);
+    font: 8px 'JetBrains Mono';
+  }
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 29px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 7px;
+    color: var(--labo-text);
+    background: var(--labo-bg-deep);
+    font: 9px 'JetBrains Mono';
+  }
+}
+
+.card-builder-delete {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+  border: 1px solid color-mix(in srgb, var(--pastel-rose) 25%, var(--labo-line));
+  border-radius: 5px;
+  color: var(--pastel-rose);
+  background: color-mix(in srgb, var(--pastel-rose) 5%, transparent);
+  font: 8px 'JetBrains Mono';
+}
