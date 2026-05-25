@@ -1,0 +1,257 @@
+@use 'tokens' as *;
+
+.ask-labo-backdrop {
+  display: contents;
+}
+
+.ask-labo-panel {
+  display: contents;
+}
+
+.ask-labo-backdrop.settings-open,
+.ask-labo-backdrop.review-open {
+  display: grid;
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  place-items: center;
+  padding: clamp(18px, 4vh, 40px) 32px;
+  pointer-events: auto;
+  background: rgb(2 5 6 / 66%);
+  backdrop-filter: blur(8px) saturate(.8);
+
+  .ask-labo-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(820px, calc(100vw - 64px));
+    max-height: calc(100dvh - clamp(36px, 8vh, 80px));
+    overflow: auto;
+    border: 1px solid rgb(255 255 255 / 14%);
+    border-radius: 15px;
+    background:
+      radial-gradient(circle at 12% 0%, rgb(112 224 173 / 8%), transparent 260px),
+      radial-gradient(circle at 88% 0%, rgb(156 148 255 / 9%), transparent 300px),
+      rgb(12 17 18 / 98%);
+    box-shadow: 0 36px 100px rgb(0 0 0 / 62%), inset 0 1px 0 rgb(255 255 255 / 5%);
+
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { border-radius: 8px; background: rgb(112 224 173 / 18%); }
+  }
+
+  .ask-labo-header { display: flex; }
+  .agent-prompt-dock { display: none; }
+}
+
+.ask-labo-backdrop.review-open .ask-labo-panel {
+  width: min(1040px, calc(100vw - 64px));
+  height: min(760px, calc(100dvh - clamp(36px, 8vh, 80px)));
+  max-height: none;
+  overflow: hidden;
+}
+
+.ask-labo-backdrop.review-open {
+  .ask-labo-header { flex: 0 0 auto; }
+}
+.ask-labo-backdrop:not(.settings-open) .ask-labo-settings,
+.ask-labo-backdrop:not(.review-open) .ask-labo-result,
+.ask-labo-backdrop:not(.settings-open):not(.review-open) .ask-labo-header { display: none; }
+
+.ask-labo-header {
+  position: sticky;
+  z-index: 4;
+  top: 0;
+  min-height: 52px;
+  padding-inline: 17px;
+  border-color: var(--labo-line-soft);
+  background: rgb(14 20 21 / 92%);
+  backdrop-filter: blur(18px);
+
+  > span {
+    color: #eef5f2;
+    font-size: 12px;
+    letter-spacing: .01em;
+  }
+
+  button { border-radius: 8px; }
+}
+
+.ask-labo-settings {
+  margin: 0 18px 16px;
+  overflow: hidden;
+  border: 1px solid var(--labo-line);
+  border-radius: 10px;
+  background: rgb(255 255 255 / 1.5%);
+
+}
+
+.ask-labo-settings-tabs {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px;
+  border-bottom: 1px solid var(--labo-line-soft);
+
+  button {
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding-inline: 12px;
+    border: 0;
+    border-radius: 8px;
+    color: #899591;
+    background: transparent;
+
+    &[aria-pressed='true'] { color: #e4ece8; background: rgb(112 224 173 / 9%); }
+  }
+}
+
+.ask-labo-workspace-settings {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: 0;
+
+  > .workspace-management-column { border-right: 1px solid var(--labo-line-soft); }
+  .model-preset-builder { padding: 15px; }
+  .user-preset-list { padding: 0 15px 15px; }
+  > .preset-comparison-list { max-height: 420px; overflow: auto; padding: 15px; }
+}
+
+.ask-labo-settings-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .ask-labo-intro,
+  .ask-labo-key-settings { grid-column: 1 / -1; }
+  .ask-labo-mode { border-right: 1px solid var(--labo-line-soft); }
+  .ask-labo-scope { border-right: 0; }
+}
+
+.ask-labo-tips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 14px;
+
+  article {
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid var(--labo-line-soft);
+    border-radius: 9px;
+    background: rgb(6 10 11 / 38%);
+  }
+
+  article:first-child {
+    grid-column: 1 / -1;
+    border-color: rgb(112 224 173 / 24%);
+    background: rgb(112 224 173 / 5%);
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 9px;
+    color: #70e0ad;
+    font: 8px 'JetBrains Mono', monospace;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+
+  strong { display: block; color: #e4ece8; font-size: 12px; }
+  p { margin: 6px 0 0; color: #899591; font-size: 10px; line-height: 1.55; }
+  b { color: #c9d6d1; font-weight: 600; }
+}
+
+.ask-labo-intro {
+  padding: 13px 14px 10px;
+  background: transparent;
+
+  p { margin-bottom: 0; }
+}
+
+.ask-labo-mode,
+.ask-labo-key-settings { border-color: var(--labo-line-soft); }
+
+.ask-labo-error {
+  position: absolute;
+  right: 10px;
+  bottom: calc(100% + 8px);
+  left: 10px;
+  margin: 0;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 42%);
+
+  button {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    color: #d7aaa7;
+    background: transparent;
+
+    &:hover { color: #f4d5d2; background: rgb(231 143 137 / 10%); }
+  }
+}
+
+.review-open .ask-labo-error,
+.settings-open .ask-labo-error { position: static; margin: 0 18px 14px; }
+
+.model-card-modal.code-card-modal {
+  width: min(920px, 94vw);
+  max-height: 90vh;
+  grid-template-columns: minmax(210px, .34fr) minmax(0, 1fr);
+  align-items: start;
+  padding-bottom: 0;
+
+  > header,
+  > .model-card-modal-hint,
+  > .model-card-modal-error,
+  > footer { grid-column: 1 / -1; }
+
+  > label:not(.model-card-code-field) { margin-right: 0; }
+
+  .model-card-code-field {
+    grid-column: 2;
+    grid-row: 3 / span 2;
+    margin-left: 0;
+
+    textarea {
+      min-height: 340px;
+      resize: vertical;
+      padding: 15px;
+      border-radius: 8px;
+      color: #dbe9e3;
+      background: #070a0b;
+      font: 12px/1.65 'JetBrains Mono', ui-monospace, monospace;
+      tab-size: 4;
+    }
+  }
+
+  > small { grid-column: 2; margin-left: 0; }
+
+  footer {
+    position: sticky;
+    bottom: 0;
+    margin: 4px 0 0;
+    padding: 13px 14px;
+    background: rgb(17 19 25 / 96%);
+    backdrop-filter: blur(12px);
+  }
+}
+
+@media (max-width: 980px) {
+  .ask-labo-backdrop.settings-open,
+  .ask-labo-backdrop.review-open { padding-inline: 20px; }
+  .ask-labo-backdrop.settings-open .ask-labo-panel,
+  .ask-labo-backdrop.review-open .ask-labo-panel { width: calc(100vw - 40px); }
+  .ask-labo-workspace-settings { grid-template-columns: 1fr; }
+  .ask-labo-workspace-settings > .workspace-management-column { border-right: 0; border-bottom: 1px solid var(--labo-line-soft); }
+  .ask-labo-tips { grid-template-columns: 1fr; }
+  .ask-labo-tips article:first-child { grid-column: auto; }
+}
