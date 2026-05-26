@@ -1,0 +1,4 @@
+export const agentPlanReviewText = {
+  en: { title: 'Review graph plan', plan: 'Plan', tools: 'Tools used', existing: 'Existing graph changes', actions: 'Actions after approval', missing: 'Missing blocks', rejected: 'Not applied', discard: 'Discard', apply: 'Apply full plan', deleteArchitecture: 'delete architecture', cards: 'cards', elastic: 'elastic', ready: 'Ready', generated: 'generated reusable card', atomic: 'atomic block', close: 'Close Ask LABO' },
+  fr: { title: 'Vérifier le plan du graphe', plan: 'Plan', tools: 'Outils utilisés', existing: 'Modifications du graphe existant', actions: 'Actions après validation', missing: 'Cartes manquantes', rejected: 'Non appliqué', discard: 'Rejeter', apply: 'Appliquer le plan complet', deleteArchitecture: 'supprimer l’architecture', cards: 'cartes', elastic: 'elastic', ready: 'Prêt', generated: 'carte réutilisable générée', atomic: 'bloc atomique', close: 'Fermer Ask LABO' },
+} as const

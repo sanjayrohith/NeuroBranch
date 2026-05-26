@@ -1,0 +1,250 @@
+@use 'tokens' as *;
+
+.agent-plan-review {
+  min-height: 0;
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.agent-plan-review-content {
+  display: grid;
+  gap: 0;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 18px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--labo-line);
+  border-radius: 10px;
+  background: rgb(6 10 11 / 52%);
+  scrollbar-color: rgb(112 224 173 / 24%) transparent;
+  scrollbar-width: thin;
+
+  > section { border-right: 1px solid var(--labo-line-soft); }
+  > section:nth-child(even) { border-right: 0; }
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { border-radius: 8px; background: rgb(112 224 173 / 24%); }
+
+  section {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--subtle-border);
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    color: #89928e;
+    font: 8px 'JetBrains Mono', monospace;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+  }
+
+  section > p {
+    margin: 0;
+    color: #adb8b3;
+    font-size: 10px;
+    line-height: 1.55;
+  }
+}
+
+.agent-plan-review-actions {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(180px, .55fr);
+  align-items: center;
+  padding: 12px 18px 14px;
+  border-top: 1px solid var(--labo-line-soft);
+  background: rgb(11 16 17 / 97%);
+  box-shadow: 0 -14px 35px rgb(0 0 0 / 28%);
+
+  button {
+    min-height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid rgb(156 148 255 / 35%);
+    border-radius: 5px;
+    color: #e0dfff;
+    background: rgb(156 148 255 / 14%);
+    font-size: 9px;
+
+    &:disabled { cursor: not-allowed; opacity: .38; }
+  }
+
+  .ask-labo-cancel {
+    border-color: #343f3b;
+    color: #9ba7a2;
+    background: #111716;
+  }
+
+  .ask-labo-apply {
+    border-color: rgb(112 224 173 / 35%);
+    color: #b8e8d1;
+    background: rgb(112 224 173 / 10%);
+  }
+}
+
+.ask-labo-approval-summary {
+  overflow: hidden;
+  color: #91a09a;
+  font: 9px 'JetBrains Mono', monospace;
+  letter-spacing: .035em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agent-plan-review {
+  .ask-labo-tool-trace,
+  .ask-labo-connections {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ask-labo-tool-trace li {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    align-items: center;
+    gap: 7px;
+    padding: 6px 8px;
+    border: 1px solid var(--labo-line-soft);
+    border-radius: 5px;
+    color: #89928e;
+    background: rgb(255 255 255 / 2%);
+    font: 8px/1.35 'JetBrains Mono', monospace;
+  }
+
+  .ask-labo-tool-trace code {
+    overflow: hidden;
+    color: #b8b2ef;
+    text-overflow: ellipsis;
+  }
+
+  .ask-labo-tool-trace li[data-status='rejected'] code { color: #d9a3a0; }
+  .ask-labo-tool-trace li[data-status='read'] code { color: #91bad7; }
+
+  .ask-labo-connections li {
+    display: flex;
+    gap: 8px;
+    padding: 9px;
+    border: 1px solid rgb(112 224 173 / 20%);
+    border-radius: 6px;
+    color: #70e0ad;
+    background: rgb(112 224 173 / 4.5%);
+  }
+
+  .ask-labo-connections li > div {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 5px;
+  }
+
+  .ask-labo-connections code {
+    overflow: hidden;
+    color: #c9d5d0;
+    font: 8px 'JetBrains Mono', monospace;
+    text-overflow: ellipsis;
+  }
+
+  .ask-labo-connections small {
+    grid-column: 1 / -1;
+    color: #78847f;
+    font: 8px/1.4 'JetBrains Mono', monospace;
+  }
+
+  .ask-labo-added-blocks,
+  .ask-labo-created-blocks { display: grid; gap: 8px; }
+
+  .ask-labo-added-blocks > div,
+  .ask-labo-created-blocks > div {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 9px;
+    border: 1px solid rgb(156 148 255 / 25%);
+    border-radius: 6px;
+    color: #a9a1ee;
+    background: rgb(156 148 255 / 6%);
+  }
+
+  .ask-labo-created-blocks > div {
+    border-color: rgb(132 184 219 / 26%);
+    color: #91bad7;
+    background: rgb(132 184 219 / 6%);
+  }
+
+  .ask-labo-added-blocks span,
+  .ask-labo-created-blocks span {
+    min-width: 0;
+    display: grid;
+    gap: 3px 8px;
+  }
+
+  .ask-labo-added-blocks span { grid-template-columns: 1fr auto; }
+  .ask-labo-added-blocks strong { color: #d9d5f5; font-size: 9px; }
+  .ask-labo-created-blocks strong { color: #cee0eb; font-size: 9px; }
+
+  .ask-labo-added-blocks code,
+  .ask-labo-created-blocks code {
+    overflow: hidden;
+    color: #99a49f;
+    font: 8px 'JetBrains Mono', monospace;
+    text-overflow: ellipsis;
+  }
+
+  .ask-labo-created-blocks code { color: #9eb7c8; white-space: nowrap; }
+  .ask-labo-added-blocks small { grid-column: 1 / -1; }
+
+  .ask-labo-added-blocks small,
+  .ask-labo-created-blocks small {
+    color: #78847f;
+    font: 8px/1.4 'JetBrains Mono', monospace;
+  }
+
+  .ask-labo-added-blocks > div > button,
+  .ask-labo-created-blocks > div > button {
+    align-self: center;
+    padding: 4px 7px;
+    border: 1px solid #35413d;
+    border-radius: 4px;
+    color: #b0bbb6;
+    background: #121817;
+    font-size: 8px;
+  }
+
+  .ask-labo-missing > div {
+    display: flex;
+    gap: 8px;
+    margin-top: 7px;
+    padding: 8px;
+    border: 1px solid rgb(216 179 119 / 22%);
+    border-radius: 5px;
+    color: #d8b377;
+    background: rgb(216 179 119 / 5%);
+  }
+
+  .ask-labo-missing span { display: grid; gap: 3px; }
+  .ask-labo-missing strong { color: #d9cbb5; font-size: 9px; }
+
+  .ask-labo-missing small,
+  .ask-labo-warnings p {
+    color: #8b8071;
+    font: 8px/1.45 'JetBrains Mono', monospace;
+  }
+
+  .ask-labo-warnings p { margin: 5px 0 0; color: #a48784; }
+}
+
+@media (max-width: 980px) {
+  .agent-plan-review-content { grid-template-columns: 1fr; }
+  .agent-plan-review-content > section { border-right: 0; }
+  .agent-plan-review-actions { grid-template-columns: 1fr 1.25fr; }
+  .ask-labo-approval-summary { grid-column: 1 / -1; }
+}
