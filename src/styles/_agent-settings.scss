@@ -1,0 +1,100 @@
+@use 'tokens' as *;
+
+.studio-settings-modal .ask-labo-settings-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 12px;
+  padding: 18px 20px 22px;
+  background: #1b1e26;
+}
+
+.studio-settings-modal .ask-labo-intro {
+  grid-column: 1 / -1;
+  padding: 15px 16px;
+  border: 1px solid #3a4049;
+  border-radius: 11px;
+  background: linear-gradient(135deg, rgb(145 199 173 / 7%), rgb(170 164 214 / 5%)), #20242b;
+
+  strong { color: #edf2ef; font-size: 12px; font-weight: 600; }
+  p { max-width: 680px; margin: 5px 0 0; color: #9fa9a5; font: 9.5px/1.55 var(--mono); }
+}
+
+.studio-settings-modal .agent-choice-card {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid #393f48;
+  border-radius: 11px;
+  background: #20242b;
+
+  header { display: grid; gap: 4px; }
+  strong { color: #e4e9e6; font-size: 11px; font-weight: 600; }
+  small { min-height: 29px; color: #919b97; font: 9px/1.5 var(--mono); }
+}
+
+.studio-settings-modal .agent-choice-card-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  padding: 4px;
+  border: 1px solid #3b424b;
+  border-radius: 9px;
+  background: #181c21;
+
+  button {
+    min-height: 33px;
+    border: 0;
+    border-radius: 6px;
+    color: #9ba4a0;
+    background: transparent;
+    font-size: 10px;
+
+    &:hover:not(:disabled) { color: #d9e0dc; background: rgb(255 255 255 / 4%); }
+    &[aria-pressed='true'] {
+      color: #e8efeb;
+      background: linear-gradient(135deg, rgb(145 199 173 / 14%), rgb(170 164 214 / 13%));
+      box-shadow: inset 0 0 0 1px rgb(184 198 191 / 18%);
+    }
+  }
+}
+
+.studio-settings-modal .ask-labo-key-settings {
+  grid-column: 1 / -1;
+  padding: 16px;
+  border: 1px solid #393f48;
+  border-radius: 11px;
+  background: #20242b;
+}
+
+.studio-settings-modal .ask-labo-key-heading {
+  min-height: 22px;
+  color: #d7dfdb;
+  font: 9px var(--mono);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.studio-settings-modal .ask-labo-key-form {
+  gap: 9px;
+  margin-top: 10px;
+
+  > small { color: #b99491; }
+  > div { overflow: hidden; border-radius: 8px; }
+  input { min-height: 36px; border-color: #414852; background: #181c21; }
+  > button { min-height: 34px; border-radius: 8px; }
+}
+
+.studio-settings-modal .ask-labo-key-status {
+  margin-top: 10px;
+  border-radius: 9px;
+  background: rgb(145 199 173 / 6%);
+}
+
+@media (max-width: 1120px) {
+  .studio-settings-modal .ask-labo-settings-content { grid-template-columns: 1fr; }
+  .studio-settings-modal .ask-labo-intro,
+  .studio-settings-modal .ask-labo-key-settings { grid-column: 1; }
+}

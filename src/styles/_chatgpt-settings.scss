@@ -1,0 +1,10 @@
+.chatgpt-agent-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(110px, .7fr);
+  gap: 8px;
+  margin-top: 9px;
+
+  label { display: grid; gap: 4px; color: var(--labo-muted); font: 8px 'JetBrains Mono', monospace; }
+  select { width: 100%; min-width: 0; height: 29px; border: 1px solid var(--labo-line); border-radius: 6px; padding: 0 8px; color: var(--labo-text); background: var(--labo-panel); font-size: 9px; }
+  > small { grid-column: 1 / -1; color: var(--labo-faint); font-size: 8px; line-height: 1.45; }
+}
