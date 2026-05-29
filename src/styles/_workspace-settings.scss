@@ -1,0 +1,143 @@
+@use 'tokens' as *;
+
+.ask-labo-workspace-settings { display: block; }
+
+.workspace-settings-content {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.workspace-settings-primary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, .75fr);
+  gap: 10px;
+}
+
+.workspace-current-card,
+.workspace-save-card,
+.workspace-new-button,
+.workspace-saved-section,
+.workspace-comparison-picker {
+  border: 1px solid var(--labo-line);
+  border-radius: 11px;
+  background: var(--labo-surface);
+}
+
+.workspace-current-card {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px;
+  background: linear-gradient(115deg, color-mix(in srgb, var(--labo-green) 5%, var(--labo-surface)), var(--labo-surface));
+}
+
+.workspace-current-copy { min-width: 0; display: grid; gap: 3px; }
+.workspace-current-copy small,
+.workspace-saved-section header small { color: var(--labo-green); font: 8px var(--mono); letter-spacing: 1px; text-transform: uppercase; }
+.workspace-current-copy strong { overflow: hidden; color: var(--labo-text); font-size: 15px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.workspace-current-copy span { color: var(--labo-muted); font: 9px var(--mono); }
+
+.workspace-reset-button {
+  flex: 0 0 auto;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid var(--labo-line);
+  border-radius: 8px;
+  color: var(--labo-muted);
+  background: var(--labo-panel-raised);
+  font-size: 10px;
+}
+.workspace-reset-button:hover:not(:disabled) { color: var(--labo-text); border-color: color-mix(in srgb, var(--labo-muted) 45%, var(--labo-line)); }
+.workspace-reset-button.confirm-reset { border-color: rgb(236 142 142 / 32%); color: #e8b5b5; background: rgb(236 142 142 / 6%); }
+.workspace-reset-button:disabled { opacity: .35; }
+
+.workspace-save-card { grid-row: span 2; display: grid; align-content: center; gap: 9px; padding: 15px; }
+.workspace-save-card label { display: grid; gap: 6px; }
+.workspace-save-card label span { color: var(--labo-muted); font: 9px var(--mono); }
+.workspace-save-card input,
+.workspace-comparison-content label input { min-width: 0; width: 100%; box-sizing: border-box; border: 1px solid var(--labo-line); border-radius: 8px; outline: 0; color: var(--labo-text); background: var(--labo-bg); font: 10px var(--mono); }
+.workspace-save-card input { min-height: 37px; padding: 0 10px; }
+.workspace-save-card input:focus,
+.workspace-comparison-content label:focus-within { border-color: color-mix(in srgb, var(--labo-violet) 42%, var(--labo-line)); }
+.workspace-save-card p { margin: 0; color: #e4a7a7; font: 9px/1.45 var(--mono); }
+
+.workspace-primary-action {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid color-mix(in srgb, var(--labo-green) 32%, var(--labo-line));
+  border-radius: 8px;
+  color: color-mix(in srgb, var(--labo-green) 75%, white);
+  background: color-mix(in srgb, var(--labo-green) 9%, var(--labo-panel-raised));
+  font-size: 10px;
+}
+
+.workspace-new-button {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  padding: 12px 14px;
+  color: var(--labo-violet);
+  text-align: left;
+}
+.workspace-new-button > svg { justify-self: center; }
+.workspace-new-button span { min-width: 0; display: grid; gap: 3px; }
+.workspace-new-button strong { color: var(--labo-text); font-size: 10.5px; }
+.workspace-new-button small { color: var(--labo-muted); font: 8.5px var(--mono); }
+
+.workspace-saved-section { overflow: hidden; }
+.workspace-saved-section > header { min-height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; border-bottom: 1px solid var(--labo-line-soft); }
+.workspace-saved-section > header > div { display: grid; gap: 2px; }
+.workspace-saved-section > header strong { color: var(--labo-text); font-size: 12px; }
+.workspace-saved-section > header > span { min-width: 25px; height: 21px; display: grid; place-items: center; border: 1px solid var(--labo-line); border-radius: 999px; color: var(--labo-muted); font: 8px var(--mono); }
+.workspace-empty-library { display: grid; gap: 4px; padding: 14px 15px; }
+.workspace-empty-library strong { color: var(--labo-muted); font-size: 10.5px; }
+.workspace-empty-library p { margin: 0; color: var(--labo-faint); font: 9px/1.5 var(--mono); }
+.workspace-saved-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding: 10px; }
+.workspace-saved-list > div { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) 34px; border: 1px solid var(--labo-line-soft); border-radius: 8px; background: var(--labo-panel-raised); }
+.workspace-saved-list > div.active { border-color: color-mix(in srgb, var(--labo-violet) 34%, var(--labo-line)); }
+.workspace-saved-list button { border: 0; color: var(--labo-muted); background: transparent; }
+.workspace-saved-list button:first-child { min-width: 0; display: grid; gap: 3px; padding: 9px 10px; text-align: left; }
+.workspace-saved-list button:first-child strong { overflow: hidden; color: var(--labo-text); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.workspace-saved-list button small { color: var(--labo-faint); font: 8px var(--mono); }
+.workspace-saved-list button:last-child { display: grid; place-items: center; border-left: 1px solid var(--labo-line-soft); }
+.workspace-saved-list button:last-child:hover { color: #e4aaaa; }
+
+.workspace-comparison-picker { overflow: hidden; }
+.workspace-comparison-picker > summary { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 15px; cursor: pointer; list-style: none; }
+.workspace-comparison-picker > summary::-webkit-details-marker { display: none; }
+.workspace-comparison-picker > summary > span { min-width: 0; display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 9px; color: var(--labo-violet); }
+.workspace-comparison-picker > summary > span > span { display: grid; gap: 3px; }
+.workspace-comparison-picker > summary strong { color: var(--labo-text); font-size: 11px; }
+.workspace-comparison-picker > summary small { color: var(--labo-muted); font: 8.5px var(--mono); }
+.workspace-comparison-picker > summary > svg { color: var(--labo-faint); transition: transform 140ms ease; }
+.workspace-comparison-picker[open] > summary > svg { transform: rotate(180deg); }
+.workspace-comparison-content { display: grid; gap: 10px; padding: 12px 14px 14px; border-top: 1px solid var(--labo-line-soft); }
+.workspace-comparison-content > label { min-height: 36px; display: grid; grid-template-columns: 24px minmax(0, 1fr); align-items: center; padding: 0 7px; border: 1px solid var(--labo-line); border-radius: 8px; color: var(--labo-faint); background: var(--labo-bg); }
+.workspace-comparison-content label input { height: 32px; padding: 0 4px; border: 0; background: transparent; }
+.workspace-comparison-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.workspace-comparison-grid button { min-width: 0; min-height: 47px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border: 1px solid var(--labo-line-soft); border-radius: 8px; color: var(--labo-muted); background: var(--labo-panel-raised); text-align: left; }
+.workspace-comparison-grid button:hover { border-color: color-mix(in srgb, var(--labo-violet) 28%, var(--labo-line)); }
+.workspace-comparison-grid button span { min-width: 0; display: grid; gap: 3px; }
+.workspace-comparison-grid button strong { overflow: hidden; color: var(--labo-text); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.workspace-comparison-grid button small { color: var(--labo-faint); font: 8px var(--mono); }
+.workspace-comparison-grid button b { width: 23px; height: 23px; display: grid; place-items: center; border-radius: 6px; color: var(--labo-violet); background: color-mix(in srgb, var(--labo-violet) 8%, transparent); font-size: 14px; font-weight: 500; }
+.workspace-comparison-grid > p { grid-column: 1 / -1; margin: 4px; color: var(--labo-muted); font: 9px var(--mono); }
+
+@media (max-width: 760px) {
+  .workspace-settings-content { padding: 12px; }
+  .workspace-settings-primary { grid-template-columns: 1fr; }
+  .workspace-save-card { grid-row: auto; }
+  .workspace-saved-list,
+  .workspace-comparison-grid { grid-template-columns: 1fr; }
+}
