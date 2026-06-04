@@ -1,0 +1,191 @@
+@use 'tokens' as *;
+
+.optimizer-builder-workspace {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  grid-template-columns: var(--labo-library-width) minmax(660px, 1fr) var(--labo-inspector-width);
+  grid-template-rows: minmax(0, 1fr);
+  background: var(--labo-bg-deep);
+}
+
+.optimizer-builder-library {
+  min-height: 0;
+  overflow: auto;
+  padding-bottom: 24px;
+  scrollbar-color: #40504b var(--labo-panel);
+
+  h3:not(:first-child) {
+    margin-top: 18px;
+    padding-top: 13px;
+    border-top: 1px solid var(--labo-line-soft);
+  }
+
+  .library-block[aria-pressed='true'] {
+    border-color: rgb(145 199 173 / 24%);
+    color: #dcebe5;
+    background: rgb(145 199 173 / 8%);
+  }
+}
+
+.optimizer-builder-editor {
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.optimizer-builder-editor.view-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+.optimizer-builder-code-panel {
+  min-width: 0;
+  min-height: 0;
+
+  .optimizer-builder-code {
+    height: 100%;
+    box-sizing: border-box;
+    color: #b8c2be;
+    background: #090d0e;
+
+    .python-token.keyword { color: #b9a7d8; }
+    .python-token.class-name { color: #d8c28f; }
+    .python-token.function-name,
+    .python-token.function-call { color: #9eb9d4; }
+    .python-token.string { color: #a9c69d; }
+    .python-token.number { color: #d5a48e; }
+    .python-token.comment { color: #58645f; }
+    .python-token.decorator,
+    .python-token.namespace,
+    .python-token.builtin { color: #91c2bd; }
+    .python-token.self { color: #d8aab7; }
+  }
+}
+
+.optimizer-builder-actions {
+  margin: auto 13px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+
+  button {
+    min-height: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 9px;
+    border: 1px solid var(--labo-line);
+    border-radius: 6px;
+    color: #9da9a5;
+    background: #13191a;
+    font: 8px var(--mono);
+
+    &:hover { color: #edf3f1; background: #192120; }
+    &[type='submit'] { border-color: rgb(145 199 173 / 30%); color: #bfe0d1; background: rgb(145 199 173 / 8%); }
+  }
+}
+
+.optimizer-builder-inspector {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.optimizer-selection-section {
+  .optimizer-selection-card {
+    min-width: 0;
+
+    > div { min-width: 0; }
+    strong,
+    small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  }
+}
+
+.optimizer-identity-settings,
+.optimizer-atom-settings {
+  display: grid;
+  gap: 10px;
+
+  label {
+    min-width: 0;
+    display: grid;
+    gap: 5px;
+    color: #899590;
+    font: 8px var(--mono);
+  }
+
+  input {
+    min-width: 0;
+    width: 100%;
+    padding: 7px 8px;
+    border: 1px solid #35413d;
+    border-radius: 6px;
+    color: #e4ebe8;
+    background: #0c1112;
+    font: 9px var(--mono);
+
+    &:focus { outline: none; border-color: rgb(170 164 214 / 58%); }
+  }
+
+  > small,
+  > p { margin: 0; color: #73807b; font: 8px/1.5 var(--mono); }
+}
+
+.optimizer-reference {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border: 1px solid var(--labo-line-soft);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 1.5%);
+  color: #77837f;
+  font: 8px var(--mono);
+
+  code {
+    overflow: hidden;
+    color: #aebbb6;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.optimizer-inspector-toggle {
+  grid-template-columns: 16px minmax(0, 1fr) !important;
+  align-items: center;
+
+  input { width: auto; accent-color: var(--pastel-sage); }
+}
+
+.optimizer-advanced-settings {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid var(--labo-line-soft);
+
+  summary {
+    color: #7d8985;
+    cursor: pointer;
+    font: 8px var(--mono);
+  }
+
+  &[open] {
+    display: grid;
+    gap: 9px;
+
+    summary { margin-bottom: 2px; }
+  }
+
+  label:has(input[type='checkbox']) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+
+    input { width: auto; accent-color: var(--pastel-sage); }
+  }
+}
+
+@media (max-width: 1250px) {
+  .optimizer-builder-workspace { grid-template-columns: 180px minmax(620px, 1fr) 230px; }
+}
