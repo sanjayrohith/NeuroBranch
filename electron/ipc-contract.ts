@@ -1,0 +1,17 @@
+export const atomicRuntimeChannel = 'labo:atomic-runtime' as const
+export const askLaboChannel = 'labo:ask' as const
+export const openAISettingsChannel = 'labo:openai-settings' as const
+export const saveOpenAIKeyChannel = 'labo:openai-key-save' as const
+export const deleteOpenAIKeyChannel = 'labo:openai-key-delete' as const
+export const testOpenAIKeyChannel = 'labo:openai-key-test' as const
+export const chatGPTSessionChannel = 'labo:chatgpt-session' as const
+export const connectChatGPTChannel = 'labo:chatgpt-connect' as const
+export const disconnectChatGPTChannel = 'labo:chatgpt-disconnect' as const
+export const configureChatGPTChannel = 'labo:chatgpt-configure' as const
+export const exportFileChannel = 'labo:export-file' as const
+export const windowStateChannel = 'labo:window-state' as const
+export const loadDesktopStateChannel = 'labo:desktop-state-load' as const
+export const saveDesktopStateChannel = 'labo:desktop-state-save' as const
+export const desktopUpdateStatusChannel = 'labo:desktop-update-status' as const
+export const launchDesktopUpdateChannel = 'labo:desktop-update-launch' as const
+export const openDesktopSetupChannel = 'labo:desktop-setup-open' as const
