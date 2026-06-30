@@ -1,0 +1,64 @@
+@use 'tokens' as *;
+
+.studio-settings-modal .desktop-update-settings {
+  > div { display: grid; gap: 11px; }
+  > div > p { margin: 0; }
+}
+
+.desktop-update-channel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+
+  button {
+    min-width: 0;
+    min-height: 58px;
+    display: grid;
+    grid-template-columns: 25px minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 9px 11px;
+    border: 1px solid var(--labo-line);
+    border-radius: 9px;
+    color: var(--labo-faint);
+    background: var(--labo-bg);
+    text-align: left;
+  }
+
+  button > span { min-width: 0; display: grid; gap: 3px; }
+  button strong { color: var(--labo-muted); font-size: 10.5px; }
+  button small { margin: 0; color: var(--labo-faint); font: 8px var(--mono); }
+  button[aria-pressed='true'] { border-color: color-mix(in srgb, var(--labo-green) 30%, var(--labo-line)); color: var(--labo-green); background: color-mix(in srgb, var(--labo-green) 6%, var(--labo-bg)); }
+  button[aria-pressed='true'] strong { color: var(--labo-text); }
+  button:nth-child(2)[aria-pressed='true'] { border-color: color-mix(in srgb, var(--labo-violet) 34%, var(--labo-line)); color: var(--labo-violet); background: color-mix(in srgb, var(--labo-violet) 7%, var(--labo-bg)); }
+}
+
+.desktop-update-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid var(--labo-line-soft);
+  border-radius: 8px;
+  background: var(--labo-line-soft);
+
+  > div { min-width: 0; display: grid; gap: 4px; padding: 9px 10px; background: var(--labo-bg); }
+  dt { color: var(--labo-faint); font: 8px var(--mono); text-transform: uppercase; letter-spacing: .7px; }
+  dd { overflow: hidden; margin: 0; color: var(--labo-text); font: 10px var(--mono); text-overflow: ellipsis; white-space: nowrap; }
+}
+
+.studio-settings-modal .desktop-update-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+
+  button { margin: 0; }
+  button:last-child { border-color: color-mix(in srgb, var(--labo-green) 28%, var(--labo-line)); color: color-mix(in srgb, var(--labo-green) 70%, white); background: color-mix(in srgb, var(--labo-green) 7%, var(--labo-panel-raised)); }
+}
+
+@media (max-width: 560px) {
+  .desktop-update-channel,
+  .desktop-update-facts { grid-template-columns: 1fr; }
+}
