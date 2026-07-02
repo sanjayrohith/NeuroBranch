@@ -1,0 +1,74 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "LABO AI Setup",
+  "version": "0.1.53",
+  "identifier": "ai.labo.setup",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "LABO AI Setup",
+        "width": 720,
+        "height": 650,
+        "minWidth": 620,
+        "minHeight": 570,
+        "resizable": true,
+        "center": true,
+        "visible": false,
+        "backgroundColor": "#070b0b"
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; style-src 'self'; script-src 'self'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "dmg",
+      "nsis",
+      "appimage"
+    ],
+    "category": "DeveloperTool",
+    "shortDescription": "Install and update LABO AI from source",
+    "longDescription": "A source-first bootstrap installer that fetches the latest LABO AI release and builds it locally.",
+    "icon": [
+      "../../../build/icon.png",
+      "../../../build/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "signingIdentity": "-",
+      "minimumSystemVersion": "12.0",
+      "dmg": {
+        "windowSize": {
+          "width": 560,
+          "height": 320
+        },
+        "appPosition": {
+          "x": 145,
+          "y": 155
+        },
+        "applicationFolderPosition": {
+          "x": 415,
+          "y": 155
+        }
+      }
+    },
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser",
+        "displayLanguageSelector": false
+      }
+    },
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": false
+      }
+    }
+  }
+}
