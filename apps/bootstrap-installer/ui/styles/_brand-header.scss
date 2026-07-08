@@ -1,0 +1,36 @@
+.brand-header { display: flex; align-items: center; gap: 13px; }
+.brand-header__identity span,
+.eyebrow {
+  color: var(--text-dim);
+  font: 600 10px/1.2 var(--mono);
+  letter-spacing: .18em;
+}
+.brand-header h1 { margin: 3px 0 0; font-size: 19px; letter-spacing: -.02em; }
+.brand-mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(68, 231, 159, .5);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(49, 205, 139, .18), rgba(104, 92, 255, .16));
+}
+.brand-mark i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #68e5ad;
+  box-shadow: 0 0 14px rgba(104, 229, 173, .55);
+}
+.brand-mark i:nth-child(1) { left: 8px; top: 9px; }
+.brand-mark i:nth-child(2) { right: 8px; top: 9px; }
+.brand-mark i:nth-child(3) { left: 8px; bottom: 9px; }
+.brand-mark i:nth-child(4) { right: 8px; bottom: 9px; }
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  border: 1px solid rgba(185, 172, 255, .8);
+  transform: rotate(45deg);
+}

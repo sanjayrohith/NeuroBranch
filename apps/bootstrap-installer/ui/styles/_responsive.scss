@@ -1,0 +1,25 @@
+@media (max-height: 680px) {
+  .setup-shell {
+    grid-template-rows: auto auto minmax(168px, 1fr) auto;
+    gap: 16px;
+    padding: 22px 24px;
+  }
+  .setup-hero h2 { margin: 8px 0 9px; font-size: clamp(27px, 4.7vw, 34px); }
+  .setup-hero p { font-size: 12px; line-height: 1.55; }
+  .progress-card { padding: 15px 16px; }
+}
+
+@media (max-height: 590px) {
+  body { padding: 10px; }
+  .setup-shell { width: calc(100vw - 20px); height: calc(100dvh - 20px); gap: 12px; padding: 18px 20px; }
+  .setup-hero p { display: none; }
+  .setup-hero h2 { margin-bottom: 0; font-size: 27px; }
+  .progress-card__message { min-height: 0; }
+}
+
+@media (max-width: 640px) {
+  body { padding: 10px; }
+  .setup-shell { width: calc(100vw - 20px); padding-inline: 20px; }
+  .setup-hero h2 { font-size: clamp(27px, 8vw, 34px); }
+  .install-footer span { max-width: 180px; }
+}

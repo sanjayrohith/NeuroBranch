@@ -1,0 +1,17 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #eef5f1;
+  background: #070b0b;
+  --surface: rgba(10, 15, 14, .95);
+  --surface-raised: rgba(15, 23, 20, .88);
+  --border: rgba(133, 170, 153, .25);
+  --border-strong: #25352f;
+  --text: #eef5f1;
+  --text-muted: #92a099;
+  --text-dim: #6f8279;
+  --accent: #63d9a3;
+  --accent-strong: #36d492;
+  --violet: #8c7cff;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}

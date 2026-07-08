@@ -1,0 +1,15 @@
+.setup-shell {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto minmax(176px, 1fr) auto;
+  gap: 22px;
+  width: min(620px, calc(100vw - 32px));
+  height: min(620px, calc(100dvh - 32px));
+  min-height: 0;
+  overflow: hidden;
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .5);
+}

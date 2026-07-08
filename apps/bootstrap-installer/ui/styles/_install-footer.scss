@@ -1,0 +1,21 @@
+.install-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-width: 0;
+}
+.install-footer span { color: #64726c; font: 9px var(--mono); }
+.install-footer__button {
+  flex: 0 0 auto;
+  min-width: 145px;
+  min-height: 42px;
+  border: 1px solid #57b78c;
+  border-radius: 9px;
+  color: #edfff7;
+  background: linear-gradient(135deg, #173c2d, #232344);
+  font-weight: 650;
+  cursor: pointer;
+}
+.install-footer__button:hover { border-color: #77e6b3; }
+.install-footer__button:disabled { opacity: .55; cursor: wait; }
