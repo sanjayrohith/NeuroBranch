@@ -34,8 +34,8 @@ Electron, React, TypeScript, Vite, PyTorch, Python, OpenAI API, SQLite, Electron
 
 ## Try it out
 
-- Source: https://github.com/Complexity-ML/labo-ai
-- Desktop releases: https://github.com/Complexity-ML/labo-ai/releases
+- Source: https://github.com/sanjayrohith/NeuroBranch
+- Desktop releases: https://github.com/sanjayrohith/NeuroBranch/releases
 
 ## 2–3 minute agent demo
 

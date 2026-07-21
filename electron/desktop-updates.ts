@@ -32,7 +32,7 @@ export type DesktopUpdateCache = Partial<Record<DesktopUpdateChannel, DesktopUpd
 
 export type DesktopUpdateChannel = 'stable' | 'main'
 
-export const desktopSetupReleaseUrl = 'https://github.com/Complexity-ML/labo-ai/releases/latest'
+export const desktopSetupReleaseUrl = 'https://github.com/sanjayrohith/NeuroBranch/releases/latest'
 export const desktopUpdateArguments = (channel: DesktopUpdateChannel) => ['--auto-install', '--channel', channel] as const
 
 export function validDesktopUpdateChannel(value: unknown): DesktopUpdateChannel {

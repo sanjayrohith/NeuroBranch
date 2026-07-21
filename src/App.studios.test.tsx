@@ -18,7 +18,7 @@ describe('NeuroBranch studios', () => {
         latestTag: 'v0.1.27',
         helperInstalled: true,
         updateAvailable: true,
-        setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+        setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
       }),
     }
     render(<App />)
@@ -45,7 +45,7 @@ describe('NeuroBranch studios', () => {
         latestTag: 'main@abcdef1234567890',
         helperInstalled: true,
         updateAvailable: false,
-        setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+        setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
       }),
     }
     render(<App />)
@@ -132,7 +132,7 @@ describe('NeuroBranch studios', () => {
         latestTag: 'main@abcdef1',
         helperInstalled: true,
         updateAvailable: true,
-        setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+        setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
       } : {
         currentVersion: '0.1.45',
         channel,
@@ -141,7 +141,7 @@ describe('NeuroBranch studios', () => {
         latestTag: 'v0.1.45',
         helperInstalled: true,
         updateAvailable: false,
-        setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+        setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
       }
     })
     window.labo = { platform: 'darwin', runtime: 'electron', getDesktopUpdateStatus }
@@ -172,7 +172,7 @@ describe('NeuroBranch studios', () => {
       latestRevision: revision,
       helperInstalled: true,
       updateAvailable: true,
-      setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+      setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
     } : {
       currentVersion: '0.1.47',
       channel: 'main' as const,
@@ -183,7 +183,7 @@ describe('NeuroBranch studios', () => {
       latestRevision: revision,
       helperInstalled: true,
       updateAvailable: false,
-      setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+      setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
     })
     window.labo = { platform: 'darwin', runtime: 'electron', getDesktopUpdateStatus }
     render(<App />)
@@ -201,10 +201,10 @@ describe('NeuroBranch studios', () => {
       runtime: 'electron',
       getDesktopUpdateStatus: async (requestedChannel) => requestedChannel === 'stable' ? {
         currentVersion: '0.1.47', channel: 'stable', installedTag: 'main@a63f876', installedChannel: 'main', installedRevision: 'a63f8760000000',
-        latestTag: 'v0.1.47', latestRevision: '761521d0000000', helperInstalled: true, updateAvailable: true, setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+        latestTag: 'v0.1.47', latestRevision: '761521d0000000', helperInstalled: true, updateAvailable: true, setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
       } : {
         currentVersion: '0.1.47', channel: 'main', installedTag: 'main@a63f876', installedChannel: 'main', installedRevision: 'a63f8760000000',
-        latestTag: 'main@a63f876', latestRevision: 'a63f8760000000', helperInstalled: true, updateAvailable: false, setupUrl: 'https://github.com/Complexity-ML/labo-ai/releases/latest',
+        latestTag: 'main@a63f876', latestRevision: 'a63f8760000000', helperInstalled: true, updateAvailable: false, setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
       },
     }
     render(<App />)

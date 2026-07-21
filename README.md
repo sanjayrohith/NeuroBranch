@@ -44,7 +44,7 @@ The commands below always install the latest published release. Each bootstrap s
 Paste this single command into Terminal:
 
 ```bash
-curl -fsSL https://github.com/Complexity-ML/labo-ai/releases/latest/download/install-labo-ai-macos.sh | bash
+curl -fsSL https://github.com/sanjayrohith/NeuroBranch/releases/latest/download/install-labo-ai-macos.sh | bash
 ```
 
 ### Windows (x64)
@@ -52,7 +52,7 @@ curl -fsSL https://github.com/Complexity-ML/labo-ai/releases/latest/download/ins
 Paste this single command into PowerShell:
 
 ```powershell
-irm https://github.com/Complexity-ML/labo-ai/releases/latest/download/install-labo-ai-windows.ps1 | iex
+irm https://github.com/sanjayrohith/NeuroBranch/releases/latest/download/install-labo-ai-windows.ps1 | iex
 ```
 
 ### Linux (x64)
@@ -60,7 +60,7 @@ irm https://github.com/Complexity-ML/labo-ai/releases/latest/download/install-la
 Paste this single command into a terminal:
 
 ```bash
-curl -fsSL https://github.com/Complexity-ML/labo-ai/releases/latest/download/install-labo-ai-linux.sh | bash
+curl -fsSL https://github.com/sanjayrohith/NeuroBranch/releases/latest/download/install-labo-ai-linux.sh | bash
 ```
 
 **NeuroBranch Setup** then fetches the latest tagged source, verifies and provisions its own Node.js runtime, and builds the Electron application locally without replacing private workspace data. Graph editing and the player need no account. Ask LABO can use a ChatGPT account on desktop or an optional user-provided API key.
@@ -71,7 +71,7 @@ Supported packages:
 - Windows 10/11 x64: `LABO-AI-Setup-x64.exe`.
 - Linux x64: `LABO-AI-Setup-x64.AppImage` (generic AppImage, installed for the current user).
 
-The Setup packages are currently unsigned, so macOS Gatekeeper or Windows SmartScreen may request confirmation on first launch. The one-command path runs the checksum-verified helper directly; the DMG, EXE and AppImage remain available from [GitHub Releases](https://github.com/Complexity-ML/labo-ai/releases/latest) for manual installation. The Electron application is produced locally rather than downloaded as an opaque prebuilt binary. Internet access and several minutes are required for the first install; later updates reuse the managed Node.js runtime. Setup also updates itself from verified release assets before rebuilding NeuroBranch when a newer helper is available.
+The Setup packages are currently unsigned, so macOS Gatekeeper or Windows SmartScreen may request confirmation on first launch. The one-command path runs the checksum-verified helper directly; the DMG, EXE and AppImage remain available from [GitHub Releases](https://github.com/sanjayrohith/NeuroBranch/releases/latest) for manual installation. The Electron application is produced locally rather than downloaded as an opaque prebuilt binary. Internet access and several minutes are required for the first install; later updates reuse the managed Node.js runtime. Setup also updates itself from verified release assets before rebuilding NeuroBranch when a newer helper is available.
 
 Suggested test path:
 
