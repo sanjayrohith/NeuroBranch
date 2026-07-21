@@ -43,7 +43,7 @@ fn begin_install() -> Result<InstallGuard, String> {
         .compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
         .map(|_| InstallGuard)
         .map_err(|_| {
-            "LABO AI Setup is already installing. Keep this window open to follow its progress."
+            "NeuroBranch Setup is already installing. Keep this window open to follow its progress."
                 .to_string()
         })
 }
@@ -263,12 +263,12 @@ fn install_root() -> Result<PathBuf, String> {
     #[cfg(target_os = "windows")]
     {
         return dirs::data_local_dir()
-            .map(|path| path.join("LABO AI").join("setup-data"))
+            .map(|path| path.join("NeuroBranch").join("setup-data"))
             .ok_or_else(|| "No local application-data directory is available".to_string());
     }
     #[cfg(not(target_os = "windows"))]
     dirs::data_local_dir()
-        .map(|path| path.join("LABO AI Setup"))
+        .map(|path| path.join("NeuroBranch Setup"))
         .ok_or_else(|| "No local application-data directory is available".to_string())
 }
 
@@ -276,19 +276,19 @@ fn electron_user_data() -> Result<PathBuf, String> {
     #[cfg(target_os = "macos")]
     {
         return dirs::home_dir()
-            .map(|path| path.join("Library/Application Support/LABO AI"))
+            .map(|path| path.join("Library/Application Support/NeuroBranch"))
             .ok_or_else(|| "No home directory is available".to_string());
     }
     #[cfg(target_os = "windows")]
     {
         return dirs::config_dir()
-            .map(|path| path.join("LABO AI"))
+            .map(|path| path.join("NeuroBranch"))
             .ok_or_else(|| "No roaming application-data directory is available".to_string());
     }
     #[cfg(target_os = "linux")]
     {
         return dirs::config_dir()
-            .map(|path| path.join("LABO AI"))
+            .map(|path| path.join("NeuroBranch"))
             .ok_or_else(|| "No XDG configuration directory is available".to_string());
     }
     #[allow(unreachable_code)]
@@ -299,23 +299,23 @@ fn app_destination() -> Result<PathBuf, String> {
     #[cfg(target_os = "macos")]
     {
         return dirs::home_dir()
-            .map(|path| path.join("Applications/LABO AI.app"))
+            .map(|path| path.join("Applications/NeuroBranch.app"))
             .ok_or_else(|| "No home directory is available".to_string());
     }
     #[cfg(target_os = "windows")]
     {
         return dirs::data_local_dir()
-            .map(|path| path.join("Programs/LABO AI"))
+            .map(|path| path.join("Programs/NeuroBranch"))
             .ok_or_else(|| "No local application-data directory is available".to_string());
     }
     #[cfg(target_os = "linux")]
     {
         return dirs::data_local_dir()
-            .map(|path| path.join("LABO AI").join("app"))
+            .map(|path| path.join("NeuroBranch").join("app"))
             .ok_or_else(|| "No XDG application-data directory is available".to_string());
     }
     #[allow(unreachable_code)]
-    Err("LABO AI Setup currently supports macOS, Windows and Linux".to_string())
+    Err("NeuroBranch Setup currently supports macOS, Windows and Linux".to_string())
 }
 
 fn state_path() -> Result<PathBuf, String> {
@@ -463,7 +463,7 @@ fn relaunch_latest_setup(
         app,
         "Setup update",
         format!(
-            "Updating LABO AI Setup to {} before continuing…",
+            "Updating NeuroBranch Setup to {} before continuing…",
             release.tag_name
         ),
         8,
@@ -665,7 +665,7 @@ fn built_application(source: &Path) -> PathBuf {
     } else {
         "mac"
     };
-    source.join("release").join(folder).join("LABO AI.app")
+    source.join("release").join(folder).join("NeuroBranch.app")
 }
 
 #[cfg(target_os = "windows")]
@@ -706,7 +706,7 @@ fn copy_application(source: &Path, destination: &Path) -> Result<(), String> {
         .arg("/NFL")
         .arg("/NDL")
         .status();
-    let status = status.map_err(|error| format!("Unable to copy LABO AI: {error}"))?;
+    let status = status.map_err(|error| format!("Unable to copy NeuroBranch: {error}"))?;
     #[cfg(any(target_os = "macos", target_os = "linux"))]
     let success = status.success();
     #[cfg(target_os = "windows")]
@@ -751,7 +751,7 @@ fn launch_application(destination: &Path) -> Result<(), String> {
         .spawn()
         .map_err(|error| error.to_string())?;
     #[cfg(target_os = "windows")]
-    background_command(destination.join("LABO AI.exe"))
+    background_command(destination.join("NeuroBranch.exe"))
         .spawn()
         .map_err(|error| error.to_string())?;
     #[cfg(target_os = "linux")]
@@ -763,7 +763,7 @@ fn launch_application(destination: &Path) -> Result<(), String> {
 
 #[cfg(target_os = "linux")]
 fn linux_application_executable(destination: &Path) -> Result<PathBuf, String> {
-    ["labo-ai", "LABO AI"]
+    ["labo-ai", "NeuroBranch"]
         .iter()
         .map(|name| destination.join(name))
         .find(|path| path.is_file())
@@ -790,7 +790,7 @@ fn install_linux_integration(destination: &Path, source: &Path) -> Result<(), St
         .ok_or_else(|| "No XDG application-data directory is available".to_string())?;
     fs::create_dir_all(&applications).map_err(|error| error.to_string())?;
     let desktop_entry = format!(
-        "[Desktop Entry]\nType=Application\nVersion=1.0\nName=LABO AI\nComment=Atomic neural architecture laboratory\nExec=\"{}\"\nIcon={}\nTerminal=false\nCategories=Development;Science;\nStartupWMClass=LABO AI\n",
+        "[Desktop Entry]\nType=Application\nVersion=1.0\nName=NeuroBranch\nComment=Atomic neural architecture laboratory\nExec=\"{}\"\nIcon={}\nTerminal=false\nCategories=Development;Science;\nStartupWMClass=NeuroBranch\n",
         executable.display().to_string().replace('"', "\\\""),
         icon.display()
     );
@@ -836,7 +836,7 @@ fn run_powershell(script: &str) -> Result<(), String> {
 
 #[cfg(target_os = "windows")]
 fn install_windows_integration(destination: &Path, release_tag: &str) -> Result<(), String> {
-    let executable = destination.join("LABO AI.exe");
+    let executable = destination.join("NeuroBranch.exe");
     if !executable.is_file() {
         return Err(format!(
             "The installed Windows executable is missing at {}",
@@ -847,17 +847,17 @@ fn install_windows_integration(destination: &Path, release_tag: &str) -> Result<
     let uninstall_script = install_root()?.join("uninstall-labo-ai.ps1");
     let uninstall_body = format!(
         "$ErrorActionPreference = 'SilentlyContinue'\n\
-         Stop-Process -Name 'LABO AI' -Force\n\
+         Stop-Process -Name 'NeuroBranch' -Force\n\
          Start-Sleep -Milliseconds 400\n\
          Remove-Item -LiteralPath '{}' -Recurse -Force\n\
          $shell = New-Object -ComObject WScript.Shell\n\
-         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Programs'), 'LABO AI.lnk')) -Force\n\
-         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'LABO AI.lnk')) -Force\n\
-         Remove-Item -LiteralPath 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\LABO AI' -Recurse -Force\n",
+         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Programs'), 'NeuroBranch.lnk')) -Force\n\
+         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'NeuroBranch.lnk')) -Force\n\
+         Remove-Item -LiteralPath 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\NeuroBranch' -Recurse -Force\n",
         powershell_literal(destination)
     );
     fs::write(&uninstall_script, uninstall_body)
-        .map_err(|error| format!("Unable to create the LABO AI uninstaller: {error}"))?;
+        .map_err(|error| format!("Unable to create the NeuroBranch uninstaller: {error}"))?;
 
     let executable_literal = powershell_literal(&executable);
     let destination_literal = powershell_literal(destination);
@@ -867,17 +867,17 @@ fn install_windows_integration(destination: &Path, release_tag: &str) -> Result<
         "$ErrorActionPreference = 'Stop'; \
          $exe = '{executable_literal}'; \
          $shell = New-Object -ComObject WScript.Shell; \
-         foreach ($link in @([IO.Path]::Combine([Environment]::GetFolderPath('Programs'), 'LABO AI.lnk'), [IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'LABO AI.lnk'))) {{ \
+         foreach ($link in @([IO.Path]::Combine([Environment]::GetFolderPath('Programs'), 'NeuroBranch.lnk'), [IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'NeuroBranch.lnk'))) {{ \
            $shortcut = $shell.CreateShortcut($link); \
            $shortcut.TargetPath = $exe; \
            $shortcut.WorkingDirectory = '{destination_literal}'; \
            $shortcut.IconLocation = \"$exe,0\"; \
-           $shortcut.Description = 'LABO AI neural architecture laboratory'; \
+           $shortcut.Description = 'NeuroBranch neural architecture laboratory'; \
            $shortcut.Save(); \
          }}; \
-         $key = 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\LABO AI'; \
+         $key = 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\NeuroBranch'; \
          New-Item -Path $key -Force | Out-Null; \
-         New-ItemProperty -Path $key -Name DisplayName -Value 'LABO AI' -PropertyType String -Force | Out-Null; \
+         New-ItemProperty -Path $key -Name DisplayName -Value 'NeuroBranch' -PropertyType String -Force | Out-Null; \
          New-ItemProperty -Path $key -Name DisplayVersion -Value '{display_version}' -PropertyType String -Force | Out-Null; \
          New-ItemProperty -Path $key -Name Publisher -Value 'Complexity-ML' -PropertyType String -Force | Out-Null; \
          New-ItemProperty -Path $key -Name InstallLocation -Value '{destination_literal}' -PropertyType String -Force | Out-Null; \
@@ -897,13 +897,13 @@ fn schedule_windows_setup_cleanup() -> Result<(), String> {
         "$ErrorActionPreference = 'SilentlyContinue'; \
          Wait-Process -Id {process_id}; \
          Start-Sleep -Milliseconds 500; \
-         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Programs'), 'LABO AI Setup.lnk')) -Force; \
-         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'LABO AI Setup.lnk')) -Force; \
+         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Programs'), 'NeuroBranch Setup.lnk')) -Force; \
+         Remove-Item -LiteralPath ([IO.Path]::Combine([Environment]::GetFolderPath('Desktop'), 'NeuroBranch Setup.lnk')) -Force; \
          $setupDirectories = @(); \
          Get-ItemProperty 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*' | \
-           Where-Object {{ $_.DisplayName -eq 'LABO AI Setup' }} | \
+           Where-Object {{ $_.DisplayName -eq 'NeuroBranch Setup' }} | \
            ForEach-Object {{ \
-             if ($_.InstallLocation -and ([IO.Path]::GetFileName($_.InstallLocation.TrimEnd('\\')) -eq 'LABO AI Setup')) {{ $setupDirectories += $_.InstallLocation }}; \
+             if ($_.InstallLocation -and ([IO.Path]::GetFileName($_.InstallLocation.TrimEnd('\\')) -eq 'NeuroBranch Setup')) {{ $setupDirectories += $_.InstallLocation }}; \
              Remove-Item -LiteralPath $_.PSPath -Recurse -Force \
            }}; \
          foreach ($directory in $setupDirectories) {{ \
@@ -931,10 +931,10 @@ fn prepare_application_handoff(app: &AppHandle) -> Result<(), String> {
     if let Some(window) = app.get_webview_window("main") {
         window
             .hide()
-            .map_err(|error| format!("Unable to hide LABO AI Setup: {error}"))?;
+            .map_err(|error| format!("Unable to hide NeuroBranch Setup: {error}"))?;
     }
     app.set_activation_policy(tauri::ActivationPolicy::Accessory)
-        .map_err(|error| format!("Unable to remove LABO AI Setup from the Dock: {error}"))?;
+        .map_err(|error| format!("Unable to remove NeuroBranch Setup from the Dock: {error}"))?;
     thread::sleep(Duration::from_millis(250));
     Ok(())
 }
@@ -944,7 +944,7 @@ fn prepare_application_handoff(_app: &AppHandle) -> Result<(), String> {
     if let Some(window) = _app.get_webview_window("main") {
         window
             .hide()
-            .map_err(|error| format!("Unable to hide LABO AI Setup: {error}"))?;
+            .map_err(|error| format!("Unable to hide NeuroBranch Setup: {error}"))?;
     }
     Ok(())
 }
@@ -989,16 +989,16 @@ fn stop_running_application() -> Result<(), String> {
         ])
         .output();
     let _ = background_command("taskkill")
-        .args(["/IM", "LABO AI.exe", "/T", "/F"])
+        .args(["/IM", "NeuroBranch.exe", "/T", "/F"])
         .output();
     for _ in 0..50 {
         let running = background_command("tasklist")
-            .args(["/FI", "IMAGENAME eq LABO AI.exe", "/NH"])
+            .args(["/FI", "IMAGENAME eq NeuroBranch.exe", "/NH"])
             .output()
             .map(|output| {
                 String::from_utf8_lossy(&output.stdout)
                     .to_ascii_lowercase()
-                    .contains("labo ai.exe")
+                    .contains("NeuroBranch.exe")
             })
             .unwrap_or(false);
         if !running {
@@ -1007,7 +1007,7 @@ fn stop_running_application() -> Result<(), String> {
         }
         thread::sleep(Duration::from_millis(200));
     }
-    Err("LABO AI is still running. Close the application, then retry the update.".to_string())
+    Err("NeuroBranch is still running. Close the application, then retry the update.".to_string())
 }
 
 #[cfg(not(target_os = "windows"))]
@@ -1060,14 +1060,14 @@ fn activate_application(next: &Path, destination: &Path, previous: &Path) -> Res
     let had_previous = destination.exists();
     if had_previous {
         rename_application_directory(destination, previous)
-            .map_err(|error| format!("Unable to preserve the previous LABO AI build: {error}"))?;
+            .map_err(|error| format!("Unable to preserve the previous NeuroBranch build: {error}"))?;
     }
     if let Err(error) = rename_application_directory(next, destination) {
         if had_previous && previous.exists() {
             let _ = rename_application_directory(previous, destination);
         }
         return Err(format!(
-            "Unable to activate the new LABO AI build; the previous build was restored: {error}"
+            "Unable to activate the new NeuroBranch build; the previous build was restored: {error}"
         ));
     }
     Ok(())
@@ -1080,9 +1080,9 @@ fn perform_install(app: &AppHandle, channel: &str) -> Result<InstallResult, Stri
         app,
         "Release",
         if channel == "main" {
-            "Checking the latest LABO AI main commit…"
+            "Checking the latest NeuroBranch main commit…"
         } else {
-            "Checking the latest LABO AI release…"
+            "Checking the latest NeuroBranch release…"
         },
         5,
     );
@@ -1135,7 +1135,7 @@ fn perform_install(app: &AppHandle, channel: &str) -> Result<InstallResult, Stri
     emit(
         app,
         "Build",
-        "Building the LABO AI interface and secure desktop bridge…",
+        "Building the NeuroBranch interface and secure desktop bridge…",
         55,
     );
     #[cfg(target_os = "macos")]
@@ -1248,7 +1248,7 @@ fn perform_install(app: &AppHandle, channel: &str) -> Result<InstallResult, Stri
     emit(
         app,
         "Complete",
-        "LABO AI is ready. Launching the application…",
+        "NeuroBranch is ready. Launching the application…",
         100,
     );
     prepare_application_handoff(app)?;
@@ -1337,7 +1337,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![setup_status, install_latest])
         .run(tauri::generate_context!())
-        .expect("error while running LABO AI Setup");
+        .expect("error while running NeuroBranch Setup");
 }
 
 #[cfg(test)]
@@ -1366,9 +1366,9 @@ mod tests {
     #[test]
     fn activates_a_build_and_keeps_one_rollback_copy() {
         let root = tempdir().unwrap();
-        let destination = root.path().join("LABO AI");
-        let next = root.path().join("LABO AI.next");
-        let previous = root.path().join("LABO AI.previous");
+        let destination = root.path().join("NeuroBranch");
+        let next = root.path().join("NeuroBranch.next");
+        let previous = root.path().join("NeuroBranch.previous");
         fs::create_dir_all(&destination).unwrap();
         fs::create_dir_all(&next).unwrap();
         fs::write(destination.join("version.txt"), "old").unwrap();

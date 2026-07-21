@@ -6,7 +6,7 @@ export function createProgressCard() {
   const fill = createElement('i', { className: 'progress-card__fill' })
   const message = createElement('p', {
     className: 'progress-card__message',
-    text: 'Your workspaces and private cards stay in your local LABO AI profile during updates.',
+    text: 'Your workspaces and private cards stay in your local NeuroBranch profile during updates.',
   })
   const log = createElement('ol', { className: 'progress-card__log' })
   const details = createElement('details', { className: 'progress-card__details', attributes: { open: '' } }, [

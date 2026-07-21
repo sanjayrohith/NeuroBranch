@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "LABO AI Setup",
+  "productName": "NeuroBranch Setup",
   "version": "0.1.53",
   "identifier": "ai.labo.setup",
   "build": {
@@ -11,7 +11,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "LABO AI Setup",
+        "title": "NeuroBranch Setup",
         "width": 720,
         "height": 650,
         "minWidth": 620,
@@ -34,8 +34,8 @@
       "appimage"
     ],
     "category": "DeveloperTool",
-    "shortDescription": "Install and update LABO AI from source",
-    "longDescription": "A source-first bootstrap installer that fetches the latest LABO AI release and builds it locally.",
+    "shortDescription": "Install and update NeuroBranch from source",
+    "longDescription": "A source-first bootstrap installer that fetches the latest NeuroBranch release and builds it locally.",
     "icon": [
       "../../../build/icon.png",
       "../../../build/icon.icns",

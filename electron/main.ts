@@ -69,7 +69,7 @@ function createMainWindow(): BrowserWindow {
     minWidth: 1024,
     minHeight: 680,
     backgroundColor: '#08090b',
-    title: 'LABO AI',
+    title: 'NeuroBranch',
     ...platformFrame,
     webPreferences: {
       ...rendererWebPreferences,

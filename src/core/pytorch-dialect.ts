@@ -116,7 +116,7 @@ export function parsePyTorchDialect(source: string, currentGraph: ArchitectureGr
     if (!node && block.kind === 'semantic' && block.atomId) {
       const definition = modelAtomRegistry[block.atomId]
       if (!definition) {
-        diagnostics.push({ code: 'UNKNOWN_ATOM', nodeId: block.nodeId, message: `Unknown LABO AI atom: ${block.atomId}` })
+        diagnostics.push({ code: 'UNKNOWN_ATOM', nodeId: block.nodeId, message: `Unknown NeuroBranch atom: ${block.atomId}` })
         continue
       }
       let parsedSettings: Record<string, number | string | boolean> = {}
@@ -140,7 +140,7 @@ export function parsePyTorchDialect(source: string, currentGraph: ArchitectureGr
       node = graph.nodes.find((candidate) => candidate.id === block.nodeId)
     }
     if (!node) {
-      diagnostics.push({ code: 'UNKNOWN_NODE_MARKER', nodeId: block.nodeId, message: `Unknown LABO AI node marker: ${block.nodeId}` })
+      diagnostics.push({ code: 'UNKNOWN_NODE_MARKER', nodeId: block.nodeId, message: `Unknown NeuroBranch node marker: ${block.nodeId}` })
       continue
     }
     if (block.kind === 'linear') {
@@ -169,7 +169,7 @@ export function parsePyTorchDialect(source: string, currentGraph: ArchitectureGr
     if (block.kind === 'semantic' && block.atomId) {
       const definition = modelAtomRegistry[block.atomId]
       if (!definition || node.atomId !== block.atomId) {
-        diagnostics.push({ code: 'UNKNOWN_ATOM', nodeId: block.nodeId, message: `Unknown or mismatched LABO AI atom: ${block.atomId}` })
+        diagnostics.push({ code: 'UNKNOWN_ATOM', nodeId: block.nodeId, message: `Unknown or mismatched NeuroBranch atom: ${block.atomId}` })
         continue
       }
       try {
@@ -190,7 +190,7 @@ export function parsePyTorchDialect(source: string, currentGraph: ArchitectureGr
         diagnostics.push({
           code: 'UNKNOWN_EDGE_ENDPOINT',
           nodeId: edge.id,
-          message: `Unknown endpoint in LABO AI edge marker ${edge.id}: ${edge.source} -> ${edge.target}`,
+          message: `Unknown endpoint in NeuroBranch edge marker ${edge.id}: ${edge.source} -> ${edge.target}`,
         })
         return []
       }

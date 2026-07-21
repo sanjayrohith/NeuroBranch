@@ -170,7 +170,7 @@ export class CodexAppServer {
       })
       const lines = createInterface({ input: this.process.stdout })
       lines.on('line', (line) => this.receive(line))
-      void this.request('initialize', { clientInfo: { name: 'labo_ai', title: 'LABO AI', version: this.version }, capabilities: null })
+      void this.request('initialize', { clientInfo: { name: 'labo_ai', title: 'NeuroBranch', version: this.version }, capabilities: null })
         .then(() => {
           this.write({ method: 'initialized' })
           settled = true
@@ -203,7 +203,7 @@ export class CodexAppServer {
       return
     }
     if (typeof message.method === 'string' && 'id' in message) {
-      this.write({ id: message.id, error: { code: -32601, message: 'LABO AI does not allow App Server tool requests' } })
+      this.write({ id: message.id, error: { code: -32601, message: 'NeuroBranch does not allow App Server tool requests' } })
       return
     }
     if (typeof message.method === 'string') {
@@ -326,7 +326,7 @@ export class CodexAppServer {
     const threadResponse = asRecord(await this.request('thread/start', {
       cwd: tmpdir(), approvalPolicy: 'never', sandbox: 'read-only', ephemeral: true,
       model: configuration.model || null,
-      baseInstructions: 'You are LABO AI, a bounded neural architecture assistant. Never run commands, inspect files, browse, or mutate the computer. Return only the requested structured response.',
+      baseInstructions: 'You are NeuroBranch, a bounded neural architecture assistant. Never run commands, inspect files, browse, or mutate the computer. Return only the requested structured response.',
       developerInstructions: 'Answer greetings, questions, explanations, and architecture advice naturally in summary, with every mutation array empty. Only create a graph plan when the user explicitly asks to build, edit, arrange, run, save, or export. For graph plans, use only atom IDs and exact port IDs present in the supplied context. When context.editing.active is true, restrict every edit, replacement, deletion, movement and run-selection to context.editing.nodeIds and never add unrelated cards. When it is false, Add Blocks may add and connect but must not silently edit existing cards. Prefer existing cards, keep IDs alphanumeric with hyphens, preserve current work unless asked, and include a layout action after graph mutations. If a capability is absent, report it in missingBlocks instead of inventing an atom.',
     }))
     const thread = asRecord(threadResponse.thread)

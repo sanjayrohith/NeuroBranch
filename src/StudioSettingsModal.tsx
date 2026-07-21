@@ -31,7 +31,7 @@ export function StudioSettingsModal({ onClose, sections }: { onClose(): void; se
     general: 'Storage, privacy and desktop updates.',
     workspaces: 'Save, restore and compare your private graphs.',
     agent: 'Choose how Ask LABO plans and applies changes.',
-    studio: 'Appearance shared across every LABO AI studio.',
+    studio: 'Appearance shared across every NeuroBranch studio.',
     tips: 'Shortcuts and gestures for faster graph editing.',
   }
   const defaultNavigation = [
@@ -47,12 +47,12 @@ export function StudioSettingsModal({ onClose, sections }: { onClose(): void; se
   const fallbackCopy: Record<string, { title: string; body: string }> = {
     workspaces: { title: 'Private workspace', body: 'The active studio saves its current draft automatically for this profile.' },
     agent: { title: 'Shared agent preferences', body: 'Ask LABO uses the same private credentials and review defaults throughout the application.' },
-    studio: { title: 'Application appearance', body: 'Choose one visual identity shared by the complete LABO AI workspace.' },
-    tips: { title: 'Studio shortcuts', body: 'Use the same selection, editing and keyboard conventions throughout LABO AI.' },
+    studio: { title: 'Application appearance', body: 'Choose one visual identity shared by the complete NeuroBranch workspace.' },
+    tips: { title: 'Studio shortcuts', body: 'Use the same selection, editing and keyboard conventions throughout NeuroBranch.' },
   }
 
-  return <StudioDialog ariaLabel="LABO AI settings" backdropClassName="model-card-modal-backdrop studio-settings-backdrop" className="model-card-modal studio-settings-modal" onClose={onClose}>
-      <header className="studio-settings-header"><div><span>LABO AI / PREFERENCES</span><strong>Settings</strong><p>Configure this private workspace without leaving the studio.</p></div><StudioIconButton label="Close LABO AI settings" onClick={onClose}><X size={15} /></StudioIconButton></header>
+  return <StudioDialog ariaLabel="NeuroBranch settings" backdropClassName="model-card-modal-backdrop studio-settings-backdrop" className="model-card-modal studio-settings-modal" onClose={onClose}>
+      <header className="studio-settings-header"><div><span>NeuroBranch / PREFERENCES</span><strong>Settings</strong><p>Configure this private workspace without leaving the studio.</p></div><StudioIconButton label="Close NeuroBranch settings" onClick={onClose}><X size={15} /></StudioIconButton></header>
       <div className="studio-settings-layout">
         <SettingsNavigation activeId={sectionId} onChange={setSectionId} sections={navigation} />
         <main className="studio-settings-panel">
@@ -63,7 +63,7 @@ export function StudioSettingsModal({ onClose, sections }: { onClose(): void; se
               <SettingsCard icon={<Settings2 size={16} />} tone="violet"><strong>Shared defaults, private creations</strong><p>Built-in cards and presets are read-only defaults. Everything you create belongs only to the current user profile.</p></SettingsCard>
               <DesktopUpdateSettings />
               {runtime === 'web' && <a className="studio-settings-account-link" href="/dashboard/settings" target="_top">Manage account and private data</a>}
-            </div> : <div className={`studio-settings-context studio-settings-section-${sectionId}`}>{sectionContent[sectionId] ?? <div className="studio-settings-empty"><strong>{fallbackCopy[sectionId]?.title ?? activeSection.label}</strong><p>{fallbackCopy[sectionId]?.body ?? 'These settings use the shared LABO AI defaults in this studio.'}</p></div>}</div>}
+            </div> : <div className={`studio-settings-context studio-settings-section-${sectionId}`}>{sectionContent[sectionId] ?? <div className="studio-settings-empty"><strong>{fallbackCopy[sectionId]?.title ?? activeSection.label}</strong><p>{fallbackCopy[sectionId]?.body ?? 'These settings use the shared NeuroBranch defaults in this studio.'}</p></div>}</div>}
           </div>
         </main>
       </div>

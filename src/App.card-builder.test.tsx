@@ -23,7 +23,7 @@ async function applyCardAgentPlan() {
   fireEvent.click(screen.getByRole('button', { name: 'Apply full graph plan' }))
 }
 
-describe('LABO AI card builder', () => {
+describe('NeuroBranch card builder', () => {
   it('keeps card editing distinct from Blockly adding and uses the central modal', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: 'Edit cards' }))
@@ -125,7 +125,7 @@ describe('LABO AI card builder', () => {
     await screen.findByRole('region', { name: 'Create model card' })
     fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
 
-    expect(screen.getByRole('dialog', { name: 'LABO AI settings' })).toBeInTheDocument()
+    expect(screen.getByRole('dialog', { name: 'NeuroBranch settings' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Application' }))
     expect(screen.getByRole('button', { name: 'Use Complexity Spectrum theme' })).toBeInTheDocument()
   })

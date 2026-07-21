@@ -7,8 +7,8 @@ const prompt = process.argv.slice(3).filter((argument) => !['--parallel', '--dem
   || (parallel ? 'Add a small executable GPT-like language model as a separate parallel architecture. Keep the existing graph-wide dimensions.' : 'Build a small executable DeepSeek-like language model from the Blank Starter. Keep the existing graph-wide dimensions and do not edit card settings.')
 
 const pages = await fetch(endpoint).then((response) => response.json())
-const page = pages.find((candidate) => candidate.type === 'page' && candidate.title === 'LABO AI')
-if (!page?.webSocketDebuggerUrl) throw new Error('No LABO AI renderer was found on the debugging endpoint')
+const page = pages.find((candidate) => candidate.type === 'page' && candidate.title === 'NeuroBranch')
+if (!page?.webSocketDebuggerUrl) throw new Error('No NeuroBranch renderer was found on the debugging endpoint')
 
 const socket = new WebSocket(page.webSocketDebuggerUrl)
 await new Promise((resolve, reject) => {

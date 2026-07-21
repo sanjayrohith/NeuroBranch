@@ -98,12 +98,12 @@ export function DesktopUpdateSettings() {
     ? normalizedInstalledRef.startsWith(normalizedLatestRef) || normalizedLatestRef.startsWith(normalizedInstalledRef)
     : normalizedLatestRef === normalizedInstalledRef))
   const latestDisplay = status?.latestTag ?? (channelMatches ? `${installedRef} (installed)` : 'Unavailable')
-  const label = !status?.helperInstalled ? 'Get LABO AI Setup' : upToDate ? 'Up to date' : stableFallback ? 'Switch to Stable' : status.updateAvailable ? 'Install update' : 'Open LABO AI Setup'
+  const label = !status?.helperInstalled ? 'Get NeuroBranch Setup' : upToDate ? 'Up to date' : stableFallback ? 'Switch to Stable' : status.updateAvailable ? 'Install update' : 'Open NeuroBranch Setup'
   return <article className="desktop-update-settings">
     <RefreshCw size={15} />
     <div>
       <strong>Desktop updates</strong>
-      <p>Choose verified releases for normal use, or follow the newest commit when testing LABO AI development.</p>
+      <p>Choose verified releases for normal use, or follow the newest commit when testing NeuroBranch development.</p>
       <div aria-label="Desktop update channel" className="desktop-update-channel">
         <button aria-pressed={channel === 'stable'} disabled={Boolean(busy)} onClick={() => void selectChannel('stable')} type="button"><ShieldCheck size={14} /><span><strong>Stable</strong><small>Recommended · published releases</small></span></button>
         <button aria-pressed={channel === 'main'} disabled={Boolean(busy)} onClick={() => void selectChannel('main')} type="button"><FlaskConical size={14} /><span><strong>Main</strong><small>Experimental · latest commit</small></span></button>

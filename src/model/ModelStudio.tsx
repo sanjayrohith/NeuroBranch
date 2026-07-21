@@ -152,7 +152,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
   const code = useMemo(() => compileToPyTorch(codeGraph), [codeGraph])
   const [codeDraft, setCodeDraft] = useState(code)
   const [parseDiagnostics, setParseDiagnostics] = useState<PyTorchDialectDiagnostic[]>([])
-  const [sampleText, setSampleText] = useState('Hello LABO AI')
+  const [sampleText, setSampleText] = useState('Hello NeuroBranch')
   const [promptTokenCount, setPromptTokenCount] = useState<number>()
   const [modelOutput, setModelOutput] = useState<LaboRuntimeTrace['modelOutput']>()
   const [customCards, setCustomCards] = useState<CustomPyTorchCard[]>(() => webRuntime || desktopRuntime ? [] : loadCustomCards())

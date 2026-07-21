@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from './App'
 
-describe('LABO AI graph editing', () => {
+describe('NeuroBranch graph editing', () => {
   it('clears the purple card selection when clicking empty canvas space', () => {
     render(<App />)
     const card = screen.getByRole('button', { name: 'Select Attention RMSNorm' }).closest('.architecture-node')

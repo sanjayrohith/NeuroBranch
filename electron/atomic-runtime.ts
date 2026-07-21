@@ -88,7 +88,7 @@ export function resolveAtomicRuntimePaths(options: AtomicRuntimePathOptions = {}
     resolve(resources, 'runtime', 'atomic_runtime.py'),
   ]
   const runnerScript = runnerCandidates.find(existsSync)
-  if (!runnerScript) throw new Error('Atomic runtime script is missing from this LABO AI build.')
+  if (!runnerScript) throw new Error('Atomic runtime script is missing from this NeuroBranch build.')
   return { pythonExecutable, runnerScript }
 }
 

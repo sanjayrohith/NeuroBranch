@@ -79,7 +79,7 @@ describe('atomic Python runtime', () => {
   })
 
   it('executes tokenizer atoms with the real tokenizers backend', () => {
-    const trace = run({ kind: 'tokenizer', pipeline: researchBpePreset, sample: 'Café LABO AI' })
+    const trace = run({ kind: 'tokenizer', pipeline: researchBpePreset, sample: 'Café NeuroBranch' })
 
     expect(trace.engine).toBe('tokenizers')
     expect(trace.status).toBe('completed')
@@ -89,7 +89,7 @@ describe('atomic Python runtime', () => {
   })
 
   it('injects tokenizer-produced IDs into the model token input', () => {
-    const tokenTrace = run({ kind: 'tokenizer', pipeline: researchBpePreset, sample: 'Bonjour LABO AI' })
+    const tokenTrace = run({ kind: 'tokenizer', pipeline: researchBpePreset, sample: 'Bonjour NeuroBranch' })
     const modelTrace = run({ kind: 'model', graph: gptLikeStarterPreset, tokenIds: tokenTrace.tokenIds })
 
     expect(modelTrace.status).toBe('completed')

@@ -5,11 +5,11 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from './App'
 
-describe('LABO AI catalog presets', () => {
+describe('NeuroBranch catalog presets', () => {
   it('shows the canonical TR 300M GQA-attention and deterministic routed-MLP workspace', () => {
     render(<App />)
   
-    expect(screen.getByText('LABO AI')).toBeInTheDocument()
+    expect(screen.getByText('NeuroBranch')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Blocks' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'PyTorch' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Blocks' })).toHaveAttribute('aria-pressed', 'true')

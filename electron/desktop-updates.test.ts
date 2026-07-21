@@ -9,17 +9,17 @@ describe('desktop source-first updates', () => {
   })
 
   it('also discovers helpers installed by the legacy lowercase Setup profile', () => {
-    expect(desktopUpdateHelperPaths('/profile/LABO AI', 'darwin', '/Users/judge')).toEqual([
-      '/profile/LABO AI/installer/labo-ai-setup',
+    expect(desktopUpdateHelperPaths('/profile/NeuroBranch', 'darwin', '/Users/judge')).toEqual([
+      '/profile/NeuroBranch/installer/labo-ai-setup',
       '/Users/judge/Library/Application Support/labo-ai/installer/labo-ai-setup',
     ])
-    expect(desktopUpdateHelperPaths('C:\\Users\\judge\\AppData\\Roaming\\LABO AI', 'win32', 'C:\\Users\\judge', 'C:\\Users\\judge\\AppData\\Roaming')).toEqual([
-      'C:\\Users\\judge\\AppData\\Roaming\\LABO AI/installer/labo-ai-setup.exe',
+    expect(desktopUpdateHelperPaths('C:\\Users\\judge\\AppData\\Roaming\\NeuroBranch', 'win32', 'C:\\Users\\judge', 'C:\\Users\\judge\\AppData\\Roaming')).toEqual([
+      'C:\\Users\\judge\\AppData\\Roaming\\NeuroBranch/installer/labo-ai-setup.exe',
       'C:\\Users\\judge\\AppData\\Roaming/labo-ai/installer/labo-ai-setup.exe',
     ])
   })
 
-  it('uses the automatic-install argument understood by LABO AI Setup', () => {
+  it('uses the automatic-install argument understood by NeuroBranch Setup', () => {
     expect(desktopUpdateArguments('stable')).toEqual(['--auto-install', '--channel', 'stable'])
     expect(desktopUpdateArguments('main')).toEqual(['--auto-install', '--channel', 'main'])
     expect(validDesktopUpdateChannel('main')).toBe('main')

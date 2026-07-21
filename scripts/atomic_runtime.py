@@ -766,7 +766,7 @@ def run_tokenizer(pipeline: dict[str, Any], sample: str) -> dict[str, Any]:
                     special_tokens=list(settings.get("specialTokens", [])),
                 )
                 tokenizer.train_from_iterator(
-                    [sample, "LABO AI atomic tokenizer", "typed blocks compile to Python and Rust"],
+                    [sample, "NeuroBranch atomic tokenizer", "typed blocks compile to Python and Rust"],
                     trainer=trainer,
                 )
                 summary = f"trained vocab={tokenizer.get_vocab_size()}"
@@ -799,7 +799,7 @@ def main() -> None:
     if payload.get("kind") == "model":
         output = run_model(payload["graph"], payload.get("tokenIds"))
     elif payload.get("kind") == "tokenizer":
-        output = run_tokenizer(payload["pipeline"], str(payload.get("sample", "LABO AI")))
+        output = run_tokenizer(payload["pipeline"], str(payload.get("sample", "NeuroBranch")))
     else:
         raise ValueError("kind must be model or tokenizer")
     json.dump(output, sys.stdout, ensure_ascii=False)

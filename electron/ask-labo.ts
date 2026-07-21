@@ -653,7 +653,7 @@ async function readResponse(response: Response): Promise<Record<string, unknown>
 export async function askLabo(payload: AskLaboPayload): Promise<AskLaboPlan> {
   validateAskLaboPayload(payload)
   const config = await resolveOpenAIConfig()
-  if (!config) throw new Error('No OpenAI API key is configured for LABO AI')
+  if (!config) throw new Error('No OpenAI API key is configured for NeuroBranch')
   const controller = new AbortController()
   const session = new AgentToolSession(payload.context)
   const rawResponseLocale = typeof payload.context.responseLocale === 'string' ? payload.context.responseLocale : 'en'
@@ -669,7 +669,7 @@ export async function askLabo(payload: AskLaboPayload): Promise<AskLaboPlan> {
         body: JSON.stringify({
           model: config.model, store: false, max_output_tokens: 6_000, parallel_tool_calls: true, tools,
           instructions: [
-            'You are LABO AI, a bounded neural graph agent. Use tools to inspect, search, and construct the requested plan.',
+            'You are NeuroBranch, a bounded neural graph agent. Use tools to inspect, search, and construct the requested plan.',
             'Never merely describe a mutation: call its exact tool. Search cards before creating one or reporting it missing.',
             'When search_cards finds no suitable card, use compose_card for supported projection, normalization, activation, regularization or utility capabilities. Use raw create_card only when the deterministic composer cannot express the required safe unary nn.Module.',
             payload.context.cardBuilderMode === true

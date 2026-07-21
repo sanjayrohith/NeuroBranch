@@ -5,7 +5,7 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 
-describe('LABO AI studios', () => {
+describe('NeuroBranch studios', () => {
   it('shows the source-first desktop updater in the shared settings', async () => {
     window.labo = {
       platform: 'darwin',
@@ -275,7 +275,7 @@ describe('LABO AI studios', () => {
   
     fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
     expect(screen.getByRole('button', { name: 'Training Studio' })).toHaveAttribute('aria-pressed', 'true')
-    const settings = screen.getByRole('dialog', { name: 'LABO AI settings' })
+    const settings = screen.getByRole('dialog', { name: 'NeuroBranch settings' })
     expect(within(settings).getByRole('button', { name: 'General' })).toHaveAttribute('aria-pressed', 'true')
     for (const section of ['General', 'Workspaces', 'Agent', 'Application', 'Tips']) expect(within(settings).getByRole('button', { name: section })).toBeInTheDocument()
     fireEvent.click(within(settings).getByRole('button', { name: 'Application' }))
@@ -283,11 +283,11 @@ describe('LABO AI studios', () => {
     fireEvent.click(within(settings).getByRole('button', { name: 'Use Complexity Spectrum theme' }))
     expect(document.documentElement).toHaveAttribute('data-labo-theme', 'complexity-spectrum')
     fireEvent.pointerDown(document.querySelector('.model-card-modal-backdrop')!)
-    expect(screen.queryByRole('dialog', { name: 'LABO AI settings' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('dialog', { name: 'NeuroBranch settings' })).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Tokenizer Studio' }))
     fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
-    const tokenizerSettings = screen.getByRole('dialog', { name: 'LABO AI settings' })
+    const tokenizerSettings = screen.getByRole('dialog', { name: 'NeuroBranch settings' })
     for (const section of ['General', 'Workspaces', 'Agent', 'Application', 'Tips']) expect(within(tokenizerSettings).getByRole('button', { name: section })).toBeInTheDocument()
     fireEvent.click(within(tokenizerSettings).getByRole('button', { name: 'Application' }))
     expect(within(tokenizerSettings).getByRole('button', { name: 'Use Complexity Spectrum theme' })).toHaveAttribute('aria-pressed', 'true')

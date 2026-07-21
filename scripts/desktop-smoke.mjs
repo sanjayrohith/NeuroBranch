@@ -57,8 +57,8 @@ check(await exists(join(root, 'build', 'icon.icns')), 'macOS application icon is
 await runPythonSmoke()
 
 for (const app of [
-  join(root, 'release', 'mac-arm64', 'LABO AI.app'),
-  '/Applications/LABO AI.app',
+  join(root, 'release', 'mac-arm64', 'NeuroBranch.app'),
+  '/Applications/NeuroBranch.app',
 ]) {
   const archive = join(app, 'Contents', 'Resources', 'app.asar')
   if (!await exists(archive)) continue
@@ -76,5 +76,5 @@ for (const app of [
   const packagedHtml = extractFile(archive, 'dist/index.html').toString('utf8')
   check(packagedHtml.includes('src="./assets/'), `${app} contains the non-black-screen renderer build`)
   check(await exists(join(app, 'resources', 'runtime', 'atomic_runtime.py')), `${app} contains the Python runner resource`)
-  check(await exists(join(app, 'LABO AI.exe')), `${app} contains the Windows executable`)
+  check(await exists(join(app, 'NeuroBranch.exe')), `${app} contains the Windows executable`)
 }

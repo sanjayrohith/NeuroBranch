@@ -281,5 +281,5 @@ export function compileRegistryGraph(graph: ArchitectureGraph, options: Registry
 
   const argumentsList = inputNodes.map((node) => `${inputArgument(node)}: torch.Tensor`).join(', ')
   const helperSource = [...helpers].join('\n\n')
-  return `import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\n${helperSource ? `\n\n${helperSource}` : ''}\n\n\nclass GeneratedModel(nn.Module):\n    """Generated from the LABO AI semantic atom registry and elastic topology."""\n\n    def __init__(self):\n        super().__init__()\n${declarations.join('\n')}\n\n    def forward(self, ${argumentsList}):\n${forward.join('\n')}\n`
+  return `import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\n${helperSource ? `\n\n${helperSource}` : ''}\n\n\nclass GeneratedModel(nn.Module):\n    """Generated from the NeuroBranch semantic atom registry and elastic topology."""\n\n    def __init__(self):\n        super().__init__()\n${declarations.join('\n')}\n\n    def forward(self, ${argumentsList}):\n${forward.join('\n')}\n`
 }

@@ -40,4 +40,4 @@ updateJson('apps/bootstrap-installer/src-tauri/tauri.conf.json')
 replacePackageVersion('apps/bootstrap-installer/src-tauri/Cargo.toml', 'labo-ai-setup')
 replacePackageVersion('apps/bootstrap-installer/src-tauri/Cargo.lock', 'labo-ai-setup')
 
-console.log(`Synchronized LABO AI release version ${version}`)
+console.log(`Synchronized NeuroBranch release version ${version}`)

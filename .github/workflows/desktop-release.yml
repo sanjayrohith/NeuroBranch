@@ -99,7 +99,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path release-assets | Out-Null
           $setup = Get-ChildItem apps/bootstrap-installer/src-tauri/target/release/bundle/nsis/*.exe | Select-Object -First 1
-          if (-not $setup) { throw "LABO AI Setup NSIS installer was not produced" }
+          if (-not $setup) { throw "NeuroBranch Setup NSIS installer was not produced" }
           Copy-Item $setup.FullName release-assets/LABO-AI-Setup-x64.exe
           Copy-Item apps/bootstrap-installer/src-tauri/target/release/labo-ai-setup.exe release-assets/LABO-AI-Setup-x64-helper.exe
           $hash = (Get-FileHash release-assets/LABO-AI-Setup-x64-helper.exe -Algorithm SHA256).Hash.ToLower()
@@ -170,7 +170,7 @@ jobs:
           if ! gh release view "${GITHUB_REF_NAME}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
             gh release create "${GITHUB_REF_NAME}" \
               --repo "${GITHUB_REPOSITORY}" \
-              --title "LABO AI ${GITHUB_REF_NAME}" \
+              --title "NeuroBranch ${GITHUB_REF_NAME}" \
               --generate-notes \
               --draft \
               --verify-tag

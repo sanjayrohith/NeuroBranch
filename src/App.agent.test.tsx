@@ -5,7 +5,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 
-describe('LABO AI agent', () => {
+describe('NeuroBranch agent', () => {
   it('connects a desktop ChatGPT session from the shared Agent settings', async () => {
     const connectedSession = {
       available: true,

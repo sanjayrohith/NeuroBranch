@@ -7,7 +7,7 @@ import App from './App'
 import { blankStarterPreset } from './core/presets'
 import { researchBpePreset } from './core/tokenizer-presets'
 
-describe('LABO AI shell web', () => {
+describe('NeuroBranch shell web', () => {
   it('reserves the native macOS titlebar area only inside Electron', () => {
     window.labo = { platform: 'darwin', runtime: 'electron', runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }) }
   

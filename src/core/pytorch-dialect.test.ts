@@ -3,7 +3,7 @@ import { compileToPyTorch } from './ir'
 import { parsePyTorchDialect } from './pytorch-dialect'
 import { gqaPreset, tokenMoePreset } from './presets'
 
-describe('LABO AI PyTorch dialect', () => {
+describe('NeuroBranch PyTorch dialect', () => {
   it('updates the same IR atom when supported PyTorch settings change', () => {
     const source = compileToPyTorch(gqaPreset).replace(
       'self.q_proj = nn.Linear(384, 384, bias=False)',

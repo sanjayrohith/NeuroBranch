@@ -12,7 +12,7 @@ const studios: Array<{ id: StudioWorkspaceId; label: string }> = [
 
 export function AppHeader({ onOpenSearch, onOpenSettings, onWorkspaceChange, searchDisabled = false, searchLabel, searchShortcut, settingsOpen, workspace }: { onOpenSearch(): void; onOpenSettings(): void; onWorkspaceChange(workspace: StudioWorkspaceId): void; searchDisabled?: boolean; searchLabel: string; searchShortcut: string; settingsOpen: boolean; workspace: StudioWorkspaceId }) {
   return <header className="topbar">
-    <div className="brand"><span className="brand-mark"><LaboMark /></span><strong>LABO AI</strong><span className="alpha-pill">BETA</span></div>
+    <div className="brand"><span className="brand-mark"><LaboMark /></span><strong>NeuroBranch</strong><span className="alpha-pill">BETA</span></div>
     <nav aria-label="LABO studios" className="studio-navigation">{studios.map((studio) => <button aria-pressed={workspace === studio.id} key={studio.id} onClick={() => onWorkspaceChange(studio.id)} type="button">{studio.label}</button>)}</nav>
     <div className="header-actions">
       <StudioButton aria-label={searchLabel} className="ghost-button" disabled={searchDisabled} onClick={onOpenSearch} title={searchDisabled ? 'Switch to Add blocks to search the card library' : undefined}><Search size={14} />Search<kbd>{searchShortcut}</kbd></StudioButton>

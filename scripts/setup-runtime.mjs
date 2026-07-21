@@ -46,7 +46,7 @@ function findPython() {
     const candidate = usablePython(command, prefixArgs)
     if (candidate) return candidate
   }
-  throw new Error('Python 3.10 or newer is required to prepare the LABO AI runtime. Set LABO_AI_PYTHON to a compatible interpreter.')
+  throw new Error('Python 3.10 or newer is required to prepare the NeuroBranch runtime. Set LABO_AI_PYTHON to a compatible interpreter.')
 }
 
 function runOrThrow(command, args, description) {
@@ -65,23 +65,23 @@ const fingerprint = createHash('sha256').update(requirements).digest('hex')
 const previousFingerprint = existsSync(stampPath) ? (await readFile(stampPath, 'utf8')).trim() : ''
 
 if (previousFingerprint === fingerprint && importsAreAvailable()) {
-  console.log(`LABO AI Python runtime is ready at ${virtualEnvironment}`)
+  console.log(`NeuroBranch Python runtime is ready at ${virtualEnvironment}`)
   process.exit(0)
 }
 
 if (!existsSync(virtualPython)) {
   const basePython = findPython()
-  console.log(`Creating the LABO AI Python runtime at ${virtualEnvironment}`)
+  console.log(`Creating the NeuroBranch Python runtime at ${virtualEnvironment}`)
   await mkdir(dirname(virtualEnvironment), { recursive: true })
   runOrThrow(basePython.command, [...basePython.prefixArgs, '-m', 'venv', virtualEnvironment], 'Python virtual-environment creation')
 }
 
-console.log('Installing the locked LABO AI Python runtime dependencies...')
+console.log('Installing the locked NeuroBranch Python runtime dependencies...')
 runOrThrow(virtualPython, ['-m', 'pip', 'install', '--disable-pip-version-check', '-r', requirementsPath], 'Python dependency installation')
 
 if (!importsAreAvailable()) {
-  throw new Error('The LABO AI Python runtime was installed, but torch or tokenizers could not be imported.')
+  throw new Error('The NeuroBranch Python runtime was installed, but torch or tokenizers could not be imported.')
 }
 
 await writeFile(stampPath, `${fingerprint}\n`, 'utf8')
-console.log(`LABO AI Python runtime is ready at ${virtualEnvironment}`)
+console.log(`NeuroBranch Python runtime is ready at ${virtualEnvironment}`)

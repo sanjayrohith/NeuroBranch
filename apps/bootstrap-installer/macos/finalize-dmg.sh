@@ -26,7 +26,7 @@ device="$(printf '%s\n' "${attach_output}" | awk '/Apple_HFS/ { print $1; exit }
 mount_point="$(printf '%s\n' "${attach_output}" | awk '/Apple_HFS/ { sub(/^.*Apple_HFS[[:space:]]+/, ""); print; exit }')"
 
 if [[ -z "${device}" || -z "${mount_point}" || ! -d "${mount_point}" ]]; then
-  printf 'Unable to mount the intermediate LABO AI DMG.\n' >&2
+  printf 'Unable to mount the intermediate NeuroBranch DMG.\n' >&2
   exit 1
 fi
 

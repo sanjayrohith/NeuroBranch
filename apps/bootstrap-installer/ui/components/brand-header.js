@@ -9,7 +9,7 @@ export function createBrandHeader() {
   ])
   const identity = createElement('div', { className: 'brand-header__identity' }, [
     createElement('span', { text: 'COMPLEXITY' }),
-    createElement('h1', { text: 'LABO AI Setup' }),
+    createElement('h1', { text: 'NeuroBranch Setup' }),
   ])
   return createElement('header', { className: 'brand-header' }, [mark, identity])
 }

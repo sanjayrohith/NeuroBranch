@@ -5,7 +5,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 
-describe('LABO AI workspaces player', () => {
+describe('NeuroBranch workspaces player', () => {
   it('preserves each preset draft while switching between model starters', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: 'Blank starter' }))

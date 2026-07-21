@@ -335,7 +335,7 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
     setCredentialMessage('')
     try {
       setChatGPT(await window.labo.disconnectChatGPT())
-      setCredentialMessage('ChatGPT account disconnected from LABO AI.')
+      setCredentialMessage('ChatGPT account disconnected from NeuroBranch.')
     } catch (reason) {
       setCredentialMessage(reason instanceof Error ? reason.message : String(reason))
     } finally {

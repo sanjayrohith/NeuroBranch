@@ -27,7 +27,7 @@ export function ApplicationAppearanceSettings() {
   return <section aria-label="Application appearance" className="application-appearance-settings">
     <header>
       <span><Palette size={15} /></span>
-      <div><strong>Workspace colour</strong><p>Choose one palette for the complete LABO AI application.</p></div>
+      <div><strong>Workspace colour</strong><p>Choose one palette for the complete NeuroBranch application.</p></div>
     </header>
     <div className="application-theme-grid">
       {LABO_THEMES.map((candidate) => <button aria-label={`Use ${candidate.name} theme`} aria-pressed={theme === candidate.id} key={candidate.id} onClick={() => selectTheme(candidate.id)} type="button">

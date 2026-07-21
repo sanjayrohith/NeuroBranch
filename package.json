@@ -1,8 +1,8 @@
 {
   "name": "labo-ai",
-  "productName": "LABO AI",
+  "productName": "NeuroBranch",
   "description": "Atomic neural architecture laboratory and agentic graph builder.",
-  "author": "LABO AI",
+  "author": "NeuroBranch",
   "license": "Apache-2.0",
   "private": true,
   "version": "0.1.53",
@@ -31,7 +31,7 @@
   },
   "build": {
     "appId": "ai.labo.desktop",
-    "productName": "LABO AI",
+    "productName": "NeuroBranch",
     "artifactName": "LABO-AI-${version}-${arch}.${ext}",
     "directories": {
       "output": "release"
@@ -84,7 +84,7 @@
     },
     "dmg": {
       "artifactName": "LABO-AI-${version}-${arch}.${ext}",
-      "title": "LABO AI ${version}",
+      "title": "NeuroBranch ${version}",
       "backgroundColor": "#0d0f15",
       "iconSize": 112,
       "contents": [

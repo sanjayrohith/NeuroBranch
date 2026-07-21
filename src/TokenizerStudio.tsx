@@ -45,7 +45,7 @@ async function executeTokenizerIrAtom(step: TokenizerStep): Promise<{ summary: s
     return { summary: `Café normalized with ${form}: ${'Cafe\u0301'.normalize(form)}` }
   }
   if (step.atom === 'byte-level-pretokenize') {
-    return { summary: `UTF-8 bytes: ${new TextEncoder().encode('LABO AI').length}` }
+    return { summary: `UTF-8 bytes: ${new TextEncoder().encode('NeuroBranch').length}` }
   }
   if (step.atom === 'bpe-model') {
     if (!step.settings.unkToken) throw new Error('BPE model requires unkToken')
@@ -65,7 +65,7 @@ async function executeTokenizerIrAtom(step: TokenizerStep): Promise<{ summary: s
   if (step.atom === 'custom-tokenizer') {
     return { summary: `Custom tokenizer card ready: ${String(step.settings.label)}` }
   }
-  return { summary: `Byte-level round-trip: ${new TextDecoder().decode(new TextEncoder().encode('LABO AI'))}` }
+  return { summary: `Byte-level round-trip: ${new TextDecoder().decode(new TextEncoder().encode('NeuroBranch'))}` }
 }
 
 export function TokenizerStudio({ onCatalogChange = () => undefined, onRequestedCardHandled = () => undefined, requestedCard }: { onCatalogChange?: (cards: CustomTokenizerCard[]) => void; onRequestedCardHandled?: () => void; requestedCard?: { cardId: string; kind: 'atom' | 'custom'; requestId: number } }) {

@@ -149,14 +149,14 @@ function readHelperStatus(helper: string, channel: DesktopUpdateChannel, platfor
     let stderr = ''
     const timeout = setTimeout(() => {
       child.kill()
-      reject(new Error('LABO AI Setup status check timed out'))
+      reject(new Error('NeuroBranch Setup status check timed out'))
     }, 15_000)
     child.stdout.on('data', (chunk) => { stdout += String(chunk) })
     child.stderr.on('data', (chunk) => { stderr += String(chunk) })
     child.on('error', (error) => { clearTimeout(timeout); reject(error) })
     child.on('close', (code) => {
       clearTimeout(timeout)
-      if (code !== 0) return reject(new Error(stderr.trim() || `LABO AI Setup exited with ${code}`))
+      if (code !== 0) return reject(new Error(stderr.trim() || `NeuroBranch Setup exited with ${code}`))
       try {
         const parsed = JSON.parse(stdout.trim()) as { installedTag?: unknown; installedChannel?: unknown; installedRevision?: unknown; latestTag?: unknown; latestRevision?: unknown }
         resolve({
@@ -167,7 +167,7 @@ function readHelperStatus(helper: string, channel: DesktopUpdateChannel, platfor
           ...(typeof parsed.latestRevision === 'string' ? { latestRevision: parsed.latestRevision } : {}),
         })
       } catch {
-        reject(new Error('LABO AI Setup returned an invalid status'))
+        reject(new Error('NeuroBranch Setup returned an invalid status'))
       }
     })
   })
@@ -208,7 +208,7 @@ export async function getDesktopUpdateStatus(userData: string, currentVersion: s
 
 export async function launchDesktopUpdate(userData: string, channel: DesktopUpdateChannel = 'stable', platform = process.platform): Promise<{ launched: true }> {
   const helper = await findDesktopUpdateHelper(userData, platform)
-  if (!helper) throw new Error('LABO AI Setup is not installed yet')
+  if (!helper) throw new Error('NeuroBranch Setup is not installed yet')
   const child = spawn(helper, [...desktopUpdateArguments(channel)], {
     detached: true,
     stdio: 'ignore',

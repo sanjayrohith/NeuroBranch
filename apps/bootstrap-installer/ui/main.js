@@ -18,7 +18,7 @@ function setInstalling(installing) {
 function showPreview() {
   status.setVersion('Latest release')
   status.update({ stage: 'Runtime', message: 'Preparing the isolated Python runtime...', percent: 45 })
-  status.appendLog('5% Release', 'Checking the latest LABO AI release...')
+  status.appendLog('5% Release', 'Checking the latest NeuroBranch release...')
   status.appendLog('12% Source', 'Downloading the latest release source...')
   status.appendLog('36% Dependencies', 'Installing locked JavaScript dependencies...')
   status.appendLog('45% Runtime', 'Preparing the isolated Python runtime...')
@@ -45,7 +45,7 @@ async function startTauriIntegration() {
         : state.installedTag === state.latestTag
           ? 'Reinstall latest'
           : state.installedTag
-            ? 'Update LABO AI'
+            ? 'Update NeuroBranch'
             : 'Install latest'
     } catch (error) {
       status.setVersion('GitHub check unavailable')
@@ -77,7 +77,7 @@ async function startTauriIntegration() {
       status.setVersion(result.tag)
       status.update({
         stage: 'Installed',
-        message: 'LABO AI is installed and launching. Future updates are available from Settings.',
+        message: 'NeuroBranch is installed and launching. Future updates are available from Settings.',
         percent: 100,
       })
       footer.button.textContent = 'Installed'

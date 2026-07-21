@@ -14,7 +14,7 @@ const upgradePrompt = 'Upgrade the current architecture to a token-routed residu
 const generationPrompt = 'Explain neural networks in one short sentence.'
 const memoryState = new Map()
 
-app.setName('LABO AI')
+app.setName('NeuroBranch')
 process.stderr.write('[demo] entry loaded\n')
 
 function wait(milliseconds) {
@@ -98,7 +98,7 @@ async function prepareBlankWorkspace(window) {
     await clickButton(window, 'Workspaces')
     await clickButton(window, 'Restore')
     await clickButton(window, 'Confirm restore')
-    await clickButton(window, 'Close LABO AI settings')
+    await clickButton(window, 'Close NeuroBranch settings')
   }
 
   await waitFor(window, `document.querySelectorAll('.architecture-node').length === 0`)
@@ -114,7 +114,7 @@ async function selectReviewMode(window) {
   await clickButton(window, 'Agent')
   await clickButton(window, 'Review')
   await clickButton(window, 'Extend current')
-  await clickButton(window, 'Close LABO AI settings')
+  await clickButton(window, 'Close NeuroBranch settings')
 }
 
 async function clearAgentActivity(window) {
@@ -160,7 +160,7 @@ const window = new BrowserWindow({
   width: 1440,
   height: 900,
   backgroundColor: '#08090b',
-  title: 'LABO AI · Agent demo',
+  title: 'NeuroBranch · Agent demo',
   autoHideMenuBar: process.platform !== 'darwin',
   ...(process.platform === 'darwin' ? { titleBarStyle: 'hiddenInset', trafficLightPosition: { x: 15, y: 17 } } : {}),
   webPreferences: {
@@ -192,12 +192,12 @@ try {
   process.stderr.write('[demo] window visible; waiting 5 seconds before agent actions\n')
   await wait(5_000)
   const { openAISettings, chatGPTStatus } = await providerStatus
-  if (!openAISettings.configured && !chatGPTStatus.connected) throw new Error('Connect ChatGPT or add and verify an OpenAI API key in LABO AI before running the agent demo.')
+  if (!openAISettings.configured && !chatGPTStatus.connected) throw new Error('Connect ChatGPT or add and verify an OpenAI API key in NeuroBranch before running the agent demo.')
   process.stderr.write(`[demo] provider=${chatGPTStatus.connected ? 'chatgpt' : openAISettings.source}\n`)
   await waitFor(window, `document.querySelector('button[aria-label="Play model atoms"]') !== null`)
   await prepareBlankWorkspace(window)
   await selectReviewMode(window)
-  await cue(window, 'LABO AI', 'From conversation to executable graph', 'One agent, typed tools, inspectable PyTorch.', 3800)
+  await cue(window, 'NeuroBranch', 'From conversation to executable graph', 'One agent, typed tools, inspectable PyTorch.', 3800)
 
   process.stderr.write('[demo] sending conversational greeting\n')
   await setTextarea(window, 'Hello', 85)

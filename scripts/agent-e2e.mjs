@@ -7,7 +7,7 @@ import { getOpenAISettingsStatus } from '../dist-electron/openai-credentials.js'
 const projectRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const prompt = process.argv.slice(2).join(' ').trim() || 'From the Blank Starter, build a small executable DeepSeek-like language model: Token IDs, token embedding, normalization, learned top-k router, routed and shared experts in parallel, merge, final normalization, and tied LM head. Wire every compatible port. If a required unary hidden-state capability is unavailable, create a safe PyTorch card for it; otherwise identify the exact missing card.'
 
-app.setName('LABO AI')
+app.setName('NeuroBranch')
 
 function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds))
@@ -28,7 +28,7 @@ ipcMain.handle('labo:ask', (_event, payload) => askLabo(payload))
 ipcMain.handle('labo:openai-settings', () => getOpenAISettingsStatus())
 const settings = await getOpenAISettingsStatus()
 process.stderr.write(`[agent-e2e] credentials=${settings.configured ? settings.source : 'missing'}\n`)
-if (!settings.configured) throw new Error('LABO AI has no configured OpenAI API key')
+if (!settings.configured) throw new Error('NeuroBranch has no configured OpenAI API key')
 
 const window = new BrowserWindow({
   show: false,
