@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🧠 NeuroBranch
+# NeuroBranch
+
+<img src="public/neurobranch.png" alt="NeuroBranch — a glowing neural graph flowing into generated PyTorch code" width="100%" />
 
 ### Neural networks you can *see*, *touch*, and *run* — one typed block at a time.
 
@@ -43,12 +45,12 @@ evolving MVP that runs entirely on your own machine.</sub>
 
 | | |
 |---|---|
-| 🧩 **Compose** | Drag 100+ typed, executable cards onto a canvas and wire them with typed "elastic" cables. Incompatible ports simply won't connect. |
-| 🔁 **Sync** | The graph compiles to readable PyTorch — and edits to supported PyTorch atoms flow *back* into the graph. |
-| ▶️ **Run** | Execute the graph in a real local Python runtime: run, rerun, reset, or step through it tensor-by-tensor. |
-| 🤖 **Ask** | Describe an architecture in plain English; **Ask NeuroBranch** plans it, wires only compatible ports, and hands you an auditable plan to review or auto-apply. |
-| 🧬 **Extend** | Build your own reusable, safe `nn.Module` cards in a dedicated full-canvas studio. |
-| 💾 **Keep** | Drafts, custom cards, optimizers, and presets persist locally in SQLite and survive app updates. |
+| **Compose** | Drag 100+ typed, executable cards onto a canvas and wire them with typed "elastic" cables. Incompatible ports simply won't connect. |
+| **Sync** | The graph compiles to readable PyTorch — and edits to supported PyTorch atoms flow *back* into the graph. |
+| **Run** | Execute the graph in a real local Python runtime: run, rerun, reset, or step through it tensor-by-tensor. |
+| **Ask** | Describe an architecture in plain English; **Ask NeuroBranch** plans it, wires only compatible ports, and hands you an auditable plan to review or auto-apply. |
+| **Extend** | Build your own reusable, safe `nn.Module` cards in a dedicated full-canvas studio. |
+| **Keep** | Drafts, custom cards, optimizers, and presets persist locally in SQLite and survive app updates. |
 
 ---
 
@@ -59,19 +61,19 @@ PyTorch, and the live execution — all backed by one typed intermediate represe
 
 ```mermaid
 flowchart LR
-  subgraph UI["🖥️  Renderer · React + React Flow"]
+  subgraph UI["Renderer · React + React Flow"]
     Canvas["Graph Canvas<br/>typed cards · elastic cables"]
     Agent["Ask NeuroBranch<br/>agent panel"]
     Views["PyTorch · Split · Player"]
   end
 
-  subgraph CORE["🧩  Core domain · framework-agnostic"]
+  subgraph CORE["Core domain · framework-agnostic"]
     IR["Typed IR<br/>cards · ports · edges · groups"]
     Compiler["PyTorch compiler<br/>+ dialect parser"]
     Layout["Topology-aware<br/>XY placement"]
   end
 
-  subgraph MAIN["⚙️  Electron main · sandboxed"]
+  subgraph MAIN["Electron main · sandboxed"]
     Bridge["Preload bridge<br/>+ typed IPC"]
     Runtime["Local Python runtime<br/>atomic_runtime.py"]
     Store["SQLite<br/>drafts · cards · presets"]
@@ -98,10 +100,10 @@ interpreter. Supported semantic atoms round-trip both directions.
 
 ```mermaid
 flowchart LR
-  G["🕸️ Visual graph"] -->|compile| P["🐍 Generated PyTorch"]
+  G["Visual graph"] -->|compile| P["Generated PyTorch"]
   P -->|parse dialect| G
-  G -->|execution plan| R["⚙️ Local Python runtime"]
-  R -->|tensors · step results| Player["▶️ Atomic player<br/>run · rerun · step"]
+  G -->|execution plan| R["Local Python runtime"]
+  R -->|tensors · step results| Player["Atomic player<br/>run · rerun · step"]
 ```
 
 ### The Ask NeuroBranch agent loop
@@ -112,14 +114,14 @@ your current graph, returns a strict structured plan, and *nothing changes* unti
 
 ```mermaid
 flowchart TD
-  U["💬 Natural-language request"] --> A["Ask NeuroBranch"]
+  U["Natural-language request"] --> A["Ask NeuroBranch"]
   A --> C["Bounded context<br/>card catalog + current graph"]
   C --> Plan["Structured plan<br/>add · connect · create · layout · run"]
   Plan --> V{"Local validation"}
-  V -->|fails| Rej["❌ Reported as missing capability<br/><b>graph unchanged</b>"]
+  V -->|fails| Rej["Reported as missing capability<br/><b>graph unchanged</b>"]
   V -->|passes| Mode{"Review or Auto-apply?"}
-  Mode -->|Review| Preview["👁️ Preview every mutation"] --> Approve["✅ You approve"] --> Mut["Mutate graph"]
-  Mode -->|Auto-apply| Mut["✏️ Mutate graph"]
+  Mode -->|Review| Preview["Preview every mutation"] --> Approve["You approve"] --> Mut["Mutate graph"]
+  Mode -->|Auto-apply| Mut["Mutate graph"]
 ```
 
 Existing architectures stay **read-only in parallel mode**, so the agent can build a new model beside your work
@@ -130,7 +132,7 @@ instead of overwriting it.
 ## Feature tour
 
 <details>
-<summary><b>🧱 Composition & catalog</b></summary>
+<summary><b>Composition & catalog</b></summary>
 
 - 100+ typed, executable model cards grouped into useful families.
 - Starters: Blank, GPT-like, learned-MoE, token-routing, and TR 300M.
@@ -143,7 +145,7 @@ instead of overwriting it.
 </details>
 
 <details>
-<summary><b>🐍 PyTorch, execution & export</b></summary>
+<summary><b>PyTorch, execution & export</b></summary>
 
 - Two-way graph/PyTorch synchronization for supported semantic atoms.
 - Atomic PyTorch player: run, rerun, reset, and step-by-step execution.
@@ -154,7 +156,7 @@ instead of overwriting it.
 </details>
 
 <details>
-<summary><b>🤖 Ask NeuroBranch (agent)</b></summary>
+<summary><b>Ask NeuroBranch (agent)</b></summary>
 
 - Adds available blocks, connects compatible ports, or clearly reports missing capabilities.
 - Separate **Review** (preview every mutation) and **Auto-apply** (only operations that pass validation) modes.
@@ -164,7 +166,7 @@ instead of overwriting it.
 </details>
 
 <details>
-<summary><b>💾 Persistence & workspaces</b></summary>
+<summary><b>Persistence & workspaces</b></summary>
 
 - SQLite-backed graph drafts, cards, optimizer configurations, and user presets.
 - Separate add and edit modes; existing cards open in a central editor, user-created library cards can be deleted.
@@ -173,7 +175,7 @@ instead of overwriting it.
 
 ---
 
-## 🚀 Quick start — one command
+## Quick start — one command
 
 The commands below always install the latest published release. Each bootstrap script downloads the small native
 Setup helper, verifies its published **SHA-256** digest, and launches the source-first installer.
@@ -225,7 +227,7 @@ Setup verifies and updates itself before rebuilding when a newer helper exists.
 
 ---
 
-## 🛠️ Tech stack
+## Tech stack
 
 | Layer | Technology |
 |---|---|
@@ -239,7 +241,7 @@ Setup verifies and updates itself before rebuilding when a newer helper exists.
 
 ---
 
-## 👩‍💻 Development
+## Development
 
 **Requirements:** Node.js + npm · Python 3 with the packages in `requirements-runtime.txt` · macOS, Windows, or Linux.
 
@@ -325,7 +327,7 @@ update from **Settings → General**.
 
 ---
 
-## 🔒 Security model
+## Security model
 
 - **Renderer isolation** enforced through the Electron preload bridge.
 - **ChatGPT OAuth & token refresh** are owned by the bundled Codex App Server; session tokens never pass through
