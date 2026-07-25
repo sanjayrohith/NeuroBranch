@@ -1,30 +1,30 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import type { AtomicRuntimePayload } from './atomic-runtime.js'
-import type { AskLaboPayload } from './ask-labo.js'
+import type { AskNeuroBranchPayload } from './ask-neurobranch.js'
 
-const atomicRuntimeChannel = 'labo:atomic-runtime'
-const askLaboChannel = 'labo:ask'
-const openAISettingsChannel = 'labo:openai-settings'
-const saveOpenAIKeyChannel = 'labo:openai-key-save'
-const deleteOpenAIKeyChannel = 'labo:openai-key-delete'
-const testOpenAIKeyChannel = 'labo:openai-key-test'
-const chatGPTSessionChannel = 'labo:chatgpt-session'
-const connectChatGPTChannel = 'labo:chatgpt-connect'
-const disconnectChatGPTChannel = 'labo:chatgpt-disconnect'
-const configureChatGPTChannel = 'labo:chatgpt-configure'
-const exportFileChannel = 'labo:export-file'
-const windowStateChannel = 'labo:window-state'
-const loadDesktopStateChannel = 'labo:desktop-state-load'
-const saveDesktopStateChannel = 'labo:desktop-state-save'
-const desktopUpdateStatusChannel = 'labo:desktop-update-status'
-const launchDesktopUpdateChannel = 'labo:desktop-update-launch'
-const openDesktopSetupChannel = 'labo:desktop-setup-open'
+const atomicRuntimeChannel = 'neurobranch:atomic-runtime'
+const askNeuroBranchChannel = 'neurobranch:ask'
+const openAISettingsChannel = 'neurobranch:openai-settings'
+const saveOpenAIKeyChannel = 'neurobranch:openai-key-save'
+const deleteOpenAIKeyChannel = 'neurobranch:openai-key-delete'
+const testOpenAIKeyChannel = 'neurobranch:openai-key-test'
+const chatGPTSessionChannel = 'neurobranch:chatgpt-session'
+const connectChatGPTChannel = 'neurobranch:chatgpt-connect'
+const disconnectChatGPTChannel = 'neurobranch:chatgpt-disconnect'
+const configureChatGPTChannel = 'neurobranch:chatgpt-configure'
+const exportFileChannel = 'neurobranch:export-file'
+const windowStateChannel = 'neurobranch:window-state'
+const loadDesktopStateChannel = 'neurobranch:desktop-state-load'
+const saveDesktopStateChannel = 'neurobranch:desktop-state-save'
+const desktopUpdateStatusChannel = 'neurobranch:desktop-update-status'
+const launchDesktopUpdateChannel = 'neurobranch:desktop-update-launch'
+const openDesktopSetupChannel = 'neurobranch:desktop-setup-open'
 
-contextBridge.exposeInMainWorld('labo', {
+contextBridge.exposeInMainWorld('neurobranch', {
   platform: process.platform,
   runtime: 'electron',
   runAtomic: (payload: AtomicRuntimePayload) => ipcRenderer.invoke(atomicRuntimeChannel, payload),
-  askLabo: (payload: AskLaboPayload) => ipcRenderer.invoke(askLaboChannel, payload),
+  askNeuroBranch: (payload: AskNeuroBranchPayload) => ipcRenderer.invoke(askNeuroBranchChannel, payload),
   getOpenAISettings: () => ipcRenderer.invoke(openAISettingsChannel),
   saveOpenAIKey: (apiKey: string) => ipcRenderer.invoke(saveOpenAIKeyChannel, { apiKey }),
   deleteOpenAIKey: () => ipcRenderer.invoke(deleteOpenAIKeyChannel),

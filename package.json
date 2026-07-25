@@ -1,5 +1,5 @@
 {
-  "name": "labo-ai",
+  "name": "NeuroBranch",
   "productName": "NeuroBranch",
   "description": "Atomic neural architecture laboratory and agentic graph builder.",
   "author": "NeuroBranch",
@@ -26,13 +26,13 @@
     "lint": "oxlint",
     "test": "vitest run",
     "test:ci": "vitest run --exclude electron/atomic-runtime.test.ts --exclude electron/generated-pytorch.test.ts --exclude electron/runtime.test.ts",
-    "test:desktop": "npm run runtime:setup && npm run build && npm run build:electron && vitest run src/App.*.test.tsx electron/atomic-runtime.test.ts electron/runtime.test.ts electron/security.test.ts electron/desktop-updates.test.ts electron/openai-credentials.test.ts electron/ask-labo.test.ts src/core/graph-placement.test.ts src/core/agentic-graph.test.ts src/core/pytorch-compiler.test.ts src/core/media-presets.test.ts && node scripts/desktop-smoke.mjs",
+    "test:desktop": "npm run runtime:setup && npm run build && npm run build:electron && vitest run src/App.*.test.tsx electron/atomic-runtime.test.ts electron/runtime.test.ts electron/security.test.ts electron/desktop-updates.test.ts electron/openai-credentials.test.ts electron/ask-neurobranch.test.ts src/core/graph-placement.test.ts src/core/agentic-graph.test.ts src/core/pytorch-compiler.test.ts src/core/media-presets.test.ts && node scripts/desktop-smoke.mjs",
     "preview": "vite preview"
   },
   "build": {
-    "appId": "ai.labo.desktop",
+    "appId": "ai.neurobranch.desktop",
     "productName": "NeuroBranch",
-    "artifactName": "LABO-AI-${version}-${arch}.${ext}",
+    "artifactName": "NeuroBranch-${version}-${arch}.${ext}",
     "directories": {
       "output": "release"
     },
@@ -52,7 +52,7 @@
       "identity": "-",
       "hardenedRuntime": false,
       "sign": "./scripts/mac-sign.cjs",
-      "artifactName": "LABO-AI-${version}-${arch}-mac.${ext}",
+      "artifactName": "NeuroBranch-${version}-${arch}-mac.${ext}",
       "target": [
         "dmg",
         "zip"
@@ -61,7 +61,7 @@
     },
     "win": {
       "icon": "apps/bootstrap-installer/src-tauri/icons/icon.ico",
-      "artifactName": "LABO-AI-${version}-${arch}-win.${ext}",
+      "artifactName": "NeuroBranch-${version}-${arch}-win.${ext}",
       "target": [
         "nsis",
         "zip"
@@ -69,21 +69,21 @@
     },
     "linux": {
       "icon": "build/icon.png",
-      "artifactName": "LABO-AI-${version}-${arch}-linux.${ext}",
+      "artifactName": "NeuroBranch-${version}-${arch}-linux.${ext}",
       "category": "Development",
       "target": [
         "AppImage"
       ]
     },
     "nsis": {
-      "artifactName": "LABO-AI-${version}-${arch}.${ext}",
+      "artifactName": "NeuroBranch-${version}-${arch}.${ext}",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
     },
     "dmg": {
-      "artifactName": "LABO-AI-${version}-${arch}.${ext}",
+      "artifactName": "NeuroBranch-${version}-${arch}.${ext}",
       "title": "NeuroBranch ${version}",
       "backgroundColor": "#0d0f15",
       "iconSize": 112,

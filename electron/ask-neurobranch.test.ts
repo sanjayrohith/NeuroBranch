@@ -6,7 +6,7 @@ vi.mock('./openai-credentials', () => ({
     : undefined,
 }))
 
-import { askLabo, validateAskLaboPayload } from './ask-labo'
+import { askNeuroBranch, validateAskNeuroBranchPayload } from './ask-neurobranch'
 
 const previousApiKey = process.env.OPENAI_API_KEY
 const previousModel = process.env.OPENAI_MODEL
@@ -20,10 +20,10 @@ afterEach(() => {
   else process.env.OPENAI_MODEL = previousModel
 })
 
-describe('Ask LABO OpenAI bridge', () => {
+describe('Ask NeuroBranch OpenAI bridge', () => {
   it('rejects empty and malformed renderer payloads', () => {
-    expect(() => validateAskLaboPayload({ request: '', context: {} })).toThrow('cannot be empty')
-    expect(() => validateAskLaboPayload(null as never)).toThrow('requires a request')
+    expect(() => validateAskNeuroBranchPayload({ request: '', context: {} })).toThrow('cannot be empty')
+    expect(() => validateAskNeuroBranchPayload(null as never)).toThrow('requires a request')
   })
 
   it('runs a bounded function-calling loop without exposing the API key', async () => {
@@ -41,7 +41,7 @@ describe('Ask LABO OpenAI bridge', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await askLabo({ request: 'Wire my blocks', context: { graph: { nodes: [] }, availableAtomics: [{ atomId: 'relu', label: 'ReLU', inputs: [], outputs: [{ id: 'output', tensor: 'hidden' }] }] } })
+    const result = await askNeuroBranch({ request: 'Wire my blocks', context: { graph: { nodes: [] }, availableAtomics: [{ atomId: 'relu', label: 'ReLU', inputs: [], outputs: [{ id: 'output', tensor: 'hidden' }] }] } })
     expect(result).toMatchObject({ summary: 'Build it', addedBlocks: [{ atomId: 'relu', nodeId: 'agent-relu', reason: 'Activation' }] })
     expect(result.toolTrace.map((item) => item.tool)).toEqual(['add_block', 'finish_plan'])
     expect(fetchMock).toHaveBeenCalledTimes(2)
@@ -49,7 +49,7 @@ describe('Ask LABO OpenAI bridge', () => {
 
   it('requires a main-process API key', async () => {
     delete process.env.OPENAI_API_KEY
-    await expect(askLabo({ request: 'Wire my blocks', context: {} })).rejects.toThrow('No OpenAI API key')
+    await expect(askNeuroBranch({ request: 'Wire my blocks', context: {} })).rejects.toThrow('No OpenAI API key')
   })
 
   it('gives the agent the Create card auto-composer for a missing capability', async () => {
@@ -68,7 +68,7 @@ describe('Ask LABO OpenAI bridge', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await askLabo({ request: 'Create the missing SiLU card', context: { cardBuilderMode: true, graph: { nodes: [] }, availableAtomics: [] } })
+    const result = await askNeuroBranch({ request: 'Create the missing SiLU card', context: { cardBuilderMode: true, graph: { nodes: [] }, availableAtomics: [] } })
     expect(result.createdBlocks).toEqual([expect.objectContaining({ nodeId: 'agent-silu', pytorchModule: 'nn.SiLU()', inputRole: 'hidden', outputRole: 'hidden' })])
     expect(result.toolTrace).toEqual(expect.arrayContaining([expect.objectContaining({ tool: 'compose_card', status: 'accepted' })]))
   })
@@ -83,7 +83,7 @@ describe('Ask LABO OpenAI bridge', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
 
-    await askLabo({ request: 'Add another model', context: { operationMode: 'parallel', graph: { nodes: [] } } })
+    await askNeuroBranch({ request: 'Add another model', context: { operationMode: 'parallel', graph: { nodes: [] } } })
     expect(fetchMock).toHaveBeenCalledOnce()
   })
 
@@ -101,7 +101,7 @@ describe('Ask LABO OpenAI bridge', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await askLabo({
+    const result = await askNeuroBranch({
       request: 'Rename this selected card',
       context: {
         editing: { active: true, nodeIds: ['norm'] },
@@ -125,7 +125,7 @@ describe('Ask LABO OpenAI bridge', () => {
       : new Response(JSON.stringify({ output: [functionCall('finish_plan', { summary: 'Replacement ready', missing_blocks: [], warnings: [] }, 'call-finish')] }), { status: 200 }))
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await askLabo({
+    const result = await askNeuroBranch({
       request: 'Build this architecture with GELU instead of the current ReLU',
       context: {
         graph: { nodes: [{ id: 'activation', atomId: 'relu', label: 'ReLU', inputs: [{ id: 'hidden', tensor: 'hidden', rank: 3 }], outputs: [{ id: 'output', tensor: 'hidden', rank: 3 }] }], connections: [] },
@@ -150,7 +150,7 @@ describe('Ask LABO OpenAI bridge', () => {
     vi.stubGlobal('fetch', fetchMock)
     const availableAtomics = ['token-ids-input', 'token-embedding', 'qkv-projection', 'attention-head-layout', 'causal-sdpa', 'merge-attention-heads', 'attention-output-projection', 'rms-norm', 'residual-add', 'swiglu-mlp', 'lm-head', 'greedy-token-decoder'].map((atomId) => ({ atomId, label: atomId, inputs: [], outputs: [] }))
 
-    await expect(askLabo({ request: 'Build a simple QA chatbot', context: { graph: { nodes: [] }, availableAtomics } })).resolves.toMatchObject({ summary: 'QA graph found', missingBlocks: [] })
+    await expect(askNeuroBranch({ request: 'Build a simple QA chatbot', context: { graph: { nodes: [] }, availableAtomics } })).resolves.toMatchObject({ summary: 'QA graph found', missingBlocks: [] })
   })
 
   it('deletes an architecture through one bulk agent tool', async () => {
@@ -160,7 +160,7 @@ describe('Ask LABO OpenAI bridge', () => {
       : new Response(JSON.stringify({ output: [functionCall('finish_plan', { summary: 'Architecture cleaned', missing_blocks: [], warnings: [] }, 'call-finish')] }), { status: 200 }))
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await askLabo({ request: 'Delete the first architecture', context: { graph: { nodes: [{ id: 'a', label: 'A' }, { id: 'b', label: 'B' }] }, architectures: [{ id: 'architecture-1', label: 'First', nodeIds: ['a', 'b'] }] } })
+    const result = await askNeuroBranch({ request: 'Delete the first architecture', context: { graph: { nodes: [{ id: 'a', label: 'A' }, { id: 'b', label: 'B' }] }, architectures: [{ id: 'architecture-1', label: 'First', nodeIds: ['a', 'b'] }] } })
     expect(result.deletedBlocks).toEqual([{ nodeId: 'a', reason: 'Clean comparison (First)' }, { nodeId: 'b', reason: 'Clean comparison (First)' }])
     expect(result.toolTrace).toEqual(expect.arrayContaining([expect.objectContaining({ tool: 'delete_architecture', summary: expect.stringContaining('2 cards') })]))
   })
@@ -178,7 +178,7 @@ describe('Ask LABO OpenAI bridge', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await askLabo({ request: 'Build typed attention', context: { graph: { nodes: [], connections: [] }, availableAtomics: [
+    const result = await askNeuroBranch({ request: 'Build typed attention', context: { graph: { nodes: [], connections: [] }, availableAtomics: [
       { atomId: 'head-layout', label: 'Head layout', inputs: [], outputs: [{ id: 'query', tensor: 'query', rank: 4 }, { id: 'key', tensor: 'key', rank: 4 }, { id: 'value', tensor: 'value', rank: 4 }] },
       { atomId: 'causal-attention', label: 'Causal attention', inputs: [{ id: 'query', tensor: 'query', rank: 4 }, { id: 'key', tensor: 'key', rank: 4 }, { id: 'value', tensor: 'value', rank: 4 }], outputs: [{ id: 'attention', tensor: 'attention', rank: 4 }] },
     ] } })
@@ -208,7 +208,7 @@ describe('Ask LABO OpenAI bridge', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await askLabo({ request: 'Build and repair an activation graph', context: { graph: { nodes: [], connections: [] }, availableAtomics: [
+    const result = await askNeuroBranch({ request: 'Build and repair an activation graph', context: { graph: { nodes: [], connections: [] }, availableAtomics: [
       { atomId: 'hidden-input', label: 'Hidden input', inputs: [], outputs: [{ id: 'hidden', tensor: 'hidden', rank: 3 }] },
       { atomId: 'relu', label: 'ReLU', inputs: [{ id: 'hidden', tensor: 'hidden', rank: 3 }], outputs: [{ id: 'output', tensor: 'hidden', rank: 3 }] },
     ] } })

@@ -39,7 +39,7 @@ export function architectureComponents(graph: ArchitectureGraph, knownArchitectu
     const known = knownArchitectures
       .filter((candidate) => candidate.nodes.length > 0 && candidate.nodes.every((node) => ids.has(node.id)))
       .sort((left, right) => right.nodes.length - left.nodes.length)[0]
-    const metadataName = typeof source?.attributes?.laboArchitectureName === 'string' ? source.attributes.laboArchitectureName : undefined
+    const metadataName = typeof source?.attributes?.neurobranchArchitectureName === 'string' ? source.attributes.neurobranchArchitectureName : undefined
     const metadataNumber = (key: string) => typeof source?.attributes?.[key] === 'number' ? source.attributes[key] as number : undefined
     const inferredRoute = source?.id === sink?.id ? source?.label : `${source?.label ?? 'Input'} → ${sink?.label ?? 'Output'}`
     const label = exactGroup?.label ?? metadataName ?? known?.name ?? (graph.nodes.length === nodes.length ? graph.name : `Architecture ${components.length + 1} · ${inferredRoute}`)
@@ -53,10 +53,10 @@ export function architectureComponents(graph: ArchitectureGraph, knownArchitectu
         id: `${graph.id}-${id}`,
         name: label,
         config: known?.config ?? {
-          hiddenSize: metadataNumber('laboArchitectureHiddenSize') ?? graph.config.hiddenSize,
-          queryHeads: metadataNumber('laboArchitectureQueryHeads') ?? graph.config.queryHeads,
-          keyValueHeads: metadataNumber('laboArchitectureKeyValueHeads') ?? graph.config.keyValueHeads,
-          headDim: metadataNumber('laboArchitectureHeadDim') ?? graph.config.headDim,
+          hiddenSize: metadataNumber('neurobranchArchitectureHiddenSize') ?? graph.config.hiddenSize,
+          queryHeads: metadataNumber('neurobranchArchitectureQueryHeads') ?? graph.config.queryHeads,
+          keyValueHeads: metadataNumber('neurobranchArchitectureKeyValueHeads') ?? graph.config.keyValueHeads,
+          headDim: metadataNumber('neurobranchArchitectureHeadDim') ?? graph.config.headDim,
         },
         nodes,
         edges,

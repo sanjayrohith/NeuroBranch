@@ -1,15 +1,15 @@
 @use 'tokens' as *;
 
-.ask-labo-backdrop {
+.ask-neurobranch-backdrop {
   display: contents;
 }
 
-.ask-labo-panel {
+.ask-neurobranch-panel {
   display: contents;
 }
 
-.ask-labo-backdrop.settings-open,
-.ask-labo-backdrop.review-open {
+.ask-neurobranch-backdrop.settings-open,
+.ask-neurobranch-backdrop.review-open {
   display: grid;
   position: fixed;
   z-index: 100;
@@ -20,7 +20,7 @@
   background: rgb(2 5 6 / 66%);
   backdrop-filter: blur(8px) saturate(.8);
 
-  .ask-labo-panel {
+  .ask-neurobranch-panel {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -40,31 +40,31 @@
     &::-webkit-scrollbar-thumb { border-radius: 8px; background: rgb(112 224 173 / 18%); }
   }
 
-  .ask-labo-header { display: flex; }
+  .ask-neurobranch-header { display: flex; }
   .agent-prompt-dock { display: none; }
 }
 
-.ask-labo-backdrop.review-open .ask-labo-panel {
+.ask-neurobranch-backdrop.review-open .ask-neurobranch-panel {
   width: min(1040px, calc(100vw - 64px));
   height: min(760px, calc(100dvh - clamp(36px, 8vh, 80px)));
   max-height: none;
   overflow: hidden;
 }
 
-.ask-labo-backdrop.review-open {
-  .ask-labo-header { flex: 0 0 auto; }
+.ask-neurobranch-backdrop.review-open {
+  .ask-neurobranch-header { flex: 0 0 auto; }
 }
-.ask-labo-backdrop:not(.settings-open) .ask-labo-settings,
-.ask-labo-backdrop:not(.review-open) .ask-labo-result,
-.ask-labo-backdrop:not(.settings-open):not(.review-open) .ask-labo-header { display: none; }
+.ask-neurobranch-backdrop:not(.settings-open) .ask-neurobranch-settings,
+.ask-neurobranch-backdrop:not(.review-open) .ask-neurobranch-result,
+.ask-neurobranch-backdrop:not(.settings-open):not(.review-open) .ask-neurobranch-header { display: none; }
 
-.ask-labo-header {
+.ask-neurobranch-header {
   position: sticky;
   z-index: 4;
   top: 0;
   min-height: 52px;
   padding-inline: 17px;
-  border-color: var(--labo-line-soft);
+  border-color: var(--neurobranch-line-soft);
   background: rgb(14 20 21 / 92%);
   backdrop-filter: blur(18px);
 
@@ -77,22 +77,22 @@
   button { border-radius: 8px; }
 }
 
-.ask-labo-settings {
+.ask-neurobranch-settings {
   margin: 0 18px 16px;
   overflow: hidden;
-  border: 1px solid var(--labo-line);
+  border: 1px solid var(--neurobranch-line);
   border-radius: 10px;
   background: rgb(255 255 255 / 1.5%);
 
 }
 
-.ask-labo-settings-tabs {
+.ask-neurobranch-settings-tabs {
   min-height: 48px;
   display: flex;
   align-items: center;
   gap: 5px;
   padding: 7px;
-  border-bottom: 1px solid var(--labo-line-soft);
+  border-bottom: 1px solid var(--neurobranch-line-soft);
 
   button {
     min-height: 34px;
@@ -109,28 +109,28 @@
   }
 }
 
-.ask-labo-workspace-settings {
+.ask-neurobranch-workspace-settings {
   display: grid;
   grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
   gap: 0;
 
-  > .workspace-management-column { border-right: 1px solid var(--labo-line-soft); }
+  > .workspace-management-column { border-right: 1px solid var(--neurobranch-line-soft); }
   .model-preset-builder { padding: 15px; }
   .user-preset-list { padding: 0 15px 15px; }
   > .preset-comparison-list { max-height: 420px; overflow: auto; padding: 15px; }
 }
 
-.ask-labo-settings-content {
+.ask-neurobranch-settings-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-  .ask-labo-intro,
-  .ask-labo-key-settings { grid-column: 1 / -1; }
-  .ask-labo-mode { border-right: 1px solid var(--labo-line-soft); }
-  .ask-labo-scope { border-right: 0; }
+  .ask-neurobranch-intro,
+  .ask-neurobranch-key-settings { grid-column: 1 / -1; }
+  .ask-neurobranch-mode { border-right: 1px solid var(--neurobranch-line-soft); }
+  .ask-neurobranch-scope { border-right: 0; }
 }
 
-.ask-labo-tips {
+.ask-neurobranch-tips {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
@@ -139,7 +139,7 @@
   article {
     min-width: 0;
     padding: 14px;
-    border: 1px solid var(--labo-line-soft);
+    border: 1px solid var(--neurobranch-line-soft);
     border-radius: 9px;
     background: rgb(6 10 11 / 38%);
   }
@@ -166,17 +166,17 @@
   b { color: #c9d6d1; font-weight: 600; }
 }
 
-.ask-labo-intro {
+.ask-neurobranch-intro {
   padding: 13px 14px 10px;
   background: transparent;
 
   p { margin-bottom: 0; }
 }
 
-.ask-labo-mode,
-.ask-labo-key-settings { border-color: var(--labo-line-soft); }
+.ask-neurobranch-mode,
+.ask-neurobranch-key-settings { border-color: var(--neurobranch-line-soft); }
 
-.ask-labo-error {
+.ask-neurobranch-error {
   position: absolute;
   right: 10px;
   bottom: calc(100% + 8px);
@@ -199,8 +199,8 @@
   }
 }
 
-.review-open .ask-labo-error,
-.settings-open .ask-labo-error { position: static; margin: 0 18px 14px; }
+.review-open .ask-neurobranch-error,
+.settings-open .ask-neurobranch-error { position: static; margin: 0 18px 14px; }
 
 .model-card-modal.code-card-modal {
   width: min(920px, 94vw);
@@ -246,12 +246,12 @@
 }
 
 @media (max-width: 980px) {
-  .ask-labo-backdrop.settings-open,
-  .ask-labo-backdrop.review-open { padding-inline: 20px; }
-  .ask-labo-backdrop.settings-open .ask-labo-panel,
-  .ask-labo-backdrop.review-open .ask-labo-panel { width: calc(100vw - 40px); }
-  .ask-labo-workspace-settings { grid-template-columns: 1fr; }
-  .ask-labo-workspace-settings > .workspace-management-column { border-right: 0; border-bottom: 1px solid var(--labo-line-soft); }
-  .ask-labo-tips { grid-template-columns: 1fr; }
-  .ask-labo-tips article:first-child { grid-column: auto; }
+  .ask-neurobranch-backdrop.settings-open,
+  .ask-neurobranch-backdrop.review-open { padding-inline: 20px; }
+  .ask-neurobranch-backdrop.settings-open .ask-neurobranch-panel,
+  .ask-neurobranch-backdrop.review-open .ask-neurobranch-panel { width: calc(100vw - 40px); }
+  .ask-neurobranch-workspace-settings { grid-template-columns: 1fr; }
+  .ask-neurobranch-workspace-settings > .workspace-management-column { border-right: 0; border-bottom: 1px solid var(--neurobranch-line-soft); }
+  .ask-neurobranch-tips { grid-template-columns: 1fr; }
+  .ask-neurobranch-tips article:first-child { grid-column: auto; }
 }

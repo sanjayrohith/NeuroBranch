@@ -4,21 +4,21 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  grid-template-columns: var(--labo-library-width) minmax(660px, 1fr) var(--labo-inspector-width);
+  grid-template-columns: var(--neurobranch-library-width) minmax(660px, 1fr) var(--neurobranch-inspector-width);
   grid-template-rows: minmax(0, 1fr);
-  background: var(--labo-bg-deep);
+  background: var(--neurobranch-bg-deep);
 }
 
 .optimizer-builder-library {
   min-height: 0;
   overflow: auto;
   padding-bottom: 24px;
-  scrollbar-color: #40504b var(--labo-panel);
+  scrollbar-color: #40504b var(--neurobranch-panel);
 
   h3:not(:first-child) {
     margin-top: 18px;
     padding-top: 13px;
-    border-top: 1px solid var(--labo-line-soft);
+    border-top: 1px solid var(--neurobranch-line-soft);
   }
 
   .library-block[aria-pressed='true'] {
@@ -73,7 +73,7 @@
     align-items: center;
     gap: 5px;
     padding: 0 9px;
-    border: 1px solid var(--labo-line);
+    border: 1px solid var(--neurobranch-line);
     border-radius: 6px;
     color: #9da9a5;
     background: #13191a;
@@ -138,7 +138,7 @@
   align-items: center;
   gap: 8px;
   padding: 7px 8px;
-  border: 1px solid var(--labo-line-soft);
+  border: 1px solid var(--neurobranch-line-soft);
   border-radius: 6px;
   background: rgb(255 255 255 / 1.5%);
   color: #77837f;
@@ -163,7 +163,7 @@
 .optimizer-advanced-settings {
   margin-top: 2px;
   padding-top: 8px;
-  border-top: 1px solid var(--labo-line-soft);
+  border-top: 1px solid var(--neurobranch-line-soft);
 
   summary {
     color: #7d8985;

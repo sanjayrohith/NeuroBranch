@@ -33,7 +33,7 @@
 .library-family {
   margin-top: 12px;
   padding-top: 9px;
-  border-color: var(--labo-line-soft);
+  border-color: var(--neurobranch-line-soft);
 
   summary {
     min-height: 34px;
@@ -45,16 +45,16 @@
 
 .canvas-panel,
 .code-panel {
-  grid-template-rows: var(--labo-tab-height) minmax(0, 1fr);
-  background: var(--labo-bg);
+  grid-template-rows: var(--neurobranch-tab-height) minmax(0, 1fr);
+  background: var(--neurobranch-bg);
 }
 
-.canvas-panel { border-color: var(--labo-line); }
+.canvas-panel { border-color: var(--neurobranch-line); }
 
 .panel-tab {
   padding-inline: 14px;
   gap: 8px;
-  border-color: var(--labo-line);
+  border-color: var(--neurobranch-line);
   color: #a5afac;
   background: rgb(13 17 18 / 96%);
   font-size: 10px;
@@ -64,17 +64,17 @@
   > button,
   select {
     min-height: 28px;
-    border-color: var(--labo-line);
+    border-color: var(--neurobranch-line);
     border-radius: 6px;
     color: #b9c3c0;
-    background: var(--labo-panel-raised);
+    background: var(--neurobranch-panel-raised);
   }
 }
 
 .architecture-canvas {
   background:
     radial-gradient(circle at 50% 42%, rgb(112 224 173 / 3.5%), transparent 35%),
-    var(--labo-bg-deep);
+    var(--neurobranch-bg-deep);
 }
 
 .architecture-canvas.edit-mode { cursor: crosshair; }
@@ -110,7 +110,7 @@
 
 .canvas-badge,
 .graph-viewport-controls {
-  border-color: var(--labo-line);
+  border-color: var(--neurobranch-line);
   border-radius: 9px;
   background: rgb(10 14 15 / 90%);
   box-shadow: 0 12px 30px rgb(0 0 0 / 28%);
@@ -131,7 +131,7 @@
   width: 35px;
   min-width: 35px;
   height: 34px;
-  border-color: var(--labo-line);
+  border-color: var(--neurobranch-line);
   color: #a6b0ad;
 
   &:hover { color: #f4f8f7; background: rgb(112 224 173 / 9%); }
@@ -159,10 +159,10 @@
     display: grid;
     gap: 3px;
     padding: 7px 8px 8px;
-    border-bottom: 1px solid var(--labo-line-soft);
+    border-bottom: 1px solid var(--neurobranch-line-soft);
 
     span {
-      color: var(--labo-faint);
+      color: var(--neurobranch-faint);
       font: 8px 'JetBrains Mono', ui-monospace, monospace;
       letter-spacing: .12em;
     }
@@ -269,7 +269,7 @@
 .compact-python-editor {
   min-height: 126px;
   overflow: hidden;
-  border: 1px solid var(--labo-line);
+  border: 1px solid var(--neurobranch-line);
   border-radius: 8px;
   background: #080b0c;
 
@@ -288,7 +288,7 @@
 .selection-card {
   gap: 11px;
   padding: 11px;
-  border-color: var(--labo-line);
+  border-color: var(--neurobranch-line);
   border-radius: 9px;
   background: rgb(255 255 255 / 2.5%);
 }
@@ -315,8 +315,8 @@
 
 @media (max-width: 1380px) {
   :root {
-    --labo-library-width: 216px;
-    --labo-inspector-width: 250px;
+    --neurobranch-library-width: 216px;
+    --neurobranch-inspector-width: 250px;
   }
 
   .block-group { padding-inline: 8px; }
@@ -325,8 +325,8 @@
 
 @media (min-width: 2100px) {
   :root {
-    --labo-library-width: clamp(270px, 13vw, 330px);
-    --labo-inspector-width: clamp(300px, 15vw, 370px);
+    --neurobranch-library-width: clamp(270px, 13vw, 330px);
+    --neurobranch-inspector-width: clamp(300px, 15vw, 370px);
   }
 
   .library-block { min-height: 40px; height: 40px; font-size: 12px; }

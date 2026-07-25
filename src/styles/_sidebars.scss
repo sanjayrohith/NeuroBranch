@@ -28,7 +28,7 @@
       height: 4px;
       margin-left: auto;
       border-radius: 50%;
-      background: var(--labo-green);
+      background: var(--neurobranch-green);
       box-shadow: 0 0 10px rgb(112 224 173 / 55%);
       content: '';
     }
@@ -41,7 +41,7 @@
   overflow: hidden;
   background:
     linear-gradient(90deg, rgb(112 224 173 / 2.5%), transparent 44px),
-    var(--labo-panel);
+    var(--neurobranch-panel);
 }
 
 .studio-library-scroll {
@@ -73,7 +73,7 @@
       width: 3px;
       height: 3px;
       border-radius: 50%;
-      background: var(--labo-green);
+      background: var(--neurobranch-green);
       content: '';
       box-shadow: 0 0 7px rgb(112 224 173 / 38%);
     }
@@ -203,12 +203,12 @@
 .inspector {
   background:
     radial-gradient(circle at 100% 0%, rgb(156 148 255 / 6%), transparent 220px),
-    var(--labo-panel);
+    var(--neurobranch-panel);
 }
 
 .inspector-section {
   padding: 16px 14px 14px;
-  border-bottom-color: var(--labo-line-soft);
+  border-bottom-color: var(--neurobranch-line-soft);
 }
 
 .section-title {
@@ -220,7 +220,7 @@
   &::before {
     width: 12px;
     height: 1px;
-    background: linear-gradient(90deg, var(--labo-violet), transparent);
+    background: linear-gradient(90deg, var(--neurobranch-violet), transparent);
     content: '';
   }
 }
@@ -256,7 +256,7 @@
     min-height: 42px;
     margin: 0;
     padding: 0 12px;
-    border-bottom: 1px solid var(--labo-line-soft);
+    border-bottom: 1px solid var(--neurobranch-line-soft);
     background: linear-gradient(90deg, rgb(156 148 255 / 9%), transparent);
   }
 

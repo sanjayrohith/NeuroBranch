@@ -6,19 +6,19 @@ export type AgentPromptMode = 'architecture' | 'card-editing' | 'reusable-card'
 const MODE_COPY: Record<AgentPromptMode, { ariaLabel: string; placeholder: string; context: string; submitLabel: string }> = {
   architecture: {
     ariaLabel: 'What should these blocks build?',
-    placeholder: 'Ask LABO to build or extend your architecture…',
+    placeholder: 'Ask NeuroBranch to build or extend your architecture…',
     context: 'Build architecture',
     submitLabel: 'Propose graph changes',
   },
   'card-editing': {
     ariaLabel: 'What should these blocks build?',
-    placeholder: 'Ask LABO to edit selected cards or connections…',
+    placeholder: 'Ask NeuroBranch to edit selected cards or connections…',
     context: 'Edit selected cards',
     submitLabel: 'Propose graph changes',
   },
   'reusable-card': {
     ariaLabel: 'Custom card need',
-    placeholder: 'Ask LABO to compose this reusable card…',
+    placeholder: 'Ask NeuroBranch to compose this reusable card…',
     context: 'Reusable card · current card only',
     submitLabel: 'Compose card graph',
   },
@@ -58,16 +58,16 @@ export function AgentPrompt({ busy = false, context, details, disabled = false, 
   useLayoutEffect(() => {
     const form = formRef.current
     if (!form) return
-    const publishHeight = () => document.documentElement.style.setProperty('--labo-agent-prompt-height', `${form.offsetHeight}px`)
+    const publishHeight = () => document.documentElement.style.setProperty('--neurobranch-agent-prompt-height', `${form.offsetHeight}px`)
     publishHeight()
     if (typeof ResizeObserver === 'undefined') {
-      return () => document.documentElement.style.removeProperty('--labo-agent-prompt-height')
+      return () => document.documentElement.style.removeProperty('--neurobranch-agent-prompt-height')
     }
     const observer = new ResizeObserver(publishHeight)
     observer.observe(form)
     return () => {
       observer.disconnect()
-      document.documentElement.style.removeProperty('--labo-agent-prompt-height')
+      document.documentElement.style.removeProperty('--neurobranch-agent-prompt-height')
     }
   }, [])
 
@@ -87,10 +87,10 @@ export function AgentPrompt({ busy = false, context, details, disabled = false, 
         value={value}
       />
       <div className="agent-prompt-context">
-        <span><Sparkles size={12} />LABO agent</span>
+        <span><Sparkles size={12} />NeuroBranch agent</span>
         <small>{context ? `${copy.context} · ${context}` : copy.context}</small>
       </div>
-      <button className="agent-prompt-send" aria-label={copy.submitLabel} disabled={disabled || busy || !value.trim()} title={busy ? 'Inspecting graph' : 'Send to LABO'} type="submit">
+      <button className="agent-prompt-send" aria-label={copy.submitLabel} disabled={disabled || busy || !value.trim()} title={busy ? 'Inspecting graph' : 'Send to NeuroBranch'} type="submit">
         <Send size={15} />
       </button>
       {details && <button aria-expanded={details.active} aria-label={details.label} className="agent-prompt-details" disabled={details.disabled} onClick={details.onToggle} title={details.label} type="button">

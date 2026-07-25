@@ -1,11 +1,11 @@
 import { resolveOpenAIConfig } from './openai-credentials.js'
 
-export interface AskLaboPayload {
+export interface AskNeuroBranchPayload {
   request: string
   context: Record<string, unknown>
 }
 
-export interface AskLaboPlan {
+export interface AskNeuroBranchPlan {
   summary: string
   addedBlocks: Array<{ atomId: string; nodeId: string; reason: string }>
   createdBlocks: Array<{ nodeId: string; label: string; pytorchModule: string; inputRole: string; outputRole: string; reason: string; cardGraph?: unknown }>
@@ -73,7 +73,7 @@ const nullableTensorRole = { anyOf: [{ type: 'string', enum: tensorRoles }, { ty
 const cardCategories = ['projection', 'normalization', 'activation', 'regularization', 'utility'] as const
 
 const tools = [
-  { type: 'function', name: 'search_cards', description: 'Search native and user-created LABO cards by natural-language capability. Always search before declaring a card missing.', strict: true, parameters: objectSchema({ query: string, category: nullableString }) },
+  { type: 'function', name: 'search_cards', description: 'Search native and user-created NeuroBranch cards by natural-language capability. Always search before declaring a card missing.', strict: true, parameters: objectSchema({ query: string, category: nullableString }) },
   { type: 'function', name: 'inspect_graph', description: 'Inspect the current virtual graph, including changes already queued during this agent turn.', strict: true, parameters: objectSchema({ node_ids: { type: 'array', items: string, maxItems: 24 } }) },
   { type: 'function', name: 'inspect_selection', description: 'Inspect the active Edit-mode selection plus its immediate parents, children and elastics. Use before any Edit-mode mutation.', strict: true, parameters: objectSchema({}, []) },
   { type: 'function', name: 'add_block', description: 'Queue one native atomic card from search results.', strict: true, parameters: objectSchema({ atom_id: string, node_id: string, reason: string }) },
@@ -93,7 +93,7 @@ const tools = [
   { type: 'function', name: 'delete_card', description: 'Queue deletion of one existing card and its connected elastics. In Edit mode the target must be selected; Add Blocks may use it only when the requested construction requires removal. In parallel mode existing cards are read-only.', strict: true, parameters: objectSchema({ node_id: string, reason: string }) },
   { type: 'function', name: 'delete_architecture', description: 'Queue deletion of every card and elastic in one architecture at once. Use context.architectures ids. Existing architectures are read-only in parallel mode.', strict: true, parameters: objectSchema({ architecture_id: string, reason: string }) },
   { type: 'function', name: 'move_card', description: 'Queue an exact canvas position. Prefer layout_graph for a whole architecture.', strict: true, parameters: objectSchema({ node_id: string, x: { type: 'number' }, y: { type: 'number' }, reason: string }) },
-  { type: 'function', name: 'layout_graph', description: 'Queue LABO deterministic topology-aware XY layout.', strict: true, parameters: objectSchema({ scope: { type: 'string', enum: ['all', 'new'] }, reason: string }) },
+  { type: 'function', name: 'layout_graph', description: 'Queue NeuroBranch deterministic topology-aware XY layout.', strict: true, parameters: objectSchema({ scope: { type: 'string', enum: ['all', 'new'] }, reason: string }) },
   { type: 'function', name: 'run_graph', description: 'Queue execution after the graph plan has been approved and applied.', strict: true, parameters: objectSchema({ mode: { type: 'string', enum: ['play', 'step'] }, reason: string }) },
   { type: 'function', name: 'run_selected_subgraph', description: 'Queue atomic execution of only the active selection after approval. Use after diagnose_selection and validate_graph.', strict: true, parameters: objectSchema({ mode: { type: 'string', enum: ['play', 'step'] }, reason: string }) },
   { type: 'function', name: 'compare_variants', description: 'Compare two node sets structurally by cards, elastics, tensor contracts and graph depth without mutating the graph.', strict: true, parameters: objectSchema({ left_node_ids: { type: 'array', items: string, maxItems: 24 }, right_node_ids: { type: 'array', items: string, maxItems: 24 } }) },
@@ -102,12 +102,12 @@ const tools = [
   { type: 'function', name: 'finish_plan', description: 'Finish the plan. Call this exactly once after all required tool operations.', strict: true, parameters: objectSchema({ summary: string, missing_blocks: { type: 'array', maxItems: 12, items: objectSchema({ atom_id: nullableString, label: string, reason: string }) }, warnings: { type: 'array', items: string, maxItems: 12 } }) },
 ] as const
 
-export function validateAskLaboPayload(payload: AskLaboPayload): void {
-  if (!payload || typeof payload.request !== 'string' || typeof payload.context !== 'object' || !payload.context) throw new Error('Ask LABO requires a request and graph context')
+export function validateAskNeuroBranchPayload(payload: AskNeuroBranchPayload): void {
+  if (!payload || typeof payload.request !== 'string' || typeof payload.context !== 'object' || !payload.context) throw new Error('Ask NeuroBranch requires a request and graph context')
   const request = payload.request.trim()
-  if (!request) throw new Error('Ask LABO request cannot be empty')
-  if (request.length > maximumRequestCharacters) throw new Error('Ask LABO request is too long')
-  if (Buffer.byteLength(JSON.stringify(payload)) > maximumPayloadBytes) throw new Error('Ask LABO graph context is too large')
+  if (!request) throw new Error('Ask NeuroBranch request cannot be empty')
+  if (request.length > maximumRequestCharacters) throw new Error('Ask NeuroBranch request is too long')
+  if (Buffer.byteLength(JSON.stringify(payload)) > maximumPayloadBytes) throw new Error('Ask NeuroBranch graph context is too large')
 }
 
 function record(value: unknown): Record<string, unknown> {
@@ -164,7 +164,7 @@ function dropoutProbability(value: unknown): number {
 }
 
 class AgentToolSession {
-  readonly plan: AskLaboPlan = { summary: '', addedBlocks: [], createdBlocks: [], connections: [], updatedBlocks: [], replacedBlocks: [], deletedBlocks: [], movedBlocks: [], actions: [], missingBlocks: [], warnings: [], toolTrace: [] }
+  readonly plan: AskNeuroBranchPlan = { summary: '', addedBlocks: [], createdBlocks: [], connections: [], updatedBlocks: [], replacedBlocks: [], deletedBlocks: [], movedBlocks: [], actions: [], missingBlocks: [], warnings: [], toolTrace: [] }
   private readonly initialNodeIds: Set<string>
   private readonly atomics: AtomicSnapshot[]
   private readonly savedCards: Array<{ id: string; label: string; code: string; inputRole?: string; outputRole?: string; inputs?: Array<{ id: string; tensor: string; rank?: number }>; outputs?: Array<{ id: string; tensor: string; rank?: number }>; graph?: unknown }>
@@ -197,9 +197,9 @@ class AgentToolSession {
     return this.plan.addedBlocks.length + this.plan.createdBlocks.length + this.plan.connections.length
       + this.plan.updatedBlocks.length + this.plan.replacedBlocks.length + this.plan.deletedBlocks.length + this.plan.movedBlocks.length > 0
   }
-  finishFallback(reason: string): AskLaboPlan {
+  finishFallback(reason: string): AskNeuroBranchPlan {
     if (!this.finished) {
-      this.plan.summary ||= 'LABO prepared a validated partial graph plan.'
+      this.plan.summary ||= 'NeuroBranch prepared a validated partial graph plan.'
       this.plan.warnings.push(reason)
       this.finished = true
     }
@@ -627,14 +627,14 @@ class AgentToolSession {
     if (name === 'finish_plan') {
       const validation = this.validateVirtualGraph()
       if (this.hasGraphMutations && !validation.valid) return { ...this.reject(name, `Plan is not ready: ${validation.errors.slice(0, 4).join('; ')}`), validation }
-      this.plan.summary = text('summary') || 'LABO agent plan'
+      this.plan.summary = text('summary') || 'NeuroBranch agent plan'
       const missing = Array.isArray(args.missing_blocks) ? args.missing_blocks.map(record) : []
       this.plan.missingBlocks = missing.map((item) => ({ atomId: typeof item.atom_id === 'string' ? item.atom_id : null, label: String(item.label ?? ''), reason: String(item.reason ?? '') }))
       this.plan.warnings = Array.isArray(args.warnings) ? args.warnings.filter((item): item is string => typeof item === 'string') : []
       this.finished = true
       return this.trace(name, 'accepted', 'Plan finished')
     }
-    return this.reject(name, `Unknown LABO tool ${name}`)
+    return this.reject(name, `Unknown NeuroBranch tool ${name}`)
   }
 }
 
@@ -650,8 +650,8 @@ async function readResponse(response: Response): Promise<Record<string, unknown>
   return body
 }
 
-export async function askLabo(payload: AskLaboPayload): Promise<AskLaboPlan> {
-  validateAskLaboPayload(payload)
+export async function askNeuroBranch(payload: AskNeuroBranchPayload): Promise<AskNeuroBranchPlan> {
+  validateAskNeuroBranchPayload(payload)
   const config = await resolveOpenAIConfig()
   if (!config) throw new Error('No OpenAI API key is configured for NeuroBranch')
   const controller = new AbortController()
@@ -707,10 +707,10 @@ export async function askLabo(payload: AskLaboPayload): Promise<AskLaboPlan> {
       })
       if (calls.length === 0) {
         if (session.hasWork) return session.finishFallback('The model stopped after producing a usable partial plan; review it before applying.')
-        throw new Error('LABO agent stopped before finishing its tool plan')
+        throw new Error('NeuroBranch agent stopped before finishing its tool plan')
       }
       totalCalls += calls.length
-      if (totalCalls > maximumToolCalls) throw new Error('LABO agent exceeded its tool-call limit')
+      if (totalCalls > maximumToolCalls) throw new Error('NeuroBranch agent exceeded its tool-call limit')
       for (const call of calls) {
         const result = session.call(call.name, argsFor(call))
         input.push({ type: 'function_call_output', call_id: call.call_id, output: JSON.stringify(result) })
@@ -718,9 +718,9 @@ export async function askLabo(payload: AskLaboPayload): Promise<AskLaboPlan> {
       if (session.isFinished) return session.plan
     }
     if (session.hasWork) return session.finishFallback('The agent reached its planning limit after producing a usable partial plan; review it before applying.')
-    throw new Error('LABO agent exceeded its planning turn limit')
+    throw new Error('NeuroBranch agent exceeded its planning turn limit')
   } catch (error) {
-    if (error instanceof Error && error.name === 'AbortError') throw new Error('Ask LABO timed out')
+    if (error instanceof Error && error.name === 'AbortError') throw new Error('Ask NeuroBranch timed out')
     throw error
   } finally {
     clearTimeout(timeout)

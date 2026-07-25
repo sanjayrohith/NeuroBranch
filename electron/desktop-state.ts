@@ -4,7 +4,7 @@ import { DatabaseSync } from 'node:sqlite'
 
 export type DesktopStateScope = 'model' | 'training' | 'tokenizer' | 'settings'
 
-const stateDirectoryName = 'labo-ai'
+const stateDirectoryName = 'NeuroBranch'
 const databaseFilename = 'workspaces.sqlite'
 let writeQueue: Promise<void> = Promise.resolve()
 
@@ -32,7 +32,7 @@ async function openDatabase(userDataDirectory: string): Promise<DatabaseSync> {
 }
 
 export async function loadDesktopState(userDataDirectory: string, scope: unknown): Promise<unknown> {
-  if (!validScope(scope)) throw new Error('Invalid LABO desktop state scope')
+  if (!validScope(scope)) throw new Error('Invalid NeuroBranch desktop state scope')
   await writeQueue
   const database = await openDatabase(userDataDirectory)
   try {
@@ -46,13 +46,13 @@ export async function loadDesktopState(userDataDirectory: string, scope: unknown
 }
 
 export function saveDesktopState(userDataDirectory: string, scope: unknown, data: unknown): Promise<{ saved: true }> {
-  if (!validScope(scope)) return Promise.reject(new Error('Invalid LABO desktop state scope'))
+  if (!validScope(scope)) return Promise.reject(new Error('Invalid NeuroBranch desktop state scope'))
   if (scope === 'settings' && (!data || typeof data !== 'object' || Array.isArray(data))) {
-    return Promise.reject(new Error('Invalid LABO desktop settings patch'))
+    return Promise.reject(new Error('Invalid NeuroBranch desktop settings patch'))
   }
   const serialized = JSON.stringify(data)
-  if (typeof serialized !== 'string') return Promise.reject(new Error('Invalid LABO desktop state payload'))
-  if (serialized.length > 10_000_000) return Promise.reject(new Error('LABO desktop state is too large'))
+  if (typeof serialized !== 'string') return Promise.reject(new Error('Invalid NeuroBranch desktop state payload'))
+  if (serialized.length > 10_000_000) return Promise.reject(new Error('NeuroBranch desktop state is too large'))
   writeQueue = writeQueue.then(async () => {
     const database = await openDatabase(userDataDirectory)
     try {

@@ -23,8 +23,8 @@ describe('ChatGPT structured graph plan schema', () => {
     expect(missingTypes).toEqual([])
   })
 
-  it('does not start or reuse a shared account before an explicit LABO sign-in', async () => {
-    const codexHome = await mkdtemp(join(tmpdir(), 'labo-codex-test-'))
+  it('does not start or reuse a shared account before an explicit NeuroBranch sign-in', async () => {
+    const codexHome = await mkdtemp(join(tmpdir(), 'neurobranch-codex-test-'))
     const session = new CodexAppServer(async () => undefined, 'test', codexHome)
     try {
       await expect(session.status()).resolves.toEqual({ available: true, connected: false })
@@ -37,7 +37,7 @@ describe('ChatGPT structured graph plan schema', () => {
   })
 
   it('forces ChatGPT file authentication and removes inherited API credentials', async () => {
-    const codexHome = await mkdtemp(join(tmpdir(), 'labo-codex-env-test-'))
+    const codexHome = await mkdtemp(join(tmpdir(), 'neurobranch-codex-env-test-'))
     try {
       const environment = dedicatedCodexEnvironment(codexHome, {
         OPENAI_API_KEY: 'not-forwarded',

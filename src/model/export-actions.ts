@@ -2,7 +2,7 @@ import type { ArchitectureGraph } from '../core/ir'
 import { architectureDiagramSvg, exportFileName } from './diagram-export'
 
 async function saveFile(filename: string, content: string, kind: 'svg' | 'python') {
-  if (window.labo?.exportFile) return window.labo.exportFile({ filename, content, kind })
+  if (window.neurobranch?.exportFile) return window.neurobranch.exportFile({ filename, content, kind })
   const blob = new Blob([content], { type: kind === 'svg' ? 'image/svg+xml' : 'text/x-python' })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')

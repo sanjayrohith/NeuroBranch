@@ -80,7 +80,7 @@ function denseMlpAtom(id: string, label: string, activation: string, residual = 
   }
 }
 
-const ropeHelper = 'def _labo_apply_rope(x, base):\n    sequence, dim = x.shape[-2], x.shape[-1]\n    inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, device=x.device, dtype=torch.float32) / dim))\n    angles = torch.outer(torch.arange(sequence, device=x.device, dtype=torch.float32), inv_freq)\n    cos = torch.repeat_interleave(angles.cos(), 2, dim=-1).to(dtype=x.dtype)\n    sin = torch.repeat_interleave(angles.sin(), 2, dim=-1).to(dtype=x.dtype)\n    rotated = torch.stack((-x[..., 1::2], x[..., ::2]), dim=-1).flatten(-2)\n    return x * cos + rotated * sin'
+const ropeHelper = 'def _neurobranch_apply_rope(x, base):\n    sequence, dim = x.shape[-2], x.shape[-1]\n    inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, device=x.device, dtype=torch.float32) / dim))\n    angles = torch.outer(torch.arange(sequence, device=x.device, dtype=torch.float32), inv_freq)\n    cos = torch.repeat_interleave(angles.cos(), 2, dim=-1).to(dtype=x.dtype)\n    sin = torch.repeat_interleave(angles.sin(), 2, dim=-1).to(dtype=x.dtype)\n    rotated = torch.stack((-x[..., 1::2], x[..., ::2]), dim=-1).flatten(-2)\n    return x * cos + rotated * sin'
 
 const additionalAtomRegistry: Record<string, ModelAtomDefinition> = {
   'scale-norm': unaryHiddenAtom('scale-norm', 'ScaleNorm', 'normalization', '{{in:hidden}} * ({{scale}} / {{in:hidden}}.norm(dim=-1, keepdim=True).clamp_min({{epsilon}}))', [
@@ -128,11 +128,11 @@ const additionalAtomRegistry: Record<string, ModelAtomDefinition> = {
   },
   'query-rope': {
     id: 'query-rope', label: 'Query-only RoPE', category: 'position', inputs: [{ id: 'q', tensor: 'query', rank: 4 }], outputs: [{ id: 'q', tensor: 'query', rank: 4 }],
-    settings: [{ id: 'base', type: 'number', default: 10000 }], lowerings: lowering([], ['{{out:q}} = _labo_apply_rope({{in:q}}, {{base}})'], [ropeHelper]),
+    settings: [{ id: 'base', type: 'number', default: 10000 }], lowerings: lowering([], ['{{out:q}} = _neurobranch_apply_rope({{in:q}}, {{base}})'], [ropeHelper]),
   },
   'key-rope': {
     id: 'key-rope', label: 'Key-only RoPE', category: 'position', inputs: [{ id: 'k', tensor: 'key', rank: 4 }], outputs: [{ id: 'k', tensor: 'key', rank: 4 }],
-    settings: [{ id: 'base', type: 'number', default: 10000 }], lowerings: lowering([], ['{{out:k}} = _labo_apply_rope({{in:k}}, {{base}})'], [ropeHelper]),
+    settings: [{ id: 'base', type: 'number', default: 10000 }], lowerings: lowering([], ['{{out:k}} = _neurobranch_apply_rope({{in:k}}, {{base}})'], [ropeHelper]),
   },
 
   'noncausal-sdpa': {
@@ -366,10 +366,10 @@ export const modelAtomRegistry: Record<string, ModelAtomDefinition> = {
     outputs: [{ id: 'q', tensor: 'query', rank: 4 }, { id: 'k', tensor: 'key', rank: 4 }],
     settings: [{ id: 'base', type: 'number', default: 10000 }],
     lowerings: lowering([], [
-      '{{out:q}} = _labo_apply_rope({{in:q}}, {{base}})',
-      '{{out:k}} = _labo_apply_rope({{in:k}}, {{base}})',
+      '{{out:q}} = _neurobranch_apply_rope({{in:q}}, {{base}})',
+      '{{out:k}} = _neurobranch_apply_rope({{in:k}}, {{base}})',
     ], [
-      'def _labo_apply_rope(x, base):\n    sequence, dim = x.shape[-2], x.shape[-1]\n    inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, device=x.device, dtype=torch.float32) / dim))\n    angles = torch.outer(torch.arange(sequence, device=x.device, dtype=torch.float32), inv_freq)\n    cos = torch.repeat_interleave(angles.cos(), 2, dim=-1).to(dtype=x.dtype)\n    sin = torch.repeat_interleave(angles.sin(), 2, dim=-1).to(dtype=x.dtype)\n    rotated = torch.stack((-x[..., 1::2], x[..., ::2]), dim=-1).flatten(-2)\n    return x * cos + rotated * sin',
+      'def _neurobranch_apply_rope(x, base):\n    sequence, dim = x.shape[-2], x.shape[-1]\n    inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, device=x.device, dtype=torch.float32) / dim))\n    angles = torch.outer(torch.arange(sequence, device=x.device, dtype=torch.float32), inv_freq)\n    cos = torch.repeat_interleave(angles.cos(), 2, dim=-1).to(dtype=x.dtype)\n    sin = torch.repeat_interleave(angles.sin(), 2, dim=-1).to(dtype=x.dtype)\n    rotated = torch.stack((-x[..., 1::2], x[..., ::2]), dim=-1).flatten(-2)\n    return x * cos + rotated * sin',
     ]),
   },
   'gqa-kv-expand': {
@@ -540,9 +540,9 @@ export const modelAtomRegistry: Record<string, ModelAtomDefinition> = {
       { id: 'routedScalingFactor', type: 'number', default: 1 },
     ],
     lowerings: lowering([], [
-      '{{out:expertWeights}}, {{out:expertIndices}} = _labo_topk_route({{in:scores}}, {{topK}}, {{normalizeWeights}}, {{routedScalingFactor}}, {{selectionMethod}}, {{nExpertGroups}}, {{topkGroups}})',
+      '{{out:expertWeights}}, {{out:expertIndices}} = _neurobranch_topk_route({{in:scores}}, {{topK}}, {{normalizeWeights}}, {{routedScalingFactor}}, {{selectionMethod}}, {{nExpertGroups}}, {{topkGroups}})',
     ], [
-      "def _labo_topk_route(scores, top_k, normalize, scale, method, n_groups, top_groups):\n    filtered = scores\n    if method == 'group-limited-greedy' and scores.shape[-1] % n_groups == 0:\n        grouped = scores.view(*scores.shape[:-1], n_groups, scores.shape[-1] // n_groups)\n        group_scores = grouped.max(dim=-1).values\n        keep_groups = group_scores.topk(min(top_groups, n_groups), dim=-1).indices\n        group_mask = torch.zeros_like(group_scores, dtype=torch.bool).scatter_(-1, keep_groups, True)\n        filtered = grouped.masked_fill(~group_mask.unsqueeze(-1), float('-inf')).flatten(-2)\n    weights, indices = filtered.topk(min(top_k, filtered.shape[-1]), dim=-1)\n    if normalize:\n        weights = weights / weights.sum(dim=-1, keepdim=True).clamp_min(1e-9)\n    return weights * scale, indices",
+      "def _neurobranch_topk_route(scores, top_k, normalize, scale, method, n_groups, top_groups):\n    filtered = scores\n    if method == 'group-limited-greedy' and scores.shape[-1] % n_groups == 0:\n        grouped = scores.view(*scores.shape[:-1], n_groups, scores.shape[-1] // n_groups)\n        group_scores = grouped.max(dim=-1).values\n        keep_groups = group_scores.topk(min(top_groups, n_groups), dim=-1).indices\n        group_mask = torch.zeros_like(group_scores, dtype=torch.bool).scatter_(-1, keep_groups, True)\n        filtered = grouped.masked_fill(~group_mask.unsqueeze(-1), float('-inf')).flatten(-2)\n    weights, indices = filtered.topk(min(top_k, filtered.shape[-1]), dim=-1)\n    if normalize:\n        weights = weights / weights.sum(dim=-1, keepdim=True).clamp_min(1e-9)\n    return weights * scale, indices",
     ]),
   },
   'deterministic-token-routing': {
@@ -560,12 +560,12 @@ export const modelAtomRegistry: Record<string, ModelAtomDefinition> = {
       { id: 'primaryWeight', type: 'number', default: 0.5 },
     ],
     lowerings: lowering([
-      "self.register_buffer('{{module}}', _labo_fixed_token_routes({{vocabSize}}, {{nExperts}}, {{topK}}, {{layerIndex}}))",
+      "self.register_buffer('{{module}}', _neurobranch_fixed_token_routes({{vocabSize}}, {{nExperts}}, {{topK}}, {{layerIndex}}))",
     ], [
       '{{out:expertIndices}} = self.{{module}}[:, {{in:tokenIds}}].permute(1, 2, 0)',
-      '{{out:expertWeights}} = _labo_fixed_route_weights({{out:expertIndices}}, {{primaryWeight}})',
+      '{{out:expertWeights}} = _neurobranch_fixed_route_weights({{out:expertIndices}}, {{primaryWeight}})',
     ], [
-      "def _labo_fixed_token_routes(vocab_size, n_experts, top_k, layer_index):\n    generator = torch.Generator().manual_seed(0xC0DE + layer_index)\n    permutation = torch.randperm(n_experts, generator=generator)\n    primary = permutation[torch.arange(vocab_size) % n_experts]\n    routes = torch.empty(top_k, vocab_size, dtype=torch.long)\n    routes[0] = primary\n    for route_idx in range(1, top_k):\n        counts = torch.zeros(n_experts, dtype=torch.long)\n        for token_id in range(vocab_size):\n            blocked = set(int(routes[previous, token_id]) for previous in range(route_idx))\n            candidates = [expert for expert in range(n_experts) if expert not in blocked]\n            selected = min(candidates, key=lambda expert: (int(counts[expert]), expert))\n            routes[route_idx, token_id] = selected\n            counts[selected] += 1\n    return routes\n\ndef _labo_fixed_route_weights(indices, primary_weight):\n    top_k = indices.shape[-1]\n    if top_k == 1:\n        return torch.ones_like(indices, dtype=torch.float32)\n    secondary = (1.0 - primary_weight) / (top_k - 1)\n    weights = torch.full_like(indices, secondary, dtype=torch.float32)\n    weights[..., 0] = primary_weight\n    return weights",
+      "def _neurobranch_fixed_token_routes(vocab_size, n_experts, top_k, layer_index):\n    generator = torch.Generator().manual_seed(0xC0DE + layer_index)\n    permutation = torch.randperm(n_experts, generator=generator)\n    primary = permutation[torch.arange(vocab_size) % n_experts]\n    routes = torch.empty(top_k, vocab_size, dtype=torch.long)\n    routes[0] = primary\n    for route_idx in range(1, top_k):\n        counts = torch.zeros(n_experts, dtype=torch.long)\n        for token_id in range(vocab_size):\n            blocked = set(int(routes[previous, token_id]) for previous in range(route_idx))\n            candidates = [expert for expert in range(n_experts) if expert not in blocked]\n            selected = min(candidates, key=lambda expert: (int(counts[expert]), expert))\n            routes[route_idx, token_id] = selected\n            counts[selected] += 1\n    return routes\n\ndef _neurobranch_fixed_route_weights(indices, primary_weight):\n    top_k = indices.shape[-1]\n    if top_k == 1:\n        return torch.ones_like(indices, dtype=torch.float32)\n    secondary = (1.0 - primary_weight) / (top_k - 1)\n    weights = torch.full_like(indices, secondary, dtype=torch.float32)\n    weights[..., 0] = primary_weight\n    return weights",
     ]),
   },
   'routed-expert-bank': {
@@ -581,9 +581,9 @@ export const modelAtomRegistry: Record<string, ModelAtomDefinition> = {
     lowerings: lowering([
       "self.{{module}} = nn.ModuleList([nn.ModuleDict({'gate': nn.Linear({{hiddenSize}}, {{intermediateSize}}, bias=False), 'up': nn.Linear({{hiddenSize}}, {{intermediateSize}}, bias=False), 'down': nn.Linear({{intermediateSize}}, {{hiddenSize}}, bias=False)}) for _ in range({{nExperts}})])",
     ], [
-      '{{out:output}} = _labo_routed_experts({{in:hidden}}, {{in:expertIndices}}, {{in:expertWeights}}, self.{{module}})',
+      '{{out:output}} = _neurobranch_routed_experts({{in:hidden}}, {{in:expertIndices}}, {{in:expertWeights}}, self.{{module}})',
     ], [
-      "def _labo_routed_experts(hidden, indices, weights, experts):\n    output = torch.zeros_like(hidden)\n    for expert_id, expert in enumerate(experts):\n        mask = indices == expert_id\n        token_mask = mask.any(dim=-1)\n        if token_mask.any():\n            selected = hidden[token_mask]\n            selected_weights = (weights[token_mask] * mask[token_mask]).sum(dim=-1, keepdim=True).to(hidden.dtype)\n            expert_output = expert['down'](F.silu(expert['gate'](selected)) * expert['up'](selected))\n            output[token_mask] += expert_output * selected_weights\n    return output",
+      "def _neurobranch_routed_experts(hidden, indices, weights, experts):\n    output = torch.zeros_like(hidden)\n    for expert_id, expert in enumerate(experts):\n        mask = indices == expert_id\n        token_mask = mask.any(dim=-1)\n        if token_mask.any():\n            selected = hidden[token_mask]\n            selected_weights = (weights[token_mask] * mask[token_mask]).sum(dim=-1, keepdim=True).to(hidden.dtype)\n            expert_output = expert['down'](F.silu(expert['gate'](selected)) * expert['up'](selected))\n            output[token_mask] += expert_output * selected_weights\n    return output",
     ]),
   },
   'shared-expert-bank': {

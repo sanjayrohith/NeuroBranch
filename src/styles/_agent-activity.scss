@@ -2,19 +2,19 @@
   position: absolute;
   z-index: 93;
   right: auto;
-  bottom: calc(var(--labo-agent-prompt-height, 46px) + 12px);
+  bottom: calc(var(--neurobranch-agent-prompt-height, 46px) + 12px);
   left: 50%;
   width: min(640px, calc(100vw - 600px));
   min-width: 360px;
-  max-height: min(430px, calc(100vh - var(--labo-agent-prompt-height, 46px) - 92px));
+  max-height: min(430px, calc(100vh - var(--neurobranch-agent-prompt-height, 46px) - 92px));
   box-sizing: border-box;
   overflow: auto;
   transform: translateX(-50%);
-  border: 1px solid var(--labo-line);
-  border-radius: var(--labo-radius);
-  color: var(--labo-text);
+  border: 1px solid var(--neurobranch-line);
+  border-radius: var(--neurobranch-radius);
+  color: var(--neurobranch-text);
   background: rgb(12 17 18 / 98%);
-  box-shadow: var(--labo-shadow);
+  box-shadow: var(--neurobranch-shadow);
   backdrop-filter: blur(18px);
 
   > header {
@@ -26,15 +26,15 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 10px 8px 13px;
-    border-bottom: 1px solid var(--labo-line-soft);
+    border-bottom: 1px solid var(--neurobranch-line-soft);
     background: rgb(14 20 21 / 94%);
 
     > span { display: flex; align-items: center; gap: 7px; }
     strong { font-size: 11px; }
-    small { color: var(--labo-faint); font: 8px 'JetBrains Mono', monospace; }
+    small { color: var(--neurobranch-faint); font: 8px 'JetBrains Mono', monospace; }
     div { display: flex; gap: 3px; }
-    button { min-height: 26px; padding: 0 8px; border: 0; color: var(--labo-muted); background: transparent; font-size: 9px; }
-    button:hover { color: var(--labo-text); background: rgb(255 255 255 / 5%); }
+    button { min-height: 26px; padding: 0 8px; border: 0; color: var(--neurobranch-muted); background: transparent; font-size: 9px; }
+    button:hover { color: var(--neurobranch-text); background: rgb(255 255 255 / 5%); }
   }
 
   ol { margin: 0; padding: 0; list-style: none; }
@@ -42,11 +42,11 @@
   li {
     position: relative;
     padding: 11px 13px;
-    border-bottom: 1px solid var(--labo-line-soft);
+    border-bottom: 1px solid var(--neurobranch-line-soft);
 
     &:last-child { border-bottom: 0; }
-    > strong { display: block; overflow: hidden; color: var(--labo-text); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
-    > p { margin: 4px 0 0; color: var(--labo-muted); font-size: 9px; line-height: 1.45; }
+    > strong { display: block; overflow: hidden; color: var(--neurobranch-text); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+    > p { margin: 4px 0 0; color: var(--neurobranch-muted); font-size: 9px; line-height: 1.45; }
     &[data-status='failed'] { box-shadow: inset 2px 0 var(--pastel-rose); }
     &[data-status='running'] { box-shadow: inset 2px 0 var(--pastel-blue); }
     &[data-status='review'] { box-shadow: inset 2px 0 var(--pastel-lavender); }
@@ -61,7 +61,7 @@
   gap: 5px;
   margin-top: 8px;
 
-  button { min-height: 25px; display: inline-flex; align-items: center; gap: 5px; padding: 0 8px; border: 1px solid var(--labo-line); border-radius: 6px; color: var(--labo-muted); background: rgb(255 255 255 / 2%); font-size: 8px; }
+  button { min-height: 25px; display: inline-flex; align-items: center; gap: 5px; padding: 0 8px; border: 1px solid var(--neurobranch-line); border-radius: 6px; color: var(--neurobranch-muted); background: rgb(255 255 255 / 2%); font-size: 8px; }
   button:first-child:not(:last-child) { color: #c9f3df; border-color: rgb(112 224 173 / 26%); background: rgb(112 224 173 / 7%); }
 }
 
@@ -71,12 +71,12 @@
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 5px;
-  color: var(--labo-muted);
+  color: var(--neurobranch-muted);
   font: 8px 'JetBrains Mono', monospace;
   text-transform: uppercase;
 
   span { display: inline-flex; align-items: center; gap: 5px; }
-  time { color: var(--labo-faint); }
+  time { color: var(--neurobranch-faint); }
 }
 
 .agent-activity-metrics {
@@ -85,11 +85,11 @@
   gap: 5px;
   margin-top: 7px;
 
-  span { padding: 2px 5px; border-radius: 4px; color: var(--labo-muted); background: rgb(255 255 255 / 4%); font: 7px 'JetBrains Mono', monospace; }
+  span { padding: 2px 5px; border-radius: 4px; color: var(--neurobranch-muted); background: rgb(255 255 255 / 4%); font: 7px 'JetBrains Mono', monospace; }
 }
 
-.agent-activity-tools { display: block; overflow: hidden; margin-top: 6px; color: var(--labo-faint); font: 7px 'JetBrains Mono', monospace; text-overflow: ellipsis; white-space: nowrap; }
-.agent-activity-empty { margin: 0; padding: 20px; color: var(--labo-muted); font-size: 10px; text-align: center; }
+.agent-activity-tools { display: block; overflow: hidden; margin-top: 6px; color: var(--neurobranch-faint); font: 7px 'JetBrains Mono', monospace; text-overflow: ellipsis; white-space: nowrap; }
+.agent-activity-empty { margin: 0; padding: 20px; color: var(--neurobranch-muted); font-size: 10px; text-align: center; }
 
 @media (max-width: 1080px) {
   .agent-activity-panel { width: min(520px, calc(100vw - 360px)); min-width: 320px; }

@@ -95,7 +95,7 @@ function sourceRank(graph: ArchitectureGraph, edge: ArchitectureEdge): number | 
 }
 
 function edgeMarker(edge: ArchitectureEdge): string {
-  return `# labo:edge=${edge.id} source=${edge.source} target=${edge.target} source_port=${edge.sourcePort ?? 'output'} target_port=${edge.targetPort ?? 'input'}`
+  return `# neurobranch:edge=${edge.id} source=${edge.source} target=${edge.target} source_port=${edge.sourcePort ?? 'output'} target_port=${edge.targetPort ?? 'input'}`
 }
 
 interface RenderContext {
@@ -178,10 +178,10 @@ export function compileRegistryGraph(graph: ArchitectureGraph, options: Registry
         const inputPorts = customCardInputPorts(node.customCardGraph)
         const outputPorts = customCardOutputPorts(node.customCardGraph)
         if (inputPorts.length === 0 || outputPorts.length === 0) throw new Error(`Composite card ${node.id} has no external ports`)
-        const className = `_LaboCard_${module}`
+        const className = `_NeuroBranchCard_${module}`
         const nestedSource = compileRegistryGraph(node.customCardGraph).replace('class GeneratedModel(nn.Module):', `class ${className}(nn.Module):`)
         helpers.add(nestedSource)
-        declarations.push(`        # labo:node=${node.id} kind=custom-card-graph`)
+        declarations.push(`        # neurobranch:node=${node.id} kind=custom-card-graph`)
         declarations.push(`        self.${module} = ${className}()`)
         const incoming = graph.edges.filter((edge) => edge.target === node.id)
         const argumentsByPort = new Map(incoming.map((edge) => [edge.targetPort ?? inputPorts[0]?.id, { edge, value: values.get(`${edge.source}:${sourcePort(graph, edge)}`) }]))
@@ -203,7 +203,7 @@ export function compileRegistryGraph(graph: ArchitectureGraph, options: Registry
       }
       const code = node.code?.trim() ?? ''
       if (!validCustomPyTorchModule(code)) throw new Error(`Invalid custom PyTorch module on ${node.id}`)
-      declarations.push(`        # labo:node=${node.id} kind=custom-pytorch`)
+      declarations.push(`        # neurobranch:node=${node.id} kind=custom-pytorch`)
       declarations.push(`        self.${module} = ${code}`)
       const incoming = graph.edges.filter((edge) => edge.target === node.id)
       const firstInput = incoming.map((edge) => values.get(`${edge.source}:${sourcePort(graph, edge)}`)).find(Boolean)
@@ -231,7 +231,7 @@ export function compileRegistryGraph(graph: ArchitectureGraph, options: Registry
     const outputs = Object.fromEntries(definition.outputs.map((port) => [port.id, `${module}_${identifier(port.id)}`]))
     const context: RenderContext = { module, settings, inputs, outputs }
 
-    declarations.push(`        # labo:node=${node.id} atom=${definition.id}`)
+    declarations.push(`        # neurobranch:node=${node.id} atom=${definition.id}`)
     for (const line of definition.lowerings.pytorch.declarations) declarations.push(`        ${render(line, context)}`)
     if (definition.id === 'lm-head' && settings.tieEmbeddingWeights === true) {
       const embedding = upstreamEmbedding(graph, node.id)

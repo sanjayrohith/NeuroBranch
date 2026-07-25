@@ -1,21 +1,21 @@
-export type LaboTheme = 'labo-dark' | 'complexity-spectrum'
+export type NeuroBranchTheme = 'neurobranch-dark' | 'complexity-spectrum'
 
-export const LABO_THEMES: Array<{
-  id: LaboTheme
+export const NEUROBRANCH_THEMES: Array<{
+  id: NeuroBranchTheme
   name: string
   description: string
   colors: string[]
 }> = [
   {
-    id: 'labo-dark',
-    name: 'LABO Dark',
+    id: 'neurobranch-dark',
+    name: 'NeuroBranch Dark',
     description: 'The restrained pastel workspace used by default.',
     colors: ['#91c7ad', '#91c3cc', '#aaa4d6'],
   },
   {
     id: 'complexity-spectrum',
     name: 'Complexity Spectrum',
-    description: 'The green, cyan and violet identity of complexity-ai.fr.',
+    description: 'The green, cyan and violet identity of NeuroBranch.',
     colors: ['#6ee7b7', '#7dd3fc', '#c4b5fd', '#fcd34d', '#f9a8d4'],
   },
 ]
@@ -24,14 +24,14 @@ export type ApplicationSettingsRecord = Record<string, unknown> & {
   appearance?: Record<string, unknown> & { theme?: unknown; language?: unknown }
 }
 
-const WEB_PREFERENCES_STORAGE_KEY = 'labo.web.preferences.v1'
+const WEB_PREFERENCES_STORAGE_KEY = 'neurobranch.web.preferences.v1'
 
 export function applicationSettingsRecord(value: unknown): ApplicationSettingsRecord {
   return value && typeof value === 'object' && !Array.isArray(value) ? value as ApplicationSettingsRecord : {}
 }
 
-function validTheme(value: unknown): value is LaboTheme {
-  return value === 'labo-dark' || value === 'complexity-spectrum'
+function validTheme(value: unknown): value is NeuroBranchTheme {
+  return value === 'neurobranch-dark' || value === 'complexity-spectrum'
 }
 
 export function readLocalApplicationSettings(): ApplicationSettingsRecord {
@@ -64,25 +64,25 @@ function mergeApplicationSettings(
   }
 }
 
-export function readLaboTheme(): LaboTheme {
-  const activeTheme = document.documentElement.dataset.laboTheme
+export function readNeuroBranchTheme(): NeuroBranchTheme {
+  const activeTheme = document.documentElement.dataset.neurobranchTheme
   if (validTheme(activeTheme)) return activeTheme
   const localTheme = readLocalApplicationSettings().appearance?.theme
-  return validTheme(localTheme) ? localTheme : 'labo-dark'
+  return validTheme(localTheme) ? localTheme : 'neurobranch-dark'
 }
 
-export function applyLaboTheme(theme: LaboTheme): void {
-  document.documentElement.dataset.laboTheme = theme
+export function applyNeuroBranchTheme(theme: NeuroBranchTheme): void {
+  document.documentElement.dataset.neurobranchTheme = theme
 }
 
 export async function readApplicationSettings(): Promise<{ authenticated: boolean; settings: ApplicationSettingsRecord }> {
-  if (window.labo?.runtime === 'electron' && window.labo.loadDesktopState) {
-    return { authenticated: true, settings: applicationSettingsRecord(await window.labo.loadDesktopState('settings')) }
+  if (window.neurobranch?.runtime === 'electron' && window.neurobranch.loadDesktopState) {
+    return { authenticated: true, settings: applicationSettingsRecord(await window.neurobranch.loadDesktopState('settings')) }
   }
-  if (window.labo?.runtime === 'web' && window.labo.loadWebWorkspace) {
+  if (window.neurobranch?.runtime === 'web' && window.neurobranch.loadWebWorkspace) {
     const localSettings = readLocalApplicationSettings()
     try {
-      const workspace = await window.labo.loadWebWorkspace()
+      const workspace = await window.neurobranch.loadWebWorkspace()
       const settings = workspace.authenticated
         ? mergeApplicationSettings(localSettings, applicationSettingsRecord(workspace.settings))
         : localSettings
@@ -100,27 +100,27 @@ export async function saveApplicationSettings(
   authenticated: boolean,
   remotePatch: ApplicationSettingsRecord = settings,
 ): Promise<void> {
-  if (window.labo?.runtime === 'electron' && window.labo.saveDesktopState) {
-    await window.labo.saveDesktopState('settings', remotePatch)
-  } else if (window.labo?.runtime === 'web') {
+  if (window.neurobranch?.runtime === 'electron' && window.neurobranch.saveDesktopState) {
+    await window.neurobranch.saveDesktopState('settings', remotePatch)
+  } else if (window.neurobranch?.runtime === 'web') {
     saveLocalApplicationSettings(settings)
-    if (authenticated && window.labo.saveWebWorkspace) {
-      await window.labo.saveWebWorkspace({ settings: remotePatch })
+    if (authenticated && window.neurobranch.saveWebWorkspace) {
+      await window.neurobranch.saveWebWorkspace({ settings: remotePatch })
     }
   }
 }
 
-export async function loadLaboTheme(): Promise<LaboTheme> {
+export async function loadNeuroBranchTheme(): Promise<NeuroBranchTheme> {
   try {
     const { settings } = await readApplicationSettings()
-    return validTheme(settings.appearance?.theme) ? settings.appearance.theme : 'labo-dark'
+    return validTheme(settings.appearance?.theme) ? settings.appearance.theme : 'neurobranch-dark'
   } catch {
-    return readLaboTheme()
+    return readNeuroBranchTheme()
   }
 }
 
-export async function saveLaboTheme(theme: LaboTheme): Promise<void> {
-  applyLaboTheme(theme)
+export async function saveNeuroBranchTheme(theme: NeuroBranchTheme): Promise<void> {
+  applyNeuroBranchTheme(theme)
   try {
     const { authenticated, settings } = await readApplicationSettings()
     const nextSettings: ApplicationSettingsRecord = {
@@ -133,9 +133,9 @@ export async function saveLaboTheme(theme: LaboTheme): Promise<void> {
   }
 }
 
-export async function initializeLaboTheme(): Promise<LaboTheme> {
-  applyLaboTheme(readLaboTheme())
-  const theme = await loadLaboTheme()
-  applyLaboTheme(theme)
+export async function initializeNeuroBranchTheme(): Promise<NeuroBranchTheme> {
+  applyNeuroBranchTheme(readNeuroBranchTheme())
+  const theme = await loadNeuroBranchTheme()
+  applyNeuroBranchTheme(theme)
   return theme
 }

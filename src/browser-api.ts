@@ -16,7 +16,7 @@ async function requestJson<T>(url: string, init?: RequestInit): Promise<T> {
     headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
   })
   const body = await response.json().catch(() => undefined) as unknown
-  if (!response.ok) throw apiError(body, `LABO web request failed (${response.status})`)
+  if (!response.ok) throw apiError(body, `NeuroBranch web request failed (${response.status})`)
   return body as T
 }
 
@@ -54,7 +54,7 @@ async function flushWorkspaceSave(): Promise<void> {
   pendingWorkspaceSave = undefined
   pendingWorkspaceWaiters = []
   try {
-    const result = await requestJson<WebWorkspaceSaveResult>('/api/labo/workspace', {
+    const result = await requestJson<WebWorkspaceSaveResult>('/api/neurobranch/workspace', {
       method: 'PUT',
       body: JSON.stringify(payload),
     })
@@ -107,15 +107,15 @@ function recordWebAuthentication(authenticated: boolean, reloadOnChange = false)
 }
 
 async function loadWebWorkspace() {
-  type Result = Awaited<ReturnType<NonNullable<NonNullable<Window['labo']>['loadWebWorkspace']>>>
-  const workspace = await requestJson<Result>('/api/labo/workspace')
+  type Result = Awaited<ReturnType<NonNullable<NonNullable<Window['neurobranch']>['loadWebWorkspace']>>>
+  const workspace = await requestJson<Result>('/api/neurobranch/workspace')
   recordWebAuthentication(workspace.authenticated)
   return workspace
 }
 
 async function refreshWebAuthentication(): Promise<void> {
   try {
-    const workspace = await requestJson<{ authenticated: boolean }>('/api/labo/workspace')
+    const workspace = await requestJson<{ authenticated: boolean }>('/api/neurobranch/workspace')
     recordWebAuthentication(workspace.authenticated, true)
   } catch {
     // A temporary network failure must not tear down an active studio.
@@ -123,30 +123,30 @@ async function refreshWebAuthentication(): Promise<void> {
 }
 
 async function openAISettings(): Promise<OpenAISettingsStatus> {
-  const response = await fetch('/api/labo/key', { credentials: 'same-origin' })
+  const response = await fetch('/api/neurobranch/key', { credentials: 'same-origin' })
   if (response.status === 401) return { configured: false, source: 'none', encryptionAvailable: true, authRequired: true }
   const body = await response.json().catch(() => undefined) as unknown
-  if (!response.ok) throw apiError(body, `LABO web request failed (${response.status})`)
+  if (!response.ok) throw apiError(body, `NeuroBranch web request failed (${response.status})`)
   return body as OpenAISettingsStatus
 }
 
 export function installBrowserApi(): void {
-  if (window.labo || window.location.protocol === 'file:') return
+  if (window.neurobranch || window.location.protocol === 'file:') return
 
-  window.labo = {
+  window.neurobranch = {
     platform: 'web',
     runtime: 'web',
-    askLabo: (payload) => requestJson('/api/labo/ask', {
+    askNeuroBranch: (payload) => requestJson('/api/neurobranch/ask', {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
     getOpenAISettings: openAISettings,
-    saveOpenAIKey: (apiKey) => requestJson('/api/labo/key', {
+    saveOpenAIKey: (apiKey) => requestJson('/api/neurobranch/key', {
       method: 'POST',
       body: JSON.stringify({ apiKey }),
     }),
-    deleteOpenAIKey: () => requestJson('/api/labo/key', { method: 'DELETE' }),
-    testOpenAIKey: () => requestJson('/api/labo/key/test', { method: 'POST' }),
+    deleteOpenAIKey: () => requestJson('/api/neurobranch/key', { method: 'DELETE' }),
+    testOpenAIKey: () => requestJson('/api/neurobranch/key/test', { method: 'POST' }),
     loadWebWorkspace,
     saveWebWorkspace: queueWorkspaceSave,
   }

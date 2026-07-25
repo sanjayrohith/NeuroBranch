@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { askLabo } from '../dist-electron/ask-labo.js'
+import { askNeuroBranch } from '../dist-electron/ask-neurobranch.js'
 import { runAtomicRuntime } from '../dist-electron/atomic-runtime.js'
 import { CodexAppServer } from '../dist-electron/chatgpt-session.js'
 import { getOpenAISettingsStatus } from '../dist-electron/openai-credentials.js'
@@ -53,7 +53,7 @@ async function clickButton(window, label, { exact = true } = {}) {
 async function setTextarea(window, value, typingDelay = 0) {
   await evaluate(window, `(async () => {
     const textarea = document.querySelector('textarea[aria-label="What should these blocks build?"]')
-    if (!textarea) throw new Error('LABO agent prompt is unavailable')
+    if (!textarea) throw new Error('NeuroBranch agent prompt is unavailable')
     const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set
     const value = ${JSON.stringify(value)}
     if (${typingDelay} > 0) {
@@ -75,10 +75,10 @@ async function cue(window, eyebrow, title, detail, duration = 3200) {
     return
   }
   await evaluate(window, `(() => {
-    let cue = document.querySelector('#labo-demo-cue')
+    let cue = document.querySelector('#neurobranch-demo-cue')
     if (!cue) {
       cue = document.createElement('div')
-      cue.id = 'labo-demo-cue'
+      cue.id = 'neurobranch-demo-cue'
       cue.style.cssText = 'position:fixed;z-index:9999;right:24px;top:96px;width:390px;padding:14px 16px;border:1px solid rgba(111,211,176,.42);border-radius:12px;background:linear-gradient(135deg,rgba(11,22,20,.96),rgba(20,18,32,.96));box-shadow:0 18px 60px rgba(0,0,0,.55);pointer-events:none;font-family:Inter,sans-serif'
       document.body.append(cue)
     }
@@ -135,23 +135,23 @@ process.stderr.write('[demo] electron ready\n')
 const chatGPT = new CodexAppServer(
   (url) => shell.openExternal(url),
   app.getVersion(),
-  process.env.LABO_CODEX_HOME?.trim() || join(app.getPath('userData'), 'codex'),
+  process.env.NEUROBRANCH_CODEX_HOME?.trim() || join(app.getPath('userData'), 'codex'),
 )
 const providerStatus = Promise.all([
   getOpenAISettingsStatus(),
   chatGPT.status().catch(() => ({ available: false, connected: false })),
 ]).then(([openAISettings, chatGPTStatus]) => ({ openAISettings, chatGPTStatus }))
 
-ipcMain.handle('labo:ask', async (_event, payload) => {
+ipcMain.handle('neurobranch:ask', async (_event, payload) => {
   const { chatGPTStatus } = await providerStatus
-  return chatGPTStatus.connected ? chatGPT.ask(payload, {}) : askLabo(payload)
+  return chatGPTStatus.connected ? chatGPT.ask(payload, {}) : askNeuroBranch(payload)
 })
-ipcMain.handle('labo:atomic-runtime', (_event, payload) => runAtomicRuntime(payload))
-ipcMain.handle('labo:openai-settings', async () => (await providerStatus).openAISettings)
-ipcMain.handle('labo:chatgpt-session', async () => (await providerStatus).chatGPTStatus)
-ipcMain.handle('labo:desktop-state-load', (_event, payload) => memoryState.get(payload?.scope))
-ipcMain.handle('labo:desktop-state-save', (_event, payload) => { memoryState.set(payload?.scope, payload?.data); return { saved: true } })
-ipcMain.handle('labo:window-state', (event) => ({
+ipcMain.handle('neurobranch:atomic-runtime', (_event, payload) => runAtomicRuntime(payload))
+ipcMain.handle('neurobranch:openai-settings', async () => (await providerStatus).openAISettings)
+ipcMain.handle('neurobranch:chatgpt-session', async () => (await providerStatus).chatGPTStatus)
+ipcMain.handle('neurobranch:desktop-state-load', (_event, payload) => memoryState.get(payload?.scope))
+ipcMain.handle('neurobranch:desktop-state-save', (_event, payload) => { memoryState.set(payload?.scope, payload?.data); return { saved: true } })
+ipcMain.handle('neurobranch:window-state', (event) => ({
   fullScreen: BrowserWindow.fromWebContents(event.sender)?.isFullScreen() ?? false,
 }))
 
@@ -168,11 +168,11 @@ const window = new BrowserWindow({
     contextIsolation: true,
     nodeIntegration: false,
     sandbox: true,
-    partition: 'labo-agent-demo',
+    partition: 'neurobranch-agent-demo',
   },
 })
 process.stderr.write('[demo] browser window created\n')
-const publishWindowState = () => window.webContents.send('labo:window-state', { fullScreen: window.isFullScreen() })
+const publishWindowState = () => window.webContents.send('neurobranch:window-state', { fullScreen: window.isFullScreen() })
 window.on('enter-full-screen', publishWindowState)
 window.on('leave-full-screen', publishWindowState)
 
@@ -208,10 +208,10 @@ try {
 
   process.stderr.write('[demo] submitting graph build request\n')
   await setTextarea(window, buildPrompt, 7)
-  await cue(window, '2 · Natural-language brief', 'Build a token-routed GPT-like QA decoder', 'LABO receives the live graph, typed ports and the complete card catalog.', 3600)
+  await cue(window, '2 · Natural-language brief', 'Build a token-routed GPT-like QA decoder', 'NeuroBranch receives the live graph, typed ports and the complete card catalog.', 3600)
   await clickButton(window, 'Propose graph changes')
-  await waitFor(window, `document.querySelector('.agent-plan-review, .ask-labo-error') !== null`, 210_000)
-  const agentError = await evaluate(window, `document.querySelector('.ask-labo-error')?.textContent.trim() ?? ''`)
+  await waitFor(window, `document.querySelector('.agent-plan-review, .ask-neurobranch-error') !== null`, 210_000)
+  const agentError = await evaluate(window, `document.querySelector('.ask-neurobranch-error')?.textContent.trim() ?? ''`)
   if (agentError) throw new Error(agentError)
   await evaluate(window, `document.querySelector('.agent-plan-review-content')?.scrollTo({ top: 0 })`)
   await cue(window, '3 · Auditable plan', 'Review cards, elastics and tool calls', 'Nothing mutates until the complete locally validated plan is approved.', 7200)
@@ -231,8 +231,8 @@ try {
   await setTextarea(window, upgradePrompt, 7)
   await cue(window, '5 · Iterative architecture design', 'Upgrade the current graph to token-routed MoE', 'The agent must preserve valid paths while replacing and reconnecting the residual MLP.', 4200)
   await clickButton(window, 'Propose graph changes')
-  await waitFor(window, `document.querySelector('.agent-plan-review, .ask-labo-error') !== null`, 210_000)
-  const upgradeError = await evaluate(window, `document.querySelector('.ask-labo-error')?.textContent.trim() ?? ''`)
+  await waitFor(window, `document.querySelector('.agent-plan-review, .ask-neurobranch-error') !== null`, 210_000)
+  const upgradeError = await evaluate(window, `document.querySelector('.ask-neurobranch-error')?.textContent.trim() ?? ''`)
   if (upgradeError) throw new Error(upgradeError)
   await evaluate(window, `document.querySelector('.agent-plan-review-content')?.scrollTo({ top: 0 })`)
   await cue(window, '6 · Upgrade plan', 'Inspect replacements, deletions and new elastics', 'The second plan edits the existing architecture instead of rebuilding blindly.', 7200)
@@ -276,7 +276,7 @@ try {
   await waitFor(window, `document.querySelector('[aria-label="Agent activity"]') === null`)
   await clickButton(window, 'Split')
   await cue(window, 'Final view', 'Typed graph and synchronized PyTorch', 'The demo ends on the complete architecture and its executable source.', 2800)
-  await evaluate(window, `document.querySelector('#labo-demo-cue')?.remove()`)
+  await evaluate(window, `document.querySelector('#neurobranch-demo-cue')?.remove()`)
   process.stderr.write('[demo] complete; edit API waiting time down to a short jump cut\n')
   if (keepOpen) await new Promise(() => undefined)
   await wait(2200)

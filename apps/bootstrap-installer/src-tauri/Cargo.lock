@@ -3,6 +3,23 @@
 version = 4
 
 [[package]]
+name = "NeuroBranch-setup"
+version = "0.1.53"
+dependencies = [
+ "dirs",
+ "flate2",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tar",
+ "tauri",
+ "tauri-build",
+ "tempfile",
+ "zip",
+]
+
+[[package]]
 name = "adler2"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1775,23 +1792,6 @@ dependencies = [
  "bitflags 2.13.1",
  "serde",
  "unicode-segmentation",
-]
-
-[[package]]
-name = "labo-ai-setup"
-version = "0.1.53"
-dependencies = [
- "dirs",
- "flate2",
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "sha2",
- "tar",
- "tauri",
- "tauri-build",
- "tempfile",
- "zip",
 ]
 
 [[package]]

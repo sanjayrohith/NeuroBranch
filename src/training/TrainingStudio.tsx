@@ -38,10 +38,10 @@ export function TrainingStudio({ onCatalogChange = () => undefined, onRequestedO
     let cancelled = false
     const load = async () => {
       let stored
-      if (window.labo?.runtime === 'electron' && window.labo.loadDesktopState) {
-        stored = parseTrainingWorkspace(await window.labo.loadDesktopState('training'))
-      } else if (window.labo?.runtime === 'web' && window.labo.loadWebWorkspace) {
-        const result = await window.labo.loadWebWorkspace()
+      if (window.neurobranch?.runtime === 'electron' && window.neurobranch.loadDesktopState) {
+        stored = parseTrainingWorkspace(await window.neurobranch.loadDesktopState('training'))
+      } else if (window.neurobranch?.runtime === 'web' && window.neurobranch.loadWebWorkspace) {
+        const result = await window.neurobranch.loadWebWorkspace()
         const authenticated = Boolean(result && typeof result === 'object' && result.authenticated)
         if (!cancelled) setWebAuthenticated(authenticated)
         if (authenticated) stored = parseTrainingWorkspace(result.training)
@@ -59,10 +59,10 @@ export function TrainingStudio({ onCatalogChange = () => undefined, onRequestedO
   useEffect(() => {
     if (!storageReady) return
     const workspace = { config, customOptimizers, updatedAt: Date.now() }
-    if (window.labo?.runtime === 'electron' && window.labo.saveDesktopState) {
-      void window.labo.saveDesktopState('training', workspace)
-    } else if (window.labo?.runtime === 'web' && webAuthenticated && window.labo.saveWebWorkspace) {
-      void window.labo.saveWebWorkspace({ training: workspace })
+    if (window.neurobranch?.runtime === 'electron' && window.neurobranch.saveDesktopState) {
+      void window.neurobranch.saveDesktopState('training', workspace)
+    } else if (window.neurobranch?.runtime === 'web' && webAuthenticated && window.neurobranch.saveWebWorkspace) {
+      void window.neurobranch.saveWebWorkspace({ training: workspace })
     }
   }, [config, customOptimizers, storageReady, webAuthenticated])
 

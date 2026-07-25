@@ -21,7 +21,7 @@ describe('Neural Architecture IR', () => {
     expect(code).toContain('q, expanded_k, expanded_v')
     expect(code).toContain('is_causal=True')
     for (const edge of gqaPreset.edges) {
-      expect(code).toContain(`# labo:edge=${edge.id} source=${edge.source} target=${edge.target}`)
+      expect(code).toContain(`# neurobranch:edge=${edge.id} source=${edge.source} target=${edge.target}`)
     }
   })
 
@@ -43,7 +43,7 @@ describe('Neural Architecture IR', () => {
     expect(code).toContain('pre_q_norm = self.pre_q_norm(hidden_states)')
     expect(code).toContain('q_projected = self.q_proj(pre_q_norm)')
     expect(code).not.toContain('q_projected = self.q_proj(hidden_states)')
-    expect(code).toContain('# labo:edge=pre-q-q source=pre-q-norm target=q-proj')
+    expect(code).toContain('# neurobranch:edge=pre-q-q source=pre-q-norm target=q-proj')
   })
 
   it('does not change PyTorch when only visual XY positions change', () => {
@@ -105,7 +105,7 @@ describe('Neural Architecture IR', () => {
     })
     const code = compileToPyTorch(graph)
 
-    expect(code).toContain('# labo:node=post-norm kind=custom-pytorch')
+    expect(code).toContain('# neurobranch:node=post-norm kind=custom-pytorch')
     expect(code).toContain('self.post_norm = nn.RMSNorm(384)')
   })
 })

@@ -10,7 +10,7 @@ describe('executable media presets', () => {
     expect(validateGraph(preset)).toEqual({ valid: true, errors: [] })
     const code = compileToPyTorch(preset)
     expect(code).toContain('class GeneratedModel(nn.Module):')
-    expect(code).toContain('# labo:node=')
+    expect(code).toContain('# neurobranch:node=')
   })
 
   it('uses explicit image, video, audio and multimodal atomic capabilities', () => {

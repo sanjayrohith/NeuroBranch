@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 
 function connectCardAgent(atomId: string, label: string) {
-  window.labo = { platform: 'web', runtime: 'web', askLabo: async () => ({
+  window.neurobranch = { platform: 'web', runtime: 'web', askNeuroBranch: async () => ({
     summary: `Compose ${label}.`,
     addedBlocks: [
       { atomId: 'hidden-state-input', nodeId: 'builder-input', reason: 'Card input.' },
@@ -123,7 +123,7 @@ describe('NeuroBranch card builder', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: 'Reusable card' }))
     await screen.findByRole('region', { name: 'Create model card' })
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
 
     expect(screen.getByRole('dialog', { name: 'NeuroBranch settings' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Application' }))
@@ -183,13 +183,13 @@ describe('NeuroBranch card builder', () => {
     expect(screen.queryByText('Create PyTorch card')).not.toBeInTheDocument()
   })
   
-  it('prompts Ask LABO directly from the Card Builder without mutating the graph', async () => {
-    const askLabo = vi.fn(async () => ({
+  it('prompts Ask NeuroBranch directly from the Card Builder without mutating the graph', async () => {
+    const askNeuroBranch = vi.fn(async () => ({
       summary: 'One reusable card.', addedBlocks: [{ atomId: 'hidden-state-input', nodeId: 'builder-input', reason: 'input' }],
       createdBlocks: [{ nodeId: 'builder-gelu', label: 'Expert GELU', pytorchModule: 'nn.GELU()', inputRole: 'hidden' as const, outputRole: 'hidden' as const, reason: 'Requested in Card Builder.' }],
       connections: [{ sourceId: 'builder-input', sourcePortId: 'hidden', targetId: 'builder-gelu', targetPortId: 'hidden', reason: 'connect' }], missingBlocks: [], warnings: [],
     }))
-    window.labo = { platform: 'web', runtime: 'web', askLabo }
+    window.neurobranch = { platform: 'web', runtime: 'web', askNeuroBranch }
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: 'Reusable card' }))
     await screen.findByRole('region', { name: 'Create model card' })
@@ -199,7 +199,7 @@ describe('NeuroBranch card builder', () => {
 
     await waitFor(() => expect(screen.getByLabelText('Card construction blocks')).toHaveTextContent('GELU'))
     expect(screen.getByRole('textbox', { name: 'Custom card name' })).toHaveValue('Expert GELU')
-    expect(askLabo).toHaveBeenCalledWith(expect.objectContaining({ context: expect.objectContaining({ cardBuilderMode: true }) }))
+    expect(askNeuroBranch).toHaveBeenCalledWith(expect.objectContaining({ context: expect.objectContaining({ cardBuilderMode: true }) }))
     expect(within(screen.getByRole('region', { name: 'Create model card' })).getByRole('button', { name: 'Select Expert GELU' })).toBeInTheDocument()
   })
 
@@ -239,7 +239,7 @@ describe('NeuroBranch card builder', () => {
   
   it('exports the Blockly diagram or generated PyTorch through the desktop save bridge', async () => {
     const exportFile = vi.fn(async (_payload: { filename: string; content: string; kind: 'svg' | 'python' }) => ({ saved: true }))
-    window.labo = { platform: 'darwin', runtime: 'electron', runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }), exportFile }
+    window.neurobranch = { platform: 'darwin', runtime: 'electron', runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }), exportFile }
     render(<App />)
   
     fireEvent.click(screen.getByLabelText('Export architecture'))
@@ -247,14 +247,14 @@ describe('NeuroBranch card builder', () => {
     await waitFor(() => expect(exportFile).toHaveBeenCalledOnce())
     expect(exportFile.mock.calls[0]![0]).toMatchObject({ filename: 'tr-300m.svg', kind: 'svg' })
     expect(exportFile.mock.calls[0]![0].content).toContain('<svg')
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('exports the active reusable-card graph instead of the underlying model', async () => {
     const exportFile = vi.fn(async (_payload: { filename: string; content: string; kind: 'svg' | 'python' }) => ({ saved: true }))
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin', runtime: 'electron', exportFile,
-      askLabo: async () => ({
+      askNeuroBranch: async () => ({
         summary: 'Compose card.',
         addedBlocks: [
           { atomId: 'hidden-state-input', nodeId: 'builder-input', reason: 'Card input.' },
@@ -304,7 +304,7 @@ describe('NeuroBranch card builder', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Edit cards' }))
     fireEvent.doubleClick(screen.getByRole('button', { name: 'Select Tied language-model head' }))
     expect(screen.getByRole('checkbox', { name: 'Model card setting tieEmbeddingWeights' })).toBeChecked()
-    expect((screen.getByRole('textbox', { name: 'PyTorch editor' }) as HTMLTextAreaElement).value).toContain('# labo:node=lm-head-1 atom=lm-head')
+    expect((screen.getByRole('textbox', { name: 'PyTorch editor' }) as HTMLTextAreaElement).value).toContain('# neurobranch:node=lm-head-1 atom=lm-head')
     expect(screen.getByText('Atomic PyTorch draft')).toBeInTheDocument()
   })
 })

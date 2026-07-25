@@ -32,7 +32,7 @@ jobs:
           grep -q "^version = \"${package_version}\"$" apps/bootstrap-installer/src-tauri/Cargo.toml
       - run: npm run lint
       - name: Validate bootstrap scripts
-        run: bash -n scripts/install-labo-ai-macos.sh scripts/install-labo-ai-linux.sh
+        run: bash -n scripts/install-NeuroBranch-macos.sh scripts/install-NeuroBranch-linux.sh
       - name: Run portable unit tests
         run: npm run test:ci
       - run: npm run build
@@ -65,18 +65,18 @@ jobs:
           mkdir -p release-assets
           setup_dmg="$(find apps/bootstrap-installer/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg -name '*.dmg' -type f -print -quit)"
           test -n "${setup_dmg}"
-          cp "${setup_dmg}" release-assets/LABO-AI-Setup-arm64.dmg
-          cp apps/bootstrap-installer/src-tauri/target/aarch64-apple-darwin/release/labo-ai-setup release-assets/LABO-AI-Setup-arm64-helper
-          shasum -a 256 release-assets/LABO-AI-Setup-arm64-helper > release-assets/LABO-AI-Setup-arm64-helper.sha256
-          cp scripts/install-labo-ai-macos.sh release-assets/install-labo-ai-macos.sh
+          cp "${setup_dmg}" release-assets/NeuroBranch-Setup-arm64.dmg
+          cp apps/bootstrap-installer/src-tauri/target/aarch64-apple-darwin/release/NeuroBranch-setup release-assets/NeuroBranch-Setup-arm64-helper
+          shasum -a 256 release-assets/NeuroBranch-Setup-arm64-helper > release-assets/NeuroBranch-Setup-arm64-helper.sha256
+          cp scripts/install-NeuroBranch-macos.sh release-assets/install-NeuroBranch-macos.sh
       - uses: actions/upload-artifact@v4
         with:
           name: desktop-setup-macos-arm64
           path: |
-            release-assets/LABO-AI-Setup-arm64.dmg
-            release-assets/LABO-AI-Setup-arm64-helper
-            release-assets/LABO-AI-Setup-arm64-helper.sha256
-            release-assets/install-labo-ai-macos.sh
+            release-assets/NeuroBranch-Setup-arm64.dmg
+            release-assets/NeuroBranch-Setup-arm64-helper
+            release-assets/NeuroBranch-Setup-arm64-helper.sha256
+            release-assets/install-NeuroBranch-macos.sh
           if-no-files-found: error
           retention-days: 14
 
@@ -100,19 +100,19 @@ jobs:
           New-Item -ItemType Directory -Force -Path release-assets | Out-Null
           $setup = Get-ChildItem apps/bootstrap-installer/src-tauri/target/release/bundle/nsis/*.exe | Select-Object -First 1
           if (-not $setup) { throw "NeuroBranch Setup NSIS installer was not produced" }
-          Copy-Item $setup.FullName release-assets/LABO-AI-Setup-x64.exe
-          Copy-Item apps/bootstrap-installer/src-tauri/target/release/labo-ai-setup.exe release-assets/LABO-AI-Setup-x64-helper.exe
-          $hash = (Get-FileHash release-assets/LABO-AI-Setup-x64-helper.exe -Algorithm SHA256).Hash.ToLower()
-          "$hash  LABO-AI-Setup-x64-helper.exe" | Set-Content -NoNewline release-assets/LABO-AI-Setup-x64-helper.exe.sha256
-          Copy-Item scripts/install-labo-ai-windows.ps1 release-assets/install-labo-ai-windows.ps1
+          Copy-Item $setup.FullName release-assets/NeuroBranch-Setup-x64.exe
+          Copy-Item apps/bootstrap-installer/src-tauri/target/release/NeuroBranch-setup.exe release-assets/NeuroBranch-Setup-x64-helper.exe
+          $hash = (Get-FileHash release-assets/NeuroBranch-Setup-x64-helper.exe -Algorithm SHA256).Hash.ToLower()
+          "$hash  NeuroBranch-Setup-x64-helper.exe" | Set-Content -NoNewline release-assets/NeuroBranch-Setup-x64-helper.exe.sha256
+          Copy-Item scripts/install-NeuroBranch-windows.ps1 release-assets/install-NeuroBranch-windows.ps1
       - uses: actions/upload-artifact@v4
         with:
           name: desktop-setup-windows-x64
           path: |
-            release-assets/LABO-AI-Setup-x64.exe
-            release-assets/LABO-AI-Setup-x64-helper.exe
-            release-assets/LABO-AI-Setup-x64-helper.exe.sha256
-            release-assets/install-labo-ai-windows.ps1
+            release-assets/NeuroBranch-Setup-x64.exe
+            release-assets/NeuroBranch-Setup-x64-helper.exe
+            release-assets/NeuroBranch-Setup-x64-helper.exe.sha256
+            release-assets/install-NeuroBranch-windows.ps1
           if-no-files-found: error
           retention-days: 14
 
@@ -140,16 +140,16 @@ jobs:
           mkdir -p release-assets
           setup_appimage="$(find apps/bootstrap-installer/src-tauri/target/release/bundle/appimage -name '*.AppImage' -type f -print -quit)"
           test -n "${setup_appimage}"
-          cp "${setup_appimage}" release-assets/LABO-AI-Setup-x64.AppImage
-          sha256sum release-assets/LABO-AI-Setup-x64.AppImage > release-assets/LABO-AI-Setup-x64.AppImage.sha256
-          cp scripts/install-labo-ai-linux.sh release-assets/install-labo-ai-linux.sh
+          cp "${setup_appimage}" release-assets/NeuroBranch-Setup-x64.AppImage
+          sha256sum release-assets/NeuroBranch-Setup-x64.AppImage > release-assets/NeuroBranch-Setup-x64.AppImage.sha256
+          cp scripts/install-NeuroBranch-linux.sh release-assets/install-NeuroBranch-linux.sh
       - uses: actions/upload-artifact@v4
         with:
           name: desktop-setup-linux-x64
           path: |
-            release-assets/LABO-AI-Setup-x64.AppImage
-            release-assets/LABO-AI-Setup-x64.AppImage.sha256
-            release-assets/install-labo-ai-linux.sh
+            release-assets/NeuroBranch-Setup-x64.AppImage
+            release-assets/NeuroBranch-Setup-x64.AppImage.sha256
+            release-assets/install-NeuroBranch-linux.sh
           if-no-files-found: error
           retention-days: 14
 

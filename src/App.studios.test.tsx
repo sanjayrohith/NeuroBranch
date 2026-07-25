@@ -7,7 +7,7 @@ import App from './App'
 
 describe('NeuroBranch studios', () => {
   it('shows the source-first desktop updater in the shared settings', async () => {
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }),
@@ -22,7 +22,7 @@ describe('NeuroBranch studios', () => {
       }),
     }
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
 
     expect(await screen.findByText('Desktop updates')).toBeInTheDocument()
     expect(screen.getByText('v0.1.26')).toBeInTheDocument()
@@ -31,11 +31,11 @@ describe('NeuroBranch studios', () => {
     expect(screen.getByRole('button', { name: 'Install update' })).toBeEnabled()
     fireEvent.click(screen.getByRole('button', { name: 'Check for updates' }))
     expect(await screen.findByText('v0.1.27 is ready to install.')).toBeInTheDocument()
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('does not reinstall a main commit that is already installed', async () => {
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       getDesktopUpdateStatus: async () => ({
@@ -49,16 +49,16 @@ describe('NeuroBranch studios', () => {
       }),
     }
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
 
     expect(await screen.findByRole('button', { name: 'Up to date' })).toBeDisabled()
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('persists the selected theme in the private SQLite settings scope', async () => {
     const settings = { desktopUpdateChannel: 'main', appearance: { theme: 'complexity-spectrum' } }
     const saveDesktopState = vi.fn(async () => ({ saved: true as const }))
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       loadDesktopState: vi.fn(async (scope) => scope === 'settings' ? settings : undefined),
@@ -66,21 +66,21 @@ describe('NeuroBranch studios', () => {
     }
     render(<App />)
 
-    await waitFor(() => expect(document.documentElement).toHaveAttribute('data-labo-theme', 'complexity-spectrum'))
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    await waitFor(() => expect(document.documentElement).toHaveAttribute('data-neurobranch-theme', 'complexity-spectrum'))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Application' }))
     expect(screen.getByRole('button', { name: 'Use Complexity Spectrum theme' })).toHaveAttribute('aria-pressed', 'true')
-    fireEvent.click(screen.getByRole('button', { name: 'Use LABO Dark theme' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Use NeuroBranch Dark theme' }))
 
     await waitFor(() => expect(saveDesktopState).toHaveBeenCalledWith('settings', {
-      appearance: { theme: 'labo-dark' },
+      appearance: { theme: 'neurobranch-dark' },
     }))
   })
 
   it('persists the interface and agent-plan language in the private SQLite settings scope', async () => {
-    const settings = { appearance: { theme: 'labo-dark', language: 'fr' } }
+    const settings = { appearance: { theme: 'neurobranch-dark', language: 'fr' } }
     const saveDesktopState = vi.fn(async () => ({ saved: true as const }))
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       loadDesktopState: vi.fn(async (scope) => scope === 'settings' ? settings : undefined),
@@ -89,7 +89,7 @@ describe('NeuroBranch studios', () => {
     render(<App />)
 
     await waitFor(() => expect(document.documentElement).toHaveAttribute('lang', 'fr'))
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Application' }))
     fireEvent.click(screen.getByRole('button', { name: 'EnglishInterface and plans in English' }))
 
@@ -97,28 +97,28 @@ describe('NeuroBranch studios', () => {
       appearance: { language: 'en' },
     }))
     expect(document.documentElement).toHaveAttribute('lang', 'en')
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('documents desktop ChatGPT sign-in as the no-API-key agent path', () => {
-    window.labo = { platform: 'darwin', runtime: 'electron' }
+    window.neurobranch = { platform: 'darwin', runtime: 'electron' }
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Tips' }))
 
     expect(screen.getByText('Use your ChatGPT account without an API key')).toBeInTheDocument()
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('keeps the desktop ChatGPT sign-in tip visible from the web app', () => {
-    window.labo = { platform: 'web', runtime: 'web' }
+    window.neurobranch = { platform: 'web', runtime: 'web' }
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Tips' }))
 
     expect(screen.getByText('Use your ChatGPT account without an API key')).toBeInTheDocument()
     expect(screen.getByText(/In the desktop app/)).toBeInTheDocument()
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('keeps stable and main update detection separate when switching channels', async () => {
@@ -144,9 +144,9 @@ describe('NeuroBranch studios', () => {
         setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
       }
     })
-    window.labo = { platform: 'darwin', runtime: 'electron', getDesktopUpdateStatus }
+    window.neurobranch = { platform: 'darwin', runtime: 'electron', getDesktopUpdateStatus }
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
 
     expect(await screen.findByRole('button', { name: 'Up to date' })).toBeDisabled()
     fireEvent.click(screen.getByRole('button', { name: /MainExperimental/ }))
@@ -157,7 +157,7 @@ describe('NeuroBranch studios', () => {
     await waitFor(() => expect(screen.queryByText('main@abcdef1')).not.toBeInTheDocument())
     expect(screen.getByText('Latest stable release')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Up to date' })).toBeDisabled()
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('allows returning from Main to the verified Stable release at the same source revision', async () => {
@@ -185,9 +185,9 @@ describe('NeuroBranch studios', () => {
       updateAvailable: false,
       setupUrl: 'https://github.com/sanjayrohith/NeuroBranch/releases/latest',
     })
-    window.labo = { platform: 'darwin', runtime: 'electron', getDesktopUpdateStatus }
+    window.neurobranch = { platform: 'darwin', runtime: 'electron', getDesktopUpdateStatus }
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     expect(await screen.findByRole('button', { name: 'Up to date' })).toBeDisabled()
 
     fireEvent.click(screen.getByRole('button', { name: /StableRecommended/ }))
@@ -196,7 +196,7 @@ describe('NeuroBranch studios', () => {
   })
 
   it('labels a return from a newer Main commit as a Stable channel switch, not an update', async () => {
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       getDesktopUpdateStatus: async (requestedChannel) => requestedChannel === 'stable' ? {
@@ -208,7 +208,7 @@ describe('NeuroBranch studios', () => {
       },
     }
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     expect(await screen.findByRole('button', { name: 'Up to date' })).toBeDisabled()
 
     fireEvent.click(screen.getByRole('button', { name: /StableRecommended/ }))
@@ -273,20 +273,20 @@ describe('NeuroBranch studios', () => {
     fireEvent.click(screen.getByRole('menuitem', { name: 'Edit Updated AdamW' }))
     fireEvent.click(within(screen.getByRole('form', { name: 'Edit optimizer' })).getByRole('button', { name: 'Cancel' }))
   
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     expect(screen.getByRole('button', { name: 'Training Studio' })).toHaveAttribute('aria-pressed', 'true')
     const settings = screen.getByRole('dialog', { name: 'NeuroBranch settings' })
     expect(within(settings).getByRole('button', { name: 'General' })).toHaveAttribute('aria-pressed', 'true')
     for (const section of ['General', 'Workspaces', 'Agent', 'Application', 'Tips']) expect(within(settings).getByRole('button', { name: section })).toBeInTheDocument()
     fireEvent.click(within(settings).getByRole('button', { name: 'Application' }))
-    expect(within(settings).getByRole('button', { name: 'Use LABO Dark theme' })).toHaveAttribute('aria-pressed', 'true')
+    expect(within(settings).getByRole('button', { name: 'Use NeuroBranch Dark theme' })).toHaveAttribute('aria-pressed', 'true')
     fireEvent.click(within(settings).getByRole('button', { name: 'Use Complexity Spectrum theme' }))
-    expect(document.documentElement).toHaveAttribute('data-labo-theme', 'complexity-spectrum')
+    expect(document.documentElement).toHaveAttribute('data-neurobranch-theme', 'complexity-spectrum')
     fireEvent.pointerDown(document.querySelector('.model-card-modal-backdrop')!)
     expect(screen.queryByRole('dialog', { name: 'NeuroBranch settings' })).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Tokenizer Studio' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     const tokenizerSettings = screen.getByRole('dialog', { name: 'NeuroBranch settings' })
     for (const section of ['General', 'Workspaces', 'Agent', 'Application', 'Tips']) expect(within(tokenizerSettings).getByRole('button', { name: section })).toBeInTheDocument()
     fireEvent.click(within(tokenizerSettings).getByRole('button', { name: 'Application' }))
@@ -303,19 +303,19 @@ describe('NeuroBranch studios', () => {
 
     const dialog = screen.getByRole('form', { name: 'Create optimizer' })
     fireEvent.click(within(dialog).getByRole('button', { name: 'Add Normalize update' }))
-    fireEvent.change(within(dialog).getByRole('textbox', { name: 'Optimizer name' }), { target: { value: 'My LABO rule' } })
+    fireEvent.change(within(dialog).getByRole('textbox', { name: 'Optimizer name' }), { target: { value: 'My NeuroBranch rule' } })
     expect(within(dialog).getByRole('button', { name: 'Select Momentum' })).toBeInTheDocument()
     expect(within(dialog).getByRole('button', { name: 'Select Adaptive scale' })).toBeInTheDocument()
     expect(within(dialog).getByRole('button', { name: 'Select Normalize update' })).toBeInTheDocument()
     fireEvent.click(within(dialog).getByRole('button', { name: 'Create' }))
 
-    expect(screen.getByRole('button', { name: 'Use My LABO rule' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Use My NeuroBranch rule' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'PyTorch' }))
-    expect(screen.getByLabelText('Python code preview')).toHaveTextContent(/class LaboOptimizer\(torch\.optim\.Optimizer\):/)
+    expect(screen.getByLabelText('Python code preview')).toHaveTextContent(/class NeuroBranchOptimizer\(torch\.optim\.Optimizer\):/)
     expect(screen.getByLabelText('Python code preview')).toHaveTextContent(/momentum = state\.setdefault/)
     expect(screen.getByLabelText('Python code preview')).toHaveTextContent(/variance = state\.setdefault/)
-    expect(screen.getByLabelText('Python code preview')).toHaveTextContent(/optimizer = LaboOptimizer\(model\.parameters\(\)/)
-    expect(screen.getByLabelText('Python code preview')).not.toHaveTextContent(/torch\.optim\.LaboOptimizer/)
+    expect(screen.getByLabelText('Python code preview')).toHaveTextContent(/optimizer = NeuroBranchOptimizer\(model\.parameters\(\)/)
+    expect(screen.getByLabelText('Python code preview')).not.toHaveTextContent(/torch\.optim\.NeuroBranchOptimizer/)
   })
   
   it('keeps natural-language search inside the active studio', async () => {
@@ -338,7 +338,7 @@ describe('NeuroBranch studios', () => {
   
   it('restores custom optimizers from the persistent desktop workspace database', async () => {
     const saveDesktopState = vi.fn(async () => ({ saved: true as const }))
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }),

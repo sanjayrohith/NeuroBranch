@@ -9,17 +9,17 @@ import { researchBpePreset } from './core/tokenizer-presets'
 
 describe('NeuroBranch shell web', () => {
   it('reserves the native macOS titlebar area only inside Electron', () => {
-    window.labo = { platform: 'darwin', runtime: 'electron', runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }) }
+    window.neurobranch = { platform: 'darwin', runtime: 'electron', runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }) }
   
     render(<App />)
   
     expect(document.querySelector('.app-shell')).toHaveClass('runtime-electron')
-    delete window.labo
+    delete window.neurobranch
   })
   
   it('removes the macOS traffic-light offset in native fullscreen', async () => {
     let publish: ((state: { fullScreen: boolean }) => void) | undefined
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin', runtime: 'electron',
       runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }),
       getWindowState: async () => ({ fullScreen: false }),
@@ -31,22 +31,22 @@ describe('NeuroBranch shell web', () => {
     publish?.({ fullScreen: true })
   
     await waitFor(() => expect(document.querySelector('.app-shell')).toHaveClass('native-fullscreen'))
-    delete window.labo
+    delete window.neurobranch
   })
   
   it('uses native Windows chrome and Windows keyboard labels', () => {
-    window.labo = { platform: 'win32', runtime: 'electron', runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }) }
+    window.neurobranch = { platform: 'win32', runtime: 'electron', runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }) }
   
     render(<App />)
   
     expect(document.querySelector('.app-shell')).toHaveClass('runtime-electron', 'runtime-win32')
     expect(document.querySelector('.app-shell')).not.toHaveClass('runtime-darwin')
     expect(screen.getByRole('button', { name: 'Search model cards' })).toHaveTextContent('Ctrl+K')
-    delete window.labo
+    delete window.neurobranch
   })
   
   it('offers a typed graph preview in a browser renderer', async () => {
-    delete window.labo
+    delete window.neurobranch
     render(<App />)
   
     expect(screen.getByRole('button', { name: 'Play model atoms' })).toBeEnabled()
@@ -71,7 +71,7 @@ describe('NeuroBranch shell web', () => {
   it('keeps workspace data on the account and a local fallback for visual preferences', async () => {
     const saveWebWorkspace = vi.fn(async () => ({ saved: true as const, updatedAt: Date.now() }))
     const setItem = vi.spyOn(Storage.prototype, 'setItem')
-    window.labo = {
+    window.neurobranch = {
       platform: 'web',
       runtime: 'web',
       loadWebWorkspace: async () => ({ authenticated: true, workspace: null, customCards: [], settings: { appearance: { theme: 'complexity-spectrum' } } }),
@@ -79,23 +79,23 @@ describe('NeuroBranch shell web', () => {
     }
   
     render(<App />)
-    await waitFor(() => expect(document.documentElement).toHaveAttribute('data-labo-theme', 'complexity-spectrum'))
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    await waitFor(() => expect(document.documentElement).toHaveAttribute('data-neurobranch-theme', 'complexity-spectrum'))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Application' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Use LABO Dark theme' }))
-    await waitFor(() => expect(saveWebWorkspace).toHaveBeenCalledWith(expect.objectContaining({ settings: { appearance: { theme: 'labo-dark' } } })))
+    fireEvent.click(screen.getByRole('button', { name: 'Use NeuroBranch Dark theme' }))
+    await waitFor(() => expect(saveWebWorkspace).toHaveBeenCalledWith(expect.objectContaining({ settings: { appearance: { theme: 'neurobranch-dark' } } })))
     fireEvent.click(screen.getByRole('button', { name: 'Workspaces' }))
     fireEvent.click(screen.getByRole('button', { name: 'Create and open a blank workspace' }))
   
     await waitFor(() => expect(saveWebWorkspace).toHaveBeenCalled(), { timeout: 2_000 })
-    expect(setItem).toHaveBeenCalledWith('labo.web.preferences.v1', expect.stringContaining('labo-dark'))
-    delete window.labo
+    expect(setItem).toHaveBeenCalledWith('neurobranch.web.preferences.v1', expect.stringContaining('neurobranch-dark'))
+    delete window.neurobranch
     setItem.mockRestore()
   })
   
   it('keeps a guest workspace ephemeral but preserves its visual preference locally', async () => {
     const saveWebWorkspace = vi.fn(async () => ({ saved: true as const, updatedAt: Date.now() }))
-    window.labo = {
+    window.neurobranch = {
       platform: 'web',
       runtime: 'web',
       loadWebWorkspace: async () => ({ authenticated: false, workspace: null, customCards: [] }),
@@ -103,21 +103,21 @@ describe('NeuroBranch shell web', () => {
     }
   
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Application' }))
     fireEvent.click(screen.getByRole('button', { name: 'Use Complexity Spectrum theme' }))
-    await waitFor(() => expect(window.localStorage.getItem('labo.web.preferences.v1')).toContain('complexity-spectrum'))
+    await waitFor(() => expect(window.localStorage.getItem('neurobranch.web.preferences.v1')).toContain('complexity-spectrum'))
     fireEvent.click(screen.getByRole('button', { name: 'Workspaces' }))
     fireEvent.click(screen.getByRole('button', { name: 'Create and open a blank workspace' }))
     await new Promise((resolve) => setTimeout(resolve, 850))
   
     expect(saveWebWorkspace).not.toHaveBeenCalled()
-    delete window.labo
+    delete window.neurobranch
   })
   
   it('restores and saves account-scoped Training and Tokenizer workspaces on the web', async () => {
     const saveWebWorkspace = vi.fn(async () => ({ saved: true as const, updatedAt: Date.now() }))
-    window.labo = {
+    window.neurobranch = {
       platform: 'web',
       runtime: 'web',
       loadWebWorkspace: async () => ({
@@ -150,7 +150,7 @@ describe('NeuroBranch shell web', () => {
   
   it('documents edit-mode lasso selection and full-graph deletion in Settings tips', () => {
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Tips' }))
   
     const tip = screen.getByText('Delete several cards or a full graph').closest('article')
@@ -160,7 +160,7 @@ describe('NeuroBranch shell web', () => {
   
   it('never lets a late web restore delete a card added from search', async () => {
     let resolveWorkspace: ((value: { authenticated: boolean; workspace: unknown; customCards: unknown[] }) => void) | undefined
-    window.labo = {
+    window.neurobranch = {
       platform: 'web', runtime: 'web',
       loadWebWorkspace: () => new Promise((resolve) => { resolveWorkspace = resolve }),
       saveWebWorkspace: async () => ({ saved: true, updatedAt: Date.now() }),
@@ -178,6 +178,6 @@ describe('NeuroBranch shell web', () => {
       customCards: [],
     })
     await waitFor(() => expect(screen.getByRole('button', { name: 'Select Greedy token decoder' })).toBeInTheDocument())
-    delete window.labo
+    delete window.neurobranch
   })
 })

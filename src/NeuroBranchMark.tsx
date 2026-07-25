@@ -1,8 +1,8 @@
-type LaboMarkProps = {
+type NeuroBranchMarkProps = {
   className?: string
 }
 
-export function LaboMark({ className }: LaboMarkProps) {
+export function NeuroBranchMark({ className }: NeuroBranchMarkProps) {
   return (
     <svg aria-hidden="true" className={className} viewBox="0 0 64 64" fill="none">
       <path d="M17 17 32 32 47 17M17 47l15-15 15 15" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity=".72" />

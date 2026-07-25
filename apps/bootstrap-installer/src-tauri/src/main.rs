@@ -1,3 +1,3 @@
 fn main() {
-    labo_ai_setup_lib::run();
+    neurobranch_setup_lib::run();
 }

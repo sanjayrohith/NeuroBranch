@@ -66,6 +66,6 @@ export function architectureDiagramSvg(graph: ArchitectureGraph): string {
 }
 
 export function exportFileName(graph: ArchitectureGraph, extension: 'svg' | 'py'): string {
-  const base = graph.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'labo-architecture'
+  const base = graph.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'neurobranch-architecture'
   return `${base}.${extension}`
 }

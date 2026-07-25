@@ -1,13 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "LABO_WEB_BASE=/labo-live/ npm run build",
+  "buildCommand": "NEUROBRANCH_WEB_BASE=/neurobranch-live/ npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/labo-live/assets/:path*", "destination": "/assets/:path*" },
-    { "source": "/labo-live/favicon.svg", "destination": "/favicon.svg" },
-    { "source": "/labo-live", "destination": "/index.html" },
-    { "source": "/labo-live/:path*", "destination": "/index.html" },
+    { "source": "/neurobranch-live/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/neurobranch-live/favicon.svg", "destination": "/favicon.svg" },
+    { "source": "/neurobranch-live", "destination": "/index.html" },
+    { "source": "/neurobranch-live/:path*", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

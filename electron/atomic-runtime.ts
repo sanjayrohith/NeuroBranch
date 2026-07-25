@@ -62,17 +62,17 @@ export function resolveAtomicRuntimePaths(options: AtomicRuntimePathOptions = {}
   const pathCandidates = environmentPath.split(pathDelimiter).filter(Boolean).flatMap((directory) => executableNames.map((name) => resolve(directory, name)))
   const pythonCandidates = [
     options.configuredPython,
-    process.env.LABO_AI_PYTHON,
+    process.env.NEUROBRANCH_AI_PYTHON,
     options.userDataDirectory && resolve(options.userDataDirectory, 'runtime', 'Scripts', 'python.exe'),
     options.userDataDirectory && resolve(options.userDataDirectory, 'runtime', 'bin', 'python'),
     resolve(root, '.venv', 'Scripts', 'python.exe'),
     resolve(root, '.venv', 'bin', 'python'),
-    resolve(home, 'Dev', 'labo-ai', '.venv', 'Scripts', 'python.exe'),
-    resolve(home, 'Dev', 'labo-ai', '.venv', 'bin', 'python'),
-    resolve(home, 'Development', 'labo-ai', '.venv', 'Scripts', 'python.exe'),
-    resolve(home, 'Development', 'labo-ai', '.venv', 'bin', 'python'),
-    resolve(home, 'Projects', 'labo-ai', '.venv', 'Scripts', 'python.exe'),
-    resolve(home, 'Projects', 'labo-ai', '.venv', 'bin', 'python'),
+    resolve(home, 'Dev', 'NeuroBranch', '.venv', 'Scripts', 'python.exe'),
+    resolve(home, 'Dev', 'NeuroBranch', '.venv', 'bin', 'python'),
+    resolve(home, 'Development', 'NeuroBranch', '.venv', 'Scripts', 'python.exe'),
+    resolve(home, 'Development', 'NeuroBranch', '.venv', 'bin', 'python'),
+    resolve(home, 'Projects', 'NeuroBranch', '.venv', 'Scripts', 'python.exe'),
+    resolve(home, 'Projects', 'NeuroBranch', '.venv', 'bin', 'python'),
     ...pathCandidates,
     '/opt/homebrew/bin/python3',
     '/usr/local/bin/python3',
@@ -80,7 +80,7 @@ export function resolveAtomicRuntimePaths(options: AtomicRuntimePathOptions = {}
   ].filter((candidate): candidate is string => Boolean(candidate))
   const pythonExecutable = pythonCandidates.find(existsSync)
   if (!pythonExecutable) {
-    throw new Error('Atomic runtime needs Python 3 with PyTorch. Set LABO_AI_PYTHON or keep a project .venv available (.venv/Scripts/python.exe on Windows).')
+    throw new Error('Atomic runtime needs Python 3 with PyTorch. Set NEUROBRANCH_AI_PYTHON or keep a project .venv available (.venv/Scripts/python.exe on Windows).')
   }
 
   const runnerCandidates = [

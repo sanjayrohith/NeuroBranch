@@ -52,7 +52,7 @@ const twoHiddenInputs: AtomPort[] = [
 /**
  * Executable image, video, audio and multimodal atoms.
  *
- * LABO represents media as rank-3 token sequences [batch, tokens, channels].
+ * NeuroBranch represents media as rank-3 token sequences [batch, tokens, channels].
  * Raw pixels/frames are patchified before entering the graph; every atom below
  * therefore composes with the same typed elastic system as language tokens.
  */

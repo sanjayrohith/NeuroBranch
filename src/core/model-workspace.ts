@@ -1,6 +1,6 @@
 import type { ArchitectureGraph } from './ir'
 
-export const MODEL_WORKSPACE_STORAGE_KEY = 'labo.model-workspace.v1'
+export const MODEL_WORKSPACE_STORAGE_KEY = 'neurobranch.model-workspace.v1'
 
 export interface ModelPresetDraft {
   graph: ArchitectureGraph

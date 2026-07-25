@@ -22,18 +22,18 @@ describe('training optimizer IR', () => {
 
   it('compiles a genuinely composed optimizer class from update modules', () => {
     const custom = {
-      id: 'custom-labo',
-      label: 'LABO optimizer',
-      torchClass: 'LaboOptimizer',
+      id: 'custom-neurobranch',
+      label: 'NeuroBranch optimizer',
+      torchClass: 'NeuroBranchOptimizer',
       defaults: { lr: 0.001, beta1: 0.9, beta2: 0.999, eps: 1e-8, weight_decay: 0.01 },
       composition: { kind: 'composed' as const, momentum: true, adaptiveScale: true, normalizeGradient: false, decoupledWeightDecay: true },
     }
     const code = compileOptimizer(createOptimizerConfig(custom.id, {}, { [custom.id]: custom }), 'model.parameters()', { [custom.id]: custom })
-    expect(code).toContain('class LaboOptimizer(torch.optim.Optimizer):')
+    expect(code).toContain('class NeuroBranchOptimizer(torch.optim.Optimizer):')
     expect(code).toContain("momentum = state.setdefault('momentum'")
     expect(code).toContain("variance = state.setdefault('variance'")
     expect(code).toContain("parameter.mul_(1 - group['lr'] * group.get('weight_decay', 0.0))")
-    expect(code).toContain('optimizer = LaboOptimizer(model.parameters()')
-    expect(code).not.toContain('torch.optim.LaboOptimizer')
+    expect(code).toContain('optimizer = NeuroBranchOptimizer(model.parameters()')
+    expect(code).not.toContain('torch.optim.NeuroBranchOptimizer')
   })
 })

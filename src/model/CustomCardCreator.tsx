@@ -19,7 +19,7 @@ import { AtomicPlayer, type AtomicPlayerSnapshot } from '../core/atomic-player'
 import { executionLayers } from '../core/execution-plan'
 import { previewModelAtom } from '../core/browser-atomic-preview'
 import { exportArchitectureDiagram, exportPyTorchCode } from './export-actions'
-import { useLaboLanguage } from '../studio/application-language'
+import { useNeuroBranchLanguage } from '../studio/application-language'
 import { AgentPlanReview } from './AgentPlanReview'
 import { agentPlanReviewText } from './agent-plan-review-text'
 
@@ -95,7 +95,7 @@ function blankDraftGraph(): ArchitectureGraph {
 }
 
 export const CustomCardCreator = forwardRef<CustomCardCreatorHandle, { editMode: boolean; inspectorOpen: boolean; libraryOpen: boolean; onClose(): void; onCreate(card: CardDraft, destination: CustomCardDestination): CustomCardCreateResult; onPlayerSnapshotChange?(snapshot: AtomicPlayerSnapshot): void; onRequestedCardHandled?(): void; requestedCard?: { atomId: string; requestId: number }; selectedTarget?: string; view: CardBuilderView }>(function CustomCardCreator({ editMode, inspectorOpen, libraryOpen, onClose, onCreate, onPlayerSnapshotChange, onRequestedCardHandled = () => undefined, requestedCard, selectedTarget, view }, ref) {
-  const language = useLaboLanguage()
+  const language = useNeuroBranchLanguage()
   const [name, setName] = useState('My reusable card')
   const [need, setNeed] = useState('')
   const [graph, setGraph] = useState<ArchitectureGraph>(() => blankDraftGraph())
@@ -148,9 +148,9 @@ export const CustomCardCreator = forwardRef<CustomCardCreatorHandle, { editMode:
 
   useEffect(() => {
     const valid = validateGraph(graph).valid
-    let tracePromise: Promise<LaboRuntimeTrace> | undefined
+    let tracePromise: Promise<NeuroBranchRuntimeTrace> | undefined
     const player = new AtomicPlayer(valid ? executionLayers(graph) : graph.nodes.map((node) => [node.id]), async (atomId) => {
-      const runAtomic = window.labo?.runAtomic
+      const runAtomic = window.neurobranch?.runAtomic
       if (!runAtomic) return previewModelAtom(graph, atomId)
       tracePromise ??= runAtomic({ kind: 'model', graph })
       const trace = await tracePromise
@@ -207,15 +207,15 @@ export const CustomCardCreator = forwardRef<CustomCardCreatorHandle, { editMode:
     activeActivityIdRef.current = activityId
     setActivities((current) => [{ id: activityId, prompt, status: 'running' as const, createdAt: Date.now() }, ...current].slice(0, 20))
     setActivityOpen(true)
-    if (!window.labo?.askLabo) {
-      setError('Connect Ask LABO before composing a reusable card. No graph was changed.')
-      updateActivity(activityId, { status: 'failed', error: 'Connect Ask LABO before composing a reusable card.' })
+    if (!window.neurobranch?.askNeuroBranch) {
+      setError('Connect Ask NeuroBranch before composing a reusable card. No graph was changed.')
+      updateActivity(activityId, { status: 'failed', error: 'Connect Ask NeuroBranch before composing a reusable card.' })
       return
     }
     setAgentBusy(true)
     setError('')
     try {
-      const plan = await window.labo.askLabo({
+      const plan = await window.neurobranch.askNeuroBranch({
         request: `Compose a reusable typed card graph for this need: ${prompt}`,
         context: { ...createAgentGraphContext(graph), cardBuilderMode: true, responseLocale: language },
       })
@@ -237,7 +237,7 @@ export const CustomCardCreator = forwardRef<CustomCardCreatorHandle, { editMode:
       })
     } catch (reason) {
       const message = reason instanceof Error ? reason.message : String(reason)
-      setError(`LABO agent did not change the card. ${message}`)
+      setError(`NeuroBranch agent did not change the card. ${message}`)
       updateActivity(activityId, { status: 'failed', error: message })
     } finally { setAgentBusy(false) }
   }
@@ -284,8 +284,8 @@ export const CustomCardCreator = forwardRef<CustomCardCreatorHandle, { editMode:
     <StudioWorkspace aria-label="Card construction blocks" className="card-builder-workspace" inspectorOpen={inspectorOpen} libraryOpen={libraryOpen}>
       {libraryOpen && <StudioLibrary className={`mode-${editMode ? 'edit' : 'add'}`} heading="BLOCK LIBRARY" icon={<PanelLeft size={14} />}>
         <section className="block-group card-builder-library-content">
-          <details className="library-family graph-input-family" open><summary>Card inputs <span>{inputChoices.length}</span></summary>{inputChoices.map((item) => <button aria-label={`Add ${item.label}`} className="library-block" disabled={editMode} draggable={!editMode} key={item.role} onClick={() => addInput(item.role)} onDragStart={(event) => { event.dataTransfer.setData('application/x-labo-graph-input', item.role); setLibraryDragPreview(event.dataTransfer, item.label, 'glyph-input') }}><span className="block-glyph glyph-input" /><Plus size={10} />{item.label}</button>)}</details>
-          <details className="library-family catalog-family" open><summary>Card atoms <span>{palette.length}</span></summary><StudioChoiceMenu<ModelAtomCategory | 'all'> ariaLabel="Custom card category" className="card-builder-family-select" label="Family" onChange={setPaletteCategory} options={paletteCategories.map((item) => ({ label: item.label, value: item.id }))} value={paletteCategory} /><div aria-label="Atomic card palette">{palette.map((definition) => <button aria-label={`Add ${definition.label}`} className="library-block" disabled={editMode} draggable={!editMode} key={definition.id} onClick={() => addAtom(definition)} onDragStart={(event) => { event.dataTransfer.setData('application/x-labo-model-atom', definition.id); setLibraryDragPreview(event.dataTransfer, definition.label, `glyph-${definition.category}`) }}><span className={`block-glyph glyph-${definition.category}`} />{definition.label}</button>)}</div></details>
+          <details className="library-family graph-input-family" open><summary>Card inputs <span>{inputChoices.length}</span></summary>{inputChoices.map((item) => <button aria-label={`Add ${item.label}`} className="library-block" disabled={editMode} draggable={!editMode} key={item.role} onClick={() => addInput(item.role)} onDragStart={(event) => { event.dataTransfer.setData('application/x-neurobranch-graph-input', item.role); setLibraryDragPreview(event.dataTransfer, item.label, 'glyph-input') }}><span className="block-glyph glyph-input" /><Plus size={10} />{item.label}</button>)}</details>
+          <details className="library-family catalog-family" open><summary>Card atoms <span>{palette.length}</span></summary><StudioChoiceMenu<ModelAtomCategory | 'all'> ariaLabel="Custom card category" className="card-builder-family-select" label="Family" onChange={setPaletteCategory} options={paletteCategories.map((item) => ({ label: item.label, value: item.id }))} value={paletteCategory} /><div aria-label="Atomic card palette">{palette.map((definition) => <button aria-label={`Add ${definition.label}`} className="library-block" disabled={editMode} draggable={!editMode} key={definition.id} onClick={() => addAtom(definition)} onDragStart={(event) => { event.dataTransfer.setData('application/x-neurobranch-model-atom', definition.id); setLibraryDragPreview(event.dataTransfer, definition.label, `glyph-${definition.category}`) }}><span className={`block-glyph glyph-${definition.category}`} />{definition.label}</button>)}</div></details>
           <details className="library-family card-builder-save-family" open><summary>Reusable card <span>{graph.nodes.length}</span></summary><label><span>Name</span><input aria-label="Custom card name" onChange={(event) => setName(event.target.value)} value={name} /></label><StudioChoiceMenu<CustomCardDestination> ariaLabel="Card destination" label="Save as" onChange={setDestination} options={destinationChoices} value={destination} />{(error || validationErrors.length > 0) && <p className="model-card-modal-error" role="alert">{error || validationErrors[0]}</p>}<div className="card-builder-save-actions"><button className="create-custom-card-button" disabled={validationErrors.length > 0} onClick={create}>{destination === 'library' ? 'Save to My cards' : destination === 'selected' ? `Create after ${selectedTarget ?? 'selection'}` : 'Create reusable architecture'}</button><button className="card-builder-cancel" onClick={onClose}>Cancel</button></div></details>
         </section>
       </StudioLibrary>}
@@ -296,10 +296,10 @@ export const CustomCardCreator = forwardRef<CustomCardCreatorHandle, { editMode:
       <StudioInspector heading="INSPECTOR" hidden={!inspectorOpen} icon={<Cpu size={14} />}><section className="inspector-section"><div className="section-title">Selection</div><div className="selection-card"><span className="selection-icon"><Zap size={15} /></span><div><strong>{selectedNode?.label ?? 'No selection'}</strong><small>{selectedNode?.id ?? '—'}</small></div></div><div className="card-builder-port-summary"><span>EXPOSED PLUGS</span><strong>{cardInputs.length} in · {cardOutputs.length} out</strong></div>{selectedNode ? <div className="card-builder-inspector-fields"><label><span>Card label</span><input aria-label="Selected internal card label" onChange={(event) => setGraph((current) => ({ ...current, nodes: current.nodes.map((node) => node.id === selectedNode.id ? { ...node, label: event.target.value } : node) }))} value={selectedNode.label} /></label>{selectedNode.kind === 'semantic' && selectedNode.atomId && modelAtomRegistry[selectedNode.atomId]?.settings.map((setting) => <label key={setting.id}><span>{setting.id}</span>{setting.type === 'boolean' ? <input checked={Boolean(selectedNode.attributes?.[setting.id])} onChange={(event) => setGraph((current) => updateNodeAttributes(current, selectedNode.id, { [setting.id]: event.target.checked }))} type="checkbox" /> : <input onChange={(event) => setGraph((current) => updateNodeAttributes(current, selectedNode.id, { [setting.id]: setting.type === 'number' ? Number(event.target.value) : event.target.value }))} type={setting.type === 'number' ? 'number' : 'text'} value={String(selectedNode.attributes?.[setting.id] ?? setting.default)} />}</label>)}<button className="card-builder-delete" onClick={() => deleteNode(selectedNode.id)}><Trash2 size={12} />Delete internal card</button></div> : <p className="blank-graph-hint">Choose a card atom from the library.</p>}</section></StudioInspector>
     </StudioWorkspace>
     {activityOpen && !pendingAgentPlan && <AgentActivityPanel activities={activities} busy={agentBusy} onClear={() => { setActivities([]); activeActivityIdRef.current = undefined }} onClose={() => setActivityOpen(false)} onRetry={(activity) => { setNeed(activity.prompt); void composePrompt(activity.prompt) }} onReview={reviewActivity} />}
-    <StudioStatusbar className="model-statusbar card-builder-statusbar"><AgentPrompt busy={agentBusy} details={{ active: activityOpen, count: activities.length > 0 ? (activities.some((activity) => activity.status === 'running') ? '…' : activities.length) : undefined, label: 'Open agent activity', onToggle: () => setActivityOpen((current) => !current) }} mode="reusable-card" onChange={setNeed} onSubmit={() => void composePrompt()} value={need} /><span><span className={`status-dot ${validationErrors.length === 0 ? '' : 'invalid'}`} /> Card IR {graph.nodes.length === 0 ? 'blank' : validationErrors.length === 0 ? 'valid' : 'incomplete'}</span><span>{graph.nodes.length} nodes · {graph.edges.length} links</span><span className="status-spacer" /><span>PyTorch 2.7</span><span>LABO Runtime · local</span></StudioStatusbar>
-    {pendingAgentPlan && <div className="ask-labo-backdrop review-open" onPointerDown={(event) => { if (event.target === event.currentTarget) discardPendingAgentPlan() }}>
-      <aside aria-label="Ask LABO" aria-modal="true" className="ask-labo-panel has-plan" role="dialog">
-        <header className="ask-labo-header"><span><Sparkles size={15} />{agentPlanReviewText[language].title}</span><button aria-label={agentPlanReviewText[language].close} onClick={discardPendingAgentPlan} type="button"><X size={15} /></button></header>
+    <StudioStatusbar className="model-statusbar card-builder-statusbar"><AgentPrompt busy={agentBusy} details={{ active: activityOpen, count: activities.length > 0 ? (activities.some((activity) => activity.status === 'running') ? '…' : activities.length) : undefined, label: 'Open agent activity', onToggle: () => setActivityOpen((current) => !current) }} mode="reusable-card" onChange={setNeed} onSubmit={() => void composePrompt()} value={need} /><span><span className={`status-dot ${validationErrors.length === 0 ? '' : 'invalid'}`} /> Card IR {graph.nodes.length === 0 ? 'blank' : validationErrors.length === 0 ? 'valid' : 'incomplete'}</span><span>{graph.nodes.length} nodes · {graph.edges.length} links</span><span className="status-spacer" /><span>PyTorch 2.7</span><span>NeuroBranch Runtime · local</span></StudioStatusbar>
+    {pendingAgentPlan && <div className="ask-neurobranch-backdrop review-open" onPointerDown={(event) => { if (event.target === event.currentTarget) discardPendingAgentPlan() }}>
+      <aside aria-label="Ask NeuroBranch" aria-modal="true" className="ask-neurobranch-panel has-plan" role="dialog">
+        <header className="ask-neurobranch-header"><span><Sparkles size={15} />{agentPlanReviewText[language].title}</span><button aria-label={agentPlanReviewText[language].close} onClick={discardPendingAgentPlan} type="button"><X size={15} /></button></header>
         <AgentPlanReview language={language} onApply={applyPendingAgentPlan} onDiscard={discardPendingAgentPlan} plan={pendingAgentPlan.plan} preview={pendingAgentPlan.preview} />
       </aside>
     </div>}

@@ -2,25 +2,24 @@
 
 set -euo pipefail
 
-REPOSITORY="Complexity-ML/labo-ai"
-ASSET="LABO-AI-Setup-x64.AppImage"
+REPOSITORY="Complexity-ML/NeuroBranch"
+ASSET="NeuroBranch-Setup-arm64-helper"
 LATEST_URL="https://github.com/${REPOSITORY}/releases/latest/download"
-CONFIG_ROOT="${XDG_CONFIG_HOME:-${HOME}/.config}"
-INSTALL_DIR="${CONFIG_ROOT}/NeuroBranch/installer"
-INSTALL_PATH="${INSTALL_DIR}/labo-ai-setup"
-LOG_PATH="${TMPDIR:-/tmp}/labo-ai-setup.log"
+INSTALL_DIR="${HOME}/Library/Application Support/NeuroBranch/setup"
+INSTALL_PATH="${INSTALL_DIR}/NeuroBranch-setup"
+LOG_PATH="${TMPDIR:-/tmp}/NeuroBranch-setup.log"
 
-if [[ "$(uname -s)" != "Linux" ]]; then
-  printf 'NeuroBranch Linux Setup can only run on Linux.\n' >&2
+if [[ "$(uname -s)" != "Darwin" ]]; then
+  printf 'NeuroBranch macOS Setup can only run on macOS.\n' >&2
   exit 1
 fi
 
-if [[ "$(uname -m)" != "x86_64" ]]; then
-  printf 'NeuroBranch currently requires an x86_64 Linux system.\n' >&2
+if [[ "$(uname -m)" != "arm64" ]]; then
+  printf 'NeuroBranch currently requires an Apple silicon Mac.\n' >&2
   exit 1
 fi
 
-temporary_dir="$(mktemp -d "${TMPDIR:-/tmp}/labo-ai-setup.XXXXXX")"
+temporary_dir="$(mktemp -d "${TMPDIR:-/tmp}/NeuroBranch-setup.XXXXXX")"
 cleanup() {
   rm -rf "${temporary_dir}"
 }
@@ -35,21 +34,22 @@ curl --fail --location --silent --show-error \
   --output "${temporary_dir}/${ASSET}.sha256"
 
 expected_sha="$(awk 'NR == 1 { print $1 }' "${temporary_dir}/${ASSET}.sha256")"
-actual_sha="$(sha256sum "${temporary_dir}/${ASSET}" | awk '{ print $1 }')"
+actual_sha="$(shasum -a 256 "${temporary_dir}/${ASSET}" | awk '{ print $1 }')"
 if [[ -z "${expected_sha}" || "${actual_sha}" != "${expected_sha}" ]]; then
   printf 'NeuroBranch Setup checksum verification failed. Nothing was installed.\n' >&2
   exit 1
 fi
 
-if [[ "${LABO_AI_SETUP_VERIFY_ONLY:-0}" == "1" ]]; then
+if [[ "${NEUROBRANCH_SETUP_VERIFY_ONLY:-0}" == "1" ]]; then
   printf 'NeuroBranch Setup checksum verified: %s\n' "${actual_sha}"
   exit 0
 fi
 
 mkdir -p "${INSTALL_DIR}"
-install -m 755 "${temporary_dir}/${ASSET}" "${INSTALL_PATH}.next"
+/usr/bin/install -m 755 "${temporary_dir}/${ASSET}" "${INSTALL_PATH}.next"
 mv -f "${INSTALL_PATH}.next" "${INSTALL_PATH}"
+xattr -dr com.apple.quarantine "${INSTALL_PATH}" 2>/dev/null || true
 
 printf 'Verified. Opening NeuroBranch Setup…\n'
-APPIMAGE_EXTRACT_AND_RUN=1 nohup "${INSTALL_PATH}" --auto-install >"${LOG_PATH}" 2>&1 &
+nohup "${INSTALL_PATH}" --auto-install >"${LOG_PATH}" 2>&1 &
 printf 'The Setup window will open now. Log: %s\n' "${LOG_PATH}"

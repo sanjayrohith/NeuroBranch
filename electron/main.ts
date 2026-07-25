@@ -4,8 +4,8 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { rendererWebPreferences } from './security.js'
 import { runAtomicRuntime, type AtomicRuntimePayload } from './atomic-runtime.js'
-import { askLaboChannel, atomicRuntimeChannel, chatGPTSessionChannel, configureChatGPTChannel, connectChatGPTChannel, deleteOpenAIKeyChannel, desktopUpdateStatusChannel, disconnectChatGPTChannel, exportFileChannel, launchDesktopUpdateChannel, loadDesktopStateChannel, openAISettingsChannel, openDesktopSetupChannel, saveDesktopStateChannel, saveOpenAIKeyChannel, testOpenAIKeyChannel, windowStateChannel } from './ipc-contract.js'
-import { askLabo } from './ask-labo.js'
+import { askNeuroBranchChannel, atomicRuntimeChannel, chatGPTSessionChannel, configureChatGPTChannel, connectChatGPTChannel, deleteOpenAIKeyChannel, desktopUpdateStatusChannel, disconnectChatGPTChannel, exportFileChannel, launchDesktopUpdateChannel, loadDesktopStateChannel, openAISettingsChannel, openDesktopSetupChannel, saveDesktopStateChannel, saveOpenAIKeyChannel, testOpenAIKeyChannel, windowStateChannel } from './ipc-contract.js'
+import { askNeuroBranch } from './ask-neurobranch.js'
 import { loadDesktopState, saveDesktopState } from './desktop-state.js'
 import { deleteOpenAIApiKey, getOpenAISettingsStatus, saveOpenAIApiKey, testOpenAIConnection } from './openai-credentials.js'
 import { cacheDesktopUpdateStatus, desktopSetupReleaseUrl, getDesktopUpdateStatus, launchDesktopUpdate, parseDesktopUpdateCache, restoreDesktopUpdateStatus, validDesktopUpdateChannel } from './desktop-updates.js'
@@ -26,7 +26,7 @@ function allowedChatGPTSignInUrl(candidate: string): string {
 const chatGPT = new CodexAppServer(
   (url) => shell.openExternal(allowedChatGPTSignInUrl(url)),
   app.getVersion(),
-  process.env.LABO_CODEX_HOME?.trim() || join(app.getPath('userData'), 'codex'),
+  process.env.NEUROBRANCH_CODEX_HOME?.trim() || join(app.getPath('userData'), 'codex'),
 )
 
 interface ChatGPTPreferences { model?: string; effort?: string }
@@ -93,9 +93,9 @@ function createMainWindow(): BrowserWindow {
 
 app.whenReady().then(() => {
   ipcMain.handle(atomicRuntimeChannel, (_event, payload: AtomicRuntimePayload) => runAtomicRuntime(payload, app.isPackaged ? { userDataDirectory: app.getPath('userData') } : {}))
-  ipcMain.handle(askLaboChannel, async (_event, payload) => {
+  ipcMain.handle(askNeuroBranchChannel, async (_event, payload) => {
     const session = await chatGPT.status()
-    return session.connected ? chatGPT.ask(payload, await chatGPTPreferences()) : askLabo(payload)
+    return session.connected ? chatGPT.ask(payload, await chatGPTPreferences()) : askNeuroBranch(payload)
   })
   ipcMain.handle(openAISettingsChannel, () => getOpenAISettingsStatus())
   ipcMain.handle(saveOpenAIKeyChannel, (_event, payload) => saveOpenAIApiKey(payload))
@@ -135,7 +135,7 @@ app.whenReady().then(() => {
   })
   ipcMain.handle(openDesktopSetupChannel, () => shell.openExternal(desktopSetupReleaseUrl))
   ipcMain.handle(exportFileChannel, async (event, payload: { filename?: unknown; content?: unknown; kind?: unknown }) => {
-    if (typeof payload?.filename !== 'string' || typeof payload.content !== 'string' || !['svg', 'python'].includes(String(payload.kind)) || payload.content.length > 10_000_000) throw new Error('Invalid LABO export payload')
+    if (typeof payload?.filename !== 'string' || typeof payload.content !== 'string' || !['svg', 'python'].includes(String(payload.kind)) || payload.content.length > 10_000_000) throw new Error('Invalid NeuroBranch export payload')
     const extension = payload.kind === 'svg' ? 'svg' : 'py'
     const filename = payload.filename.replace(/[^A-Za-z0-9._-]+/g, '-').replace(new RegExp(`\\.${extension}$`, 'i'), '') + `.${extension}`
     const owner = BrowserWindow.fromWebContents(event.sender) ?? undefined

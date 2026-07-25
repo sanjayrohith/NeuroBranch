@@ -3,13 +3,13 @@
 set -euo pipefail
 
 if [[ $# -ne 1 || ! -f "$1" ]]; then
-  printf 'Usage: %s path/to/LABO-AI-Setup.dmg\n' "$0" >&2
+  printf 'Usage: %s path/to/NeuroBranch-Setup.dmg\n' "$0" >&2
   exit 1
 fi
 
 input_dmg="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 script_dir="$(cd "$(dirname "$0")" && pwd)"
-temporary_dir="$(mktemp -d "${TMPDIR:-/tmp}/labo-ai-dmg.XXXXXX")"
+temporary_dir="$(mktemp -d "${TMPDIR:-/tmp}/NeuroBranch-dmg.XXXXXX")"
 device=""
 
 cleanup() {

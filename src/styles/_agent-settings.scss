@@ -1,6 +1,6 @@
 @use 'tokens' as *;
 
-.studio-settings-modal .ask-labo-settings-content {
+.studio-settings-modal .ask-neurobranch-settings-content {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: start;
@@ -9,7 +9,7 @@
   background: #1b1e26;
 }
 
-.studio-settings-modal .ask-labo-intro {
+.studio-settings-modal .ask-neurobranch-intro {
   grid-column: 1 / -1;
   padding: 15px 16px;
   border: 1px solid #3a4049;
@@ -61,7 +61,7 @@
   }
 }
 
-.studio-settings-modal .ask-labo-key-settings {
+.studio-settings-modal .ask-neurobranch-key-settings {
   grid-column: 1 / -1;
   padding: 16px;
   border: 1px solid #393f48;
@@ -69,7 +69,7 @@
   background: #20242b;
 }
 
-.studio-settings-modal .ask-labo-key-heading {
+.studio-settings-modal .ask-neurobranch-key-heading {
   min-height: 22px;
   color: #d7dfdb;
   font: 9px var(--mono);
@@ -77,7 +77,7 @@
   text-transform: uppercase;
 }
 
-.studio-settings-modal .ask-labo-key-form {
+.studio-settings-modal .ask-neurobranch-key-form {
   gap: 9px;
   margin-top: 10px;
 
@@ -87,14 +87,14 @@
   > button { min-height: 34px; border-radius: 8px; }
 }
 
-.studio-settings-modal .ask-labo-key-status {
+.studio-settings-modal .ask-neurobranch-key-status {
   margin-top: 10px;
   border-radius: 9px;
   background: rgb(145 199 173 / 6%);
 }
 
 @media (max-width: 1120px) {
-  .studio-settings-modal .ask-labo-settings-content { grid-template-columns: 1fr; }
-  .studio-settings-modal .ask-labo-intro,
-  .studio-settings-modal .ask-labo-key-settings { grid-column: 1; }
+  .studio-settings-modal .ask-neurobranch-settings-content { grid-template-columns: 1fr; }
+  .studio-settings-modal .ask-neurobranch-intro,
+  .studio-settings-modal .ask-neurobranch-key-settings { grid-column: 1; }
 }

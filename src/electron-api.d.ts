@@ -1,11 +1,11 @@
-interface LaboRuntimeResult {
+interface NeuroBranchRuntimeResult {
   atomId: string
   status: 'passed' | 'failed'
   summary?: string
   error?: string
 }
 
-interface LaboRuntimeTrace {
+interface NeuroBranchRuntimeTrace {
   engine: 'pytorch' | 'tokenizers'
   status: 'completed' | 'failed'
   currentAtomId?: string
@@ -19,15 +19,15 @@ interface LaboRuntimeTrace {
     topTokenIds?: number[]
     topProbabilities?: number[]
   }
-  results: LaboRuntimeResult[]
+  results: NeuroBranchRuntimeResult[]
 }
 
 interface Window {
-  labo?: {
+  neurobranch?: {
     platform: string
     runtime: 'electron' | 'web'
-    runAtomic?(payload: { kind: 'model'; graph: unknown; tokenIds?: number[] } | { kind: 'tokenizer'; pipeline: unknown; sample?: string }): Promise<LaboRuntimeTrace>
-    askLabo?(payload: { request: string; context: Record<string, unknown> }): Promise<import('./core/agentic-graph').AgentGraphPlan>
+    runAtomic?(payload: { kind: 'model'; graph: unknown; tokenIds?: number[] } | { kind: 'tokenizer'; pipeline: unknown; sample?: string }): Promise<NeuroBranchRuntimeTrace>
+    askNeuroBranch?(payload: { request: string; context: Record<string, unknown> }): Promise<import('./core/agentic-graph').AgentGraphPlan>
     getOpenAISettings?(): Promise<OpenAISettingsStatus>
     saveOpenAIKey?(apiKey: string): Promise<OpenAISettingsStatus>
     deleteOpenAIKey?(): Promise<OpenAISettingsStatus>

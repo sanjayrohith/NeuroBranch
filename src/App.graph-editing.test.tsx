@@ -40,7 +40,7 @@ describe('NeuroBranch graph editing', () => {
     const relu = screen.getByRole('button', { name: 'Select ReLU' })
     expect(relu.closest('.architecture-node')).toHaveAttribute('data-atom-id', 'relu')
     const updatedCode = (screen.getByRole('textbox', { name: 'PyTorch editor' }) as HTMLTextAreaElement).value
-    expect(updatedCode).toContain('# labo:node=relu-1 atom=relu')
+    expect(updatedCode).toContain('# neurobranch:node=relu-1 atom=relu')
     expect(updatedCode).toContain('self.relu_1 = nn.ReLU(inplace=False)')
     expect(updatedCode).not.toContain('relu_1_output = self.relu_1(')
   }, 15_000)
@@ -91,7 +91,7 @@ describe('NeuroBranch graph editing', () => {
     const canvas = screen.getByLabelText('Architecture graph canvas')
     const world = screen.getByTestId('graph-world')
     const viewportBefore = world.style.transform
-    const values = new Map<string, string>([['application/x-labo-model-atom', 'relu']])
+    const values = new Map<string, string>([['application/x-neurobranch-model-atom', 'relu']])
     const dataTransfer = {
       dropEffect: 'copy', effectAllowed: 'copy',
       getData: (type: string) => values.get(type) ?? '',
@@ -141,17 +141,17 @@ describe('NeuroBranch graph editing', () => {
     expect(code).toContain('self.attention_norm = nn.RMSNorm')
     expect(code).toContain('self.qkv_q =')
     expect(code).not.toContain('qkv_q = self.qkv_q(')
-    expect(code).not.toContain('# labo:edge=attention-norm-qkv')
+    expect(code).not.toContain('# neurobranch:edge=attention-norm-qkv')
     expect(code).not.toContain('qkv_hidden: torch.Tensor')
   })
   
-  it('previews and confirms Ask LABO elastics between existing blocks', async () => {
-    window.labo = {
+  it('previews and confirms Ask NeuroBranch elastics between existing blocks', async () => {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       runAtomic: async () => ({ engine: 'pytorch', status: 'completed', results: [] }),
       getOpenAISettings: async () => ({ configured: true, source: 'secure-storage', encryptionAvailable: true }),
-      askLabo: async () => ({
+      askNeuroBranch: async () => ({
         summary: 'Reconnect the attention path.',
         addedBlocks: [],
         createdBlocks: [],
@@ -178,8 +178,8 @@ describe('NeuroBranch graph editing', () => {
     expect(screen.getByText('attention-norm.output')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Apply full graph plan' }))
     expect(screen.getByText(/20 nodes · 31 links/)).toBeInTheDocument()
-    expect(screen.queryByRole('dialog', { name: 'Ask LABO' })).not.toBeInTheDocument()
-    delete window.labo
+    expect(screen.queryByRole('dialog', { name: 'Ask NeuroBranch' })).not.toBeInTheDocument()
+    delete window.neurobranch
   })
   
   it('pans and zooms the graph viewport without changing graph coordinates', () => {

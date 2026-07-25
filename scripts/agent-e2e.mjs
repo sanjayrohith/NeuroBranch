@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { askLabo } from '../dist-electron/ask-labo.js'
+import { askNeuroBranch } from '../dist-electron/ask-neurobranch.js'
 import { getOpenAISettingsStatus } from '../dist-electron/openai-credentials.js'
 
 const projectRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -24,8 +24,8 @@ async function waitFor(window, expression, timeout = 60_000) {
 }
 
 await app.whenReady()
-ipcMain.handle('labo:ask', (_event, payload) => askLabo(payload))
-ipcMain.handle('labo:openai-settings', () => getOpenAISettingsStatus())
+ipcMain.handle('neurobranch:ask', (_event, payload) => askNeuroBranch(payload))
+ipcMain.handle('neurobranch:openai-settings', () => getOpenAISettingsStatus())
 const settings = await getOpenAISettingsStatus()
 process.stderr.write(`[agent-e2e] credentials=${settings.configured ? settings.source : 'missing'}\n`)
 if (!settings.configured) throw new Error('NeuroBranch has no configured OpenAI API key')
@@ -51,14 +51,14 @@ try {
     const button = [...document.querySelectorAll('button')].find((candidate) => candidate.textContent.trim() === 'Blank starter')
     if (!button) throw new Error('Blank Starter button not found')
     button.click()
-    const ask = [...document.querySelectorAll('button')].find((candidate) => candidate.textContent.includes('Ask LABO'))
-    if (!ask) throw new Error('Ask LABO button not found')
+    const ask = [...document.querySelectorAll('button')].find((candidate) => candidate.textContent.includes('Ask NeuroBranch'))
+    if (!ask) throw new Error('Ask NeuroBranch button not found')
     ask.click()
   })()`, true)
-  await waitFor(window, `document.querySelector('.ask-labo-key-heading')?.textContent.includes('Connected') === true`)
-  process.stderr.write('[agent-e2e] Ask LABO connected\n')
+  await waitFor(window, `document.querySelector('.ask-neurobranch-key-heading')?.textContent.includes('Connected') === true`)
+  process.stderr.write('[agent-e2e] Ask NeuroBranch connected\n')
   await window.webContents.executeJavaScript(`(() => {
-    const textarea = document.querySelector('#ask-labo-request')
+    const textarea = document.querySelector('#ask-neurobranch-request')
     const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set
     setter.call(textarea, ${JSON.stringify(prompt)})
     textarea.dispatchEvent(new Event('input', { bubbles: true }))
@@ -66,34 +66,34 @@ try {
   await waitFor(window, `[...document.querySelectorAll('button')].some((button) => button.textContent.includes('Propose graph changes') && !button.disabled)`)
   process.stderr.write('[agent-e2e] submitting DeepSeek-like request\n')
   await window.webContents.executeJavaScript(`[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Propose graph changes')).click()`, true)
-  await waitFor(window, `document.querySelector('.ask-labo-result, .ask-labo-error') !== null`, 90_000)
+  await waitFor(window, `document.querySelector('.ask-neurobranch-result, .ask-neurobranch-error') !== null`, 90_000)
   process.stderr.write('[agent-e2e] plan received\n')
 
   const preview = await window.webContents.executeJavaScript(`(() => ({
-    error: document.querySelector('.ask-labo-error')?.textContent.trim() ?? null,
-    summary: document.querySelector('.ask-labo-result section p')?.textContent.trim() ?? null,
-    addedBlocks: [...document.querySelectorAll('.ask-labo-added-blocks > div')].map((element) => ({
+    error: document.querySelector('.ask-neurobranch-error')?.textContent.trim() ?? null,
+    summary: document.querySelector('.ask-neurobranch-result section p')?.textContent.trim() ?? null,
+    addedBlocks: [...document.querySelectorAll('.ask-neurobranch-added-blocks > div')].map((element) => ({
       nodeId: element.querySelector('strong')?.textContent.trim(),
       atomId: element.querySelector('code')?.textContent.trim(),
       reason: element.querySelector('small')?.textContent.trim(),
     })),
-    createdBlocks: [...document.querySelectorAll('.ask-labo-created-blocks > div')].map((element) => ({
+    createdBlocks: [...document.querySelectorAll('.ask-neurobranch-created-blocks > div')].map((element) => ({
       label: element.querySelector('strong')?.textContent.trim(),
       pytorchModule: element.querySelector('code')?.textContent.trim(),
       reason: element.querySelector('small')?.textContent.trim(),
     })),
-    missingBlocks: [...document.querySelectorAll('.ask-labo-missing > div')].map((element) => ({
+    missingBlocks: [...document.querySelectorAll('.ask-neurobranch-missing > div')].map((element) => ({
       label: element.querySelector('strong')?.textContent.trim(),
       reason: element.querySelector('small')?.textContent.trim(),
     })),
-    warnings: [...document.querySelectorAll('.ask-labo-warnings p')].map((element) => element.textContent.trim()),
-    connectionCount: document.querySelectorAll('.ask-labo-connections li').length,
-    canApply: !document.querySelector('.ask-labo-apply')?.disabled,
+    warnings: [...document.querySelectorAll('.ask-neurobranch-warnings p')].map((element) => element.textContent.trim()),
+    connectionCount: document.querySelectorAll('.ask-neurobranch-connections li').length,
+    canApply: !document.querySelector('.ask-neurobranch-apply')?.disabled,
   }))()`, true)
 
   if (preview.canApply) {
-    await window.webContents.executeJavaScript(`document.querySelector('.ask-labo-apply').click()`, true)
-    await waitFor(window, `document.querySelector('.ask-labo-panel') === null`)
+    await window.webContents.executeJavaScript(`document.querySelector('.ask-neurobranch-apply').click()`, true)
+    await waitFor(window, `document.querySelector('.ask-neurobranch-panel') === null`)
   }
 
   const graph = await window.webContents.executeJavaScript(`(() => ({

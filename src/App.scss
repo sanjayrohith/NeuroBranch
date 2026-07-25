@@ -350,27 +350,27 @@
 .studio-settings-empty strong { color: #eeeef2; font-size: 12px; }
 .studio-settings-empty p { margin: 0; color: #a4a7b1; font: 10.5px/1.6 var(--mono); }
 .studio-settings-section-workspaces, .studio-settings-section-agent, .studio-settings-section-tips { padding: 0; }
-.studio-settings-modal .ask-labo-intro strong { color: #efeff3; font-size: 14px; }
-.studio-settings-modal .ask-labo-intro p { color: #a7aab4; font-size: 11px; line-height: 1.6; }
-.studio-settings-modal .ask-labo-mode { gap: 9px; padding: 14px 16px; border-color: #373a45; background: #20232b; }
-.studio-settings-modal .ask-labo-mode > div { padding: 4px; border-color: #404450; border-radius: 8px; background: #191b22; }
-.studio-settings-modal .ask-labo-mode button { min-height: 32px; color: #a7aab4; font-size: 11px; }
-.studio-settings-modal .ask-labo-mode button[aria-pressed='true'] { color: #eeeaf5; background: #302d3b; box-shadow: inset 0 0 0 1px #4c475c; }
-.studio-settings-modal .ask-labo-mode small { color: #9699a4; font: 9.5px/1.5 var(--mono); }
-.studio-settings-modal .ask-labo-key-settings { padding: 17px; border-color: #373a45; background: #20232b; }
-.studio-settings-modal .ask-labo-key-heading { color: #d0d1d8; font-size: 11px; }
-.studio-settings-modal .ask-labo-key-heading b { color: #b9d8c9; font-size: 10px; }
-.studio-settings-modal .ask-labo-key-status { border-color: #46584f; color: #b4d4c4; background: #252e2b; }
-.studio-settings-modal .ask-labo-key-status strong { color: #dce8e2; font-size: 11px; }
-.studio-settings-modal .ask-labo-key-status small { color: #a0aaa5; font-size: 9.5px; }
-.studio-settings-modal .ask-labo-key-actions button,
-.studio-settings-modal .ask-labo-key-actions a,
-.studio-settings-modal .ask-labo-key-form > button,
-.studio-settings-modal .ask-labo-sign-in { min-height: 34px; border-color: #484c58; border-radius: 7px; color: #c7c9d1; background: #282b34; font-size: 10px; }
-.studio-settings-modal .ask-labo-key-form p,
-.studio-settings-modal .ask-labo-key-message,
-.studio-settings-modal .ask-labo-key-form label { color: #a3a6b0; font-size: 10px; }
-.studio-settings-modal .ask-labo-key-form input { padding: 10px; border-color: #474b57; color: #ededf2; background: #1a1c23; font-size: 11px; }
+.studio-settings-modal .ask-neurobranch-intro strong { color: #efeff3; font-size: 14px; }
+.studio-settings-modal .ask-neurobranch-intro p { color: #a7aab4; font-size: 11px; line-height: 1.6; }
+.studio-settings-modal .ask-neurobranch-mode { gap: 9px; padding: 14px 16px; border-color: #373a45; background: #20232b; }
+.studio-settings-modal .ask-neurobranch-mode > div { padding: 4px; border-color: #404450; border-radius: 8px; background: #191b22; }
+.studio-settings-modal .ask-neurobranch-mode button { min-height: 32px; color: #a7aab4; font-size: 11px; }
+.studio-settings-modal .ask-neurobranch-mode button[aria-pressed='true'] { color: #eeeaf5; background: #302d3b; box-shadow: inset 0 0 0 1px #4c475c; }
+.studio-settings-modal .ask-neurobranch-mode small { color: #9699a4; font: 9.5px/1.5 var(--mono); }
+.studio-settings-modal .ask-neurobranch-key-settings { padding: 17px; border-color: #373a45; background: #20232b; }
+.studio-settings-modal .ask-neurobranch-key-heading { color: #d0d1d8; font-size: 11px; }
+.studio-settings-modal .ask-neurobranch-key-heading b { color: #b9d8c9; font-size: 10px; }
+.studio-settings-modal .ask-neurobranch-key-status { border-color: #46584f; color: #b4d4c4; background: #252e2b; }
+.studio-settings-modal .ask-neurobranch-key-status strong { color: #dce8e2; font-size: 11px; }
+.studio-settings-modal .ask-neurobranch-key-status small { color: #a0aaa5; font-size: 9.5px; }
+.studio-settings-modal .ask-neurobranch-key-actions button,
+.studio-settings-modal .ask-neurobranch-key-actions a,
+.studio-settings-modal .ask-neurobranch-key-form > button,
+.studio-settings-modal .ask-neurobranch-sign-in { min-height: 34px; border-color: #484c58; border-radius: 7px; color: #c7c9d1; background: #282b34; font-size: 10px; }
+.studio-settings-modal .ask-neurobranch-key-form p,
+.studio-settings-modal .ask-neurobranch-key-message,
+.studio-settings-modal .ask-neurobranch-key-form label { color: #a3a6b0; font-size: 10px; }
+.studio-settings-modal .ask-neurobranch-key-form input { padding: 10px; border-color: #474b57; color: #ededf2; background: #1a1c23; font-size: 11px; }
 .studio-settings-modal .model-preset-builder label,
 .studio-settings-modal .model-preset-builder p,
 .studio-settings-modal .model-preset-builder small,
@@ -382,12 +382,12 @@
 .studio-settings-modal .workspace-current-target span,
 .studio-settings-modal .preset-comparison-list > strong { color: #b3cde1; font-size: 8.5px; }
 .studio-settings-modal .workspace-current-target strong { color: #eff0f4; font-size: 11px; }
-.studio-settings-modal .ask-labo-tips { gap: 11px; padding: 18px; }
-.studio-settings-modal .ask-labo-tips article { padding: 16px; border-color: #3d414c; background: #22252d; }
-.studio-settings-modal .ask-labo-tips article:first-child { border-color: #4a554f; background: #242b29; }
-.studio-settings-modal .ask-labo-tips span { color: #b6d6c7; font-size: 9px; }
-.studio-settings-modal .ask-labo-tips strong { color: #efeff3; font-size: 13px; }
-.studio-settings-modal .ask-labo-tips p { color: #a4a7b1; font-size: 10.5px; }
+.studio-settings-modal .ask-neurobranch-tips { gap: 11px; padding: 18px; }
+.studio-settings-modal .ask-neurobranch-tips article { padding: 16px; border-color: #3d414c; background: #22252d; }
+.studio-settings-modal .ask-neurobranch-tips article:first-child { border-color: #4a554f; background: #242b29; }
+.studio-settings-modal .ask-neurobranch-tips span { color: #b6d6c7; font-size: 9px; }
+.studio-settings-modal .ask-neurobranch-tips strong { color: #efeff3; font-size: 13px; }
+.studio-settings-modal .ask-neurobranch-tips p { color: #a4a7b1; font-size: 10.5px; }
 .model-card-modal.studio-settings-modal > footer { min-height: 54px; grid-template-columns: 1fr auto; align-items: center; box-sizing: border-box; margin: 0; padding: 9px 18px; border-top-color: #343743; background: #181a22; }
 .model-card-modal.studio-settings-modal > footer span { color: #8f929d; font: 9px var(--mono); }
 .model-card-modal.studio-settings-modal > footer button { min-width: 82px; min-height: 34px; justify-content: center; border-color: #545063; border-radius: 8px; color: #e0dbee; background: #2c2a36; font-size: 11px; }
@@ -407,7 +407,7 @@
   .studio-settings-context, .studio-settings-tips { padding: 12px; }
   .model-card-modal.studio-settings-modal > footer span { display: none; }
 }
-.ask-labo-general-settings { padding: 12px; }
+.ask-neurobranch-general-settings { padding: 12px; }
 .training-settings-presets { display: grid; gap: 8px; margin: 0 14px; }
 .training-settings-presets > strong { color: #dce6e2; font-size: 10px; }
 .training-settings-presets > p { margin: 0; color: #747e7a; font: 9px var(--mono); }
@@ -518,55 +518,55 @@
 .check-row{display:flex;justify-content:space-between;padding:7px 0 0;color:#858b96;font-size:9px}.check-row b{color:#777d88;font:500 8px 'JetBrains Mono'}.check-row b.passed{color:var(--green)}
 .equivalence-card button{width:100%;height:29px;margin-top:11px;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid rgba(124,117,255,.3);border-radius:5px;background:rgba(124,117,255,.12);color:#d9d8ff;font-size:9px}
 .statusbar { border-top:1px solid var(--border);border-bottom:0;padding:0 10px;gap:18px;color:#626873;font:8.5px 'JetBrains Mono'; }.statusbar span{display:flex;align-items:center;gap:6px}.status-spacer{flex:1}
-.ask-labo-panel { position: fixed; z-index: 100; top: 48px; right: 0; bottom: 0; width: min(390px, 92vw); display: flex; flex-direction: column; overflow: auto; border-left: 1px solid #343947; background: rgba(12,13,17,.98); box-shadow: -18px 0 48px rgba(0,0,0,.42); color: #d9dce3; }
-.ask-labo-header { min-height: 42px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid var(--border); background: #111319; }
-.ask-labo-header span { display: flex; align-items: center; gap: 7px; color: #e6e5ff; font-size: 11px; font-weight: 600; }
-.ask-labo-header button { width: 28px; height: 28px; display: grid; place-items: center; border: 0; border-radius: 5px; background: transparent; color: #858b97; }
-.ask-labo-header button:hover { color: #fff; background: rgba(255,255,255,.05); }
-.ask-labo-intro { padding: 15px 14px 13px; border-bottom: 1px solid var(--subtle-border); background: linear-gradient(180deg,rgba(124,117,255,.08),transparent); }
-.ask-labo-intro strong { color: #efefff; font-size: 12px; }
-.ask-labo-intro p { margin: 7px 0; color: #979daa; font-size: 10px; line-height: 1.5; }
-.ask-labo-intro small { color: #676e7b; font: 8px 'JetBrains Mono'; }
-.ask-labo-mode { display: grid; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--subtle-border); background: rgba(255,255,255,.01); }
-.ask-labo-mode > div { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; border: 1px solid #2b2f38; border-radius: 6px; background: #090a0d; }
-.ask-labo-mode button { min-height: 27px; border: 0; border-radius: 4px; color: #777e8a; background: transparent; font-size: 9px; }
-.ask-labo-mode button[aria-pressed="true"] { color: #e1e2ff; background: rgba(124,117,255,.16); box-shadow: inset 0 0 0 1px rgba(124,117,255,.22); }
-.ask-labo-mode small { color: #666d79; font: 8px/1.45 'JetBrains Mono'; }
-.ask-labo-key-settings { padding: 13px 14px; border-bottom: 1px solid var(--subtle-border); background: rgba(255,255,255,.012); }
-.ask-labo-key-heading { display: flex; align-items: center; justify-content: space-between; color: #aeb3bf; font: 9px 'JetBrains Mono'; }
-.ask-labo-key-heading > span, .ask-labo-key-heading b { display: flex; align-items: center; gap: 6px; }
-.ask-labo-key-heading b { color: #73d5a3; font-size: 8px; font-weight: 500; }
-.ask-labo-key-status { display: flex; align-items: center; gap: 9px; margin-top: 10px; padding: 9px; border: 1px solid rgba(57,200,135,.2); border-radius: 6px; color: #63cf98; background: rgba(57,200,135,.045); }
-.ask-labo-key-status span { display: grid; gap: 3px; }
-.ask-labo-key-status strong { color: #b9d9c9; font-size: 9px; }
-.ask-labo-key-status small { color: #66776f; font: 8px/1.4 'JetBrains Mono'; }
-.ask-labo-key-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
-.ask-labo-key-actions button, .ask-labo-key-actions a, .ask-labo-key-form > button, .ask-labo-sign-in { min-height: 28px; display: flex; flex: 1 1 90px; align-items: center; justify-content: center; gap: 5px; border: 1px solid #343947; border-radius: 5px; background: #15171d; color: #a6acb7; font-size: 8px; text-decoration: none; }
-.ask-labo-key-actions button:last-child { color: #d98787; border-color: rgba(239,100,100,.25); background: rgba(239,100,100,.045); }
-.ask-labo-key-actions button.confirm-delete { color: #fff; background: rgba(239,100,100,.22); border-color: rgba(239,100,100,.55); }
-.ask-labo-key-form { display: grid; gap: 7px; margin-top: 9px; }
-.ask-labo-key-form p, .ask-labo-key-message { margin: 0; color: #777e8a; font: 8px/1.45 'JetBrains Mono'; }
-.ask-labo-key-form label { color: #666d79; font: 8px 'JetBrains Mono'; }
-.ask-labo-key-form > div { display: grid; grid-template-columns: 1fr 31px; }
-.ask-labo-key-form input { min-width: 0; border: 1px solid #343947; border-right: 0; border-radius: 5px 0 0 5px; padding: 8px; outline: 0; background: #090a0e; color: #e2e4ea; font: 9px 'JetBrains Mono'; }
-.ask-labo-key-form > div button { border: 1px solid #343947; border-radius: 0 5px 5px 0; background: #15171d; color: #858c98; }
-.ask-labo-key-form > button { color: #b9dfcc; border-color: rgba(57,200,135,.25); background: rgba(57,200,135,.07); }
-.ask-labo-key-form .ask-labo-sign-in { color: #b9dfcc; border-color: rgba(57,200,135,.25); background: rgba(57,200,135,.07); }
-.ask-labo-key-form > button:disabled, .ask-labo-key-actions button:disabled { opacity: .4; cursor: not-allowed; }
-.ask-labo-key-form > small { color: #b27b7b; font: 8px/1.45 'JetBrains Mono'; }
-.ask-labo-key-message { margin-top: 8px; color: #9ca3af; }
-.ask-labo-error { margin: 12px 14px 0; display: flex; gap: 8px; padding: 9px; border: 1px solid rgba(239,100,100,.25); border-radius: 6px; background: rgba(239,100,100,.07); color: #ef9292; font: 9px/1.5 'JetBrains Mono'; }
-.ask-labo-card-modal-backdrop { position: fixed; z-index: 120; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(3,4,7,.72); backdrop-filter: blur(3px); }
-.ask-labo-card-modal { width: min(390px, 92vw); max-height: min(620px, 86vh); overflow: auto; display: grid; gap: 11px; padding: 14px; border: 1px solid #3d4350; border-radius: 8px; background: #111319; box-shadow: 0 20px 70px rgba(0,0,0,.55); }
-.ask-labo-card-modal header { display: flex; align-items: center; justify-content: space-between; color: #e5e7eb; font-size: 11px; }
-.ask-labo-card-modal header button { width: 27px; height: 27px; display: grid; place-items: center; border: 0; border-radius: 4px; color: #858b97; background: transparent; }
-.ask-labo-card-modal > label, .ask-labo-card-settings label { display: grid; gap: 4px; color: #747b88; font: 8px 'JetBrains Mono'; }
-.ask-labo-card-modal input, .ask-labo-card-modal textarea, .ask-labo-card-modal select { min-width: 0; width: 100%; box-sizing: border-box; border: 1px solid #343947; border-radius: 5px; padding: 7px; outline: 0; color: #dce0e7; background: #090a0e; font: 9px/1.45 'JetBrains Mono'; }
-.ask-labo-card-modal input:disabled { color: #666d79; background: #0d0e12; }
-.ask-labo-card-settings { display: grid; gap: 9px; }
-.ask-labo-card-modal > p { margin: 0; color: #ef8a8a; font: 8px/1.45 'JetBrains Mono'; }
-.ask-labo-card-modal footer { display: grid; grid-template-columns: 1fr 1.3fr; gap: 7px; }
-.ask-labo-card-modal footer button { min-height: 29px; border: 1px solid #343947; border-radius: 5px; color: #a9afba; background: #17191f; font-size: 9px; }
-.ask-labo-card-modal footer button:last-child { border-color: rgba(57,200,135,.34); color: #b8e6cf; background: rgba(57,200,135,.1); }
+.ask-neurobranch-panel { position: fixed; z-index: 100; top: 48px; right: 0; bottom: 0; width: min(390px, 92vw); display: flex; flex-direction: column; overflow: auto; border-left: 1px solid #343947; background: rgba(12,13,17,.98); box-shadow: -18px 0 48px rgba(0,0,0,.42); color: #d9dce3; }
+.ask-neurobranch-header { min-height: 42px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid var(--border); background: #111319; }
+.ask-neurobranch-header span { display: flex; align-items: center; gap: 7px; color: #e6e5ff; font-size: 11px; font-weight: 600; }
+.ask-neurobranch-header button { width: 28px; height: 28px; display: grid; place-items: center; border: 0; border-radius: 5px; background: transparent; color: #858b97; }
+.ask-neurobranch-header button:hover { color: #fff; background: rgba(255,255,255,.05); }
+.ask-neurobranch-intro { padding: 15px 14px 13px; border-bottom: 1px solid var(--subtle-border); background: linear-gradient(180deg,rgba(124,117,255,.08),transparent); }
+.ask-neurobranch-intro strong { color: #efefff; font-size: 12px; }
+.ask-neurobranch-intro p { margin: 7px 0; color: #979daa; font-size: 10px; line-height: 1.5; }
+.ask-neurobranch-intro small { color: #676e7b; font: 8px 'JetBrains Mono'; }
+.ask-neurobranch-mode { display: grid; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--subtle-border); background: rgba(255,255,255,.01); }
+.ask-neurobranch-mode > div { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; border: 1px solid #2b2f38; border-radius: 6px; background: #090a0d; }
+.ask-neurobranch-mode button { min-height: 27px; border: 0; border-radius: 4px; color: #777e8a; background: transparent; font-size: 9px; }
+.ask-neurobranch-mode button[aria-pressed="true"] { color: #e1e2ff; background: rgba(124,117,255,.16); box-shadow: inset 0 0 0 1px rgba(124,117,255,.22); }
+.ask-neurobranch-mode small { color: #666d79; font: 8px/1.45 'JetBrains Mono'; }
+.ask-neurobranch-key-settings { padding: 13px 14px; border-bottom: 1px solid var(--subtle-border); background: rgba(255,255,255,.012); }
+.ask-neurobranch-key-heading { display: flex; align-items: center; justify-content: space-between; color: #aeb3bf; font: 9px 'JetBrains Mono'; }
+.ask-neurobranch-key-heading > span, .ask-neurobranch-key-heading b { display: flex; align-items: center; gap: 6px; }
+.ask-neurobranch-key-heading b { color: #73d5a3; font-size: 8px; font-weight: 500; }
+.ask-neurobranch-key-status { display: flex; align-items: center; gap: 9px; margin-top: 10px; padding: 9px; border: 1px solid rgba(57,200,135,.2); border-radius: 6px; color: #63cf98; background: rgba(57,200,135,.045); }
+.ask-neurobranch-key-status span { display: grid; gap: 3px; }
+.ask-neurobranch-key-status strong { color: #b9d9c9; font-size: 9px; }
+.ask-neurobranch-key-status small { color: #66776f; font: 8px/1.4 'JetBrains Mono'; }
+.ask-neurobranch-key-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.ask-neurobranch-key-actions button, .ask-neurobranch-key-actions a, .ask-neurobranch-key-form > button, .ask-neurobranch-sign-in { min-height: 28px; display: flex; flex: 1 1 90px; align-items: center; justify-content: center; gap: 5px; border: 1px solid #343947; border-radius: 5px; background: #15171d; color: #a6acb7; font-size: 8px; text-decoration: none; }
+.ask-neurobranch-key-actions button:last-child { color: #d98787; border-color: rgba(239,100,100,.25); background: rgba(239,100,100,.045); }
+.ask-neurobranch-key-actions button.confirm-delete { color: #fff; background: rgba(239,100,100,.22); border-color: rgba(239,100,100,.55); }
+.ask-neurobranch-key-form { display: grid; gap: 7px; margin-top: 9px; }
+.ask-neurobranch-key-form p, .ask-neurobranch-key-message { margin: 0; color: #777e8a; font: 8px/1.45 'JetBrains Mono'; }
+.ask-neurobranch-key-form label { color: #666d79; font: 8px 'JetBrains Mono'; }
+.ask-neurobranch-key-form > div { display: grid; grid-template-columns: 1fr 31px; }
+.ask-neurobranch-key-form input { min-width: 0; border: 1px solid #343947; border-right: 0; border-radius: 5px 0 0 5px; padding: 8px; outline: 0; background: #090a0e; color: #e2e4ea; font: 9px 'JetBrains Mono'; }
+.ask-neurobranch-key-form > div button { border: 1px solid #343947; border-radius: 0 5px 5px 0; background: #15171d; color: #858c98; }
+.ask-neurobranch-key-form > button { color: #b9dfcc; border-color: rgba(57,200,135,.25); background: rgba(57,200,135,.07); }
+.ask-neurobranch-key-form .ask-neurobranch-sign-in { color: #b9dfcc; border-color: rgba(57,200,135,.25); background: rgba(57,200,135,.07); }
+.ask-neurobranch-key-form > button:disabled, .ask-neurobranch-key-actions button:disabled { opacity: .4; cursor: not-allowed; }
+.ask-neurobranch-key-form > small { color: #b27b7b; font: 8px/1.45 'JetBrains Mono'; }
+.ask-neurobranch-key-message { margin-top: 8px; color: #9ca3af; }
+.ask-neurobranch-error { margin: 12px 14px 0; display: flex; gap: 8px; padding: 9px; border: 1px solid rgba(239,100,100,.25); border-radius: 6px; background: rgba(239,100,100,.07); color: #ef9292; font: 9px/1.5 'JetBrains Mono'; }
+.ask-neurobranch-card-modal-backdrop { position: fixed; z-index: 120; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(3,4,7,.72); backdrop-filter: blur(3px); }
+.ask-neurobranch-card-modal { width: min(390px, 92vw); max-height: min(620px, 86vh); overflow: auto; display: grid; gap: 11px; padding: 14px; border: 1px solid #3d4350; border-radius: 8px; background: #111319; box-shadow: 0 20px 70px rgba(0,0,0,.55); }
+.ask-neurobranch-card-modal header { display: flex; align-items: center; justify-content: space-between; color: #e5e7eb; font-size: 11px; }
+.ask-neurobranch-card-modal header button { width: 27px; height: 27px; display: grid; place-items: center; border: 0; border-radius: 4px; color: #858b97; background: transparent; }
+.ask-neurobranch-card-modal > label, .ask-neurobranch-card-settings label { display: grid; gap: 4px; color: #747b88; font: 8px 'JetBrains Mono'; }
+.ask-neurobranch-card-modal input, .ask-neurobranch-card-modal textarea, .ask-neurobranch-card-modal select { min-width: 0; width: 100%; box-sizing: border-box; border: 1px solid #343947; border-radius: 5px; padding: 7px; outline: 0; color: #dce0e7; background: #090a0e; font: 9px/1.45 'JetBrains Mono'; }
+.ask-neurobranch-card-modal input:disabled { color: #666d79; background: #0d0e12; }
+.ask-neurobranch-card-settings { display: grid; gap: 9px; }
+.ask-neurobranch-card-modal > p { margin: 0; color: #ef8a8a; font: 8px/1.45 'JetBrains Mono'; }
+.ask-neurobranch-card-modal footer { display: grid; grid-template-columns: 1fr 1.3fr; gap: 7px; }
+.ask-neurobranch-card-modal footer button { min-height: 29px; border: 1px solid #343947; border-radius: 5px; color: #a9afba; background: #17191f; font-size: 9px; }
+.ask-neurobranch-card-modal footer button:last-child { border-color: rgba(57,200,135,.34); color: #b8e6cf; background: rgba(57,200,135,.1); }
 .code-panel .panel-tab select { min-width: 130px; max-width: 220px; border: 1px solid #343947; border-radius: 4px; padding: 4px 7px; outline: 0; color: #c8ccd4; background: #111319; font: 8px 'JetBrains Mono'; }
 @media(max-width:1250px){.workspace-grid{grid-template-columns:180px minmax(650px,1fr) 230px}.brand,.header-actions{width:220px}}

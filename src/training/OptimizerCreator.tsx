@@ -100,7 +100,7 @@ export function OptimizerCreator({ definition, onCancel, onSave, view }: { defin
   const [recipe, setRecipe] = useState(initialRecipe)
   const [composition, setComposition] = useState<OptimizerComposition>(definition?.composition ?? defaultComposition)
   const [label, setLabel] = useState(definition?.label ?? (definition?.composition ? 'My optimizer' : 'My AdamW optimizer'))
-  const [torchClass, setTorchClass] = useState(definition?.torchClass ?? (definition?.composition ? 'LaboOptimizer' : optimizerRegistry[initialRecipe].torchClass))
+  const [torchClass, setTorchClass] = useState(definition?.torchClass ?? (definition?.composition ? 'NeuroBranchOptimizer' : optimizerRegistry[initialRecipe].torchClass))
   const [settings, setSettings] = useState<Record<string, OptimizerValue>>(() => ({ ...(definition?.defaults ?? optimizerRegistry[initialRecipe].defaults) }))
   const [selectedAtom, setSelectedAtom] = useState<OptimizerAtom>('momentum')
   const [error, setError] = useState('')
@@ -154,7 +154,7 @@ export function OptimizerCreator({ definition, onCancel, onSave, view }: { defin
       weightDecay: atom === 'decay' ? composition.weightDecay === false : composition.weightDecay,
     }
     setMode('custom')
-    setTorchClass('LaboOptimizer')
+    setTorchClass('NeuroBranchOptimizer')
     setLabel((current) => current.startsWith('My ') ? 'My optimizer' : current)
     setComposition(next)
     setSettings((current) => settingsForComposition(next, current))
@@ -173,7 +173,7 @@ export function OptimizerCreator({ definition, onCancel, onSave, view }: { defin
       label: name,
       torchClass,
       defaults: settings,
-      notes: mode === 'custom' ? 'Composed from LABO optimizer atoms.' : `Custom torch.optim.${torchClass} preset.`,
+      notes: mode === 'custom' ? 'Composed from NeuroBranch optimizer atoms.' : `Custom torch.optim.${torchClass} preset.`,
       composition: mode === 'custom' ? composition : undefined,
     })
   }
@@ -240,7 +240,7 @@ export function OptimizerCreator({ definition, onCancel, onSave, view }: { defin
       <section className="inspector-section optimizer-identity-settings">
         <div className="section-title">Optimizer</div>
         <label><span>Name</span><input aria-label="Optimizer name" onChange={(event) => setLabel(event.target.value)} value={label} /></label>
-        <div className="optimizer-reference"><span>Runtime</span><code>{mode === 'custom' ? 'LaboOptimizer' : `torch.optim.${torchClass}`}</code></div>
+        <div className="optimizer-reference"><span>Runtime</span><code>{mode === 'custom' ? 'NeuroBranchOptimizer' : `torch.optim.${torchClass}`}</code></div>
       </section>
       <section className="inspector-section optimizer-atom-settings"><div className="section-title">Parameters</div>{inspector}{advancedSettings.length > 0 && <details className="optimizer-advanced-settings"><summary>More parameters</summary>{advancedSettings.map(([key, value]) => <label key={key}><span>{key.replaceAll('_', ' ')}</span>{typeof value === 'boolean'
         ? <input aria-label={`Optimizer ${key === 'fused' ? 'Fused implementation' : key}`} checked={value} onChange={(event) => updateSetting(key, event.target.checked)} type="checkbox" />

@@ -5,7 +5,7 @@
 .workspace-toolbar {
   gap: 14px;
   padding-inline: 14px;
-  border-color: var(--labo-line);
+  border-color: var(--neurobranch-line);
   background: rgb(10 13 14 / 96%);
   box-shadow: 0 7px 24px rgb(0 0 0 / 12%);
 }
@@ -17,7 +17,7 @@
 .interaction-switcher,
 .target-switcher {
   padding: 4px;
-  border-color: var(--labo-line);
+  border-color: var(--neurobranch-line);
   border-radius: 9px;
   background: rgb(4 7 8 / 72%);
 }
@@ -46,11 +46,11 @@
 }
 
 .workspace-grid {
-  grid-template-columns: var(--labo-library-width) minmax(660px, 1fr) var(--labo-inspector-width);
-  background: var(--labo-bg-deep);
+  grid-template-columns: var(--neurobranch-library-width) minmax(660px, 1fr) var(--neurobranch-inspector-width);
+  background: var(--neurobranch-bg-deep);
 
-  &.inspector-hidden { grid-template-columns: var(--labo-library-width) minmax(660px, 1fr); }
-  &.library-hidden { grid-template-columns: minmax(660px, 1fr) var(--labo-inspector-width); }
+  &.inspector-hidden { grid-template-columns: var(--neurobranch-library-width) minmax(660px, 1fr); }
+  &.library-hidden { grid-template-columns: minmax(660px, 1fr) var(--neurobranch-inspector-width); }
   &.library-hidden.inspector-hidden { grid-template-columns: minmax(660px, 1fr); }
 }
 
@@ -58,11 +58,11 @@
 .inspector {
   background:
     linear-gradient(180deg, rgb(255 255 255 / 1.5%), transparent 160px),
-    var(--labo-panel);
+    var(--neurobranch-panel);
 }
 
-.block-library { border-color: var(--labo-line); }
-.inspector { border-color: var(--labo-line); }
+.block-library { border-color: var(--neurobranch-line); }
+.inspector { border-color: var(--neurobranch-line); }
 
 .library-drag-preview {
   position: fixed;
@@ -85,10 +85,10 @@
 }
 
 .panel-heading {
-  height: var(--labo-tab-height);
+  height: var(--neurobranch-tab-height);
   padding-inline: 14px;
   gap: 8px;
-  border-color: var(--labo-line-soft);
+  border-color: var(--neurobranch-line-soft);
   color: #9aa5a1;
   font-size: 10px;
   letter-spacing: .11em;
@@ -96,7 +96,7 @@
 
 .editor-grid {
   border-inline: 0;
-  background: var(--labo-bg);
+  background: var(--neurobranch-bg);
 }
 
 .view-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -104,7 +104,7 @@
 .statusbar {
   padding-inline: 13px;
   gap: 20px;
-  border-color: var(--labo-line);
+  border-color: var(--neurobranch-line);
   color: #68736f;
   background: rgb(8 11 12 / 96%);
   font-size: 9px;

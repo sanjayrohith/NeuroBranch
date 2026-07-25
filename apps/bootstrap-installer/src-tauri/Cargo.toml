@@ -1,5 +1,5 @@
 [package]
-name = "labo-ai-setup"
+name = "NeuroBranch-setup"
 version = "0.1.53"
 description = "Source-first installer and updater for NeuroBranch"
 authors = ["Complexity-ML"]
@@ -7,11 +7,11 @@ license = "Apache-2.0"
 edition = "2021"
 
 [lib]
-name = "labo_ai_setup_lib"
+name = "neurobranch_setup_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [[bin]]
-name = "labo-ai-setup"
+name = "NeuroBranch-setup"
 path = "src/main.rs"
 
 [build-dependencies]

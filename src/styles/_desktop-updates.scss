@@ -19,19 +19,19 @@
     gap: 8px;
     margin: 0;
     padding: 9px 11px;
-    border: 1px solid var(--labo-line);
+    border: 1px solid var(--neurobranch-line);
     border-radius: 9px;
-    color: var(--labo-faint);
-    background: var(--labo-bg);
+    color: var(--neurobranch-faint);
+    background: var(--neurobranch-bg);
     text-align: left;
   }
 
   button > span { min-width: 0; display: grid; gap: 3px; }
-  button strong { color: var(--labo-muted); font-size: 10.5px; }
-  button small { margin: 0; color: var(--labo-faint); font: 8px var(--mono); }
-  button[aria-pressed='true'] { border-color: color-mix(in srgb, var(--labo-green) 30%, var(--labo-line)); color: var(--labo-green); background: color-mix(in srgb, var(--labo-green) 6%, var(--labo-bg)); }
-  button[aria-pressed='true'] strong { color: var(--labo-text); }
-  button:nth-child(2)[aria-pressed='true'] { border-color: color-mix(in srgb, var(--labo-violet) 34%, var(--labo-line)); color: var(--labo-violet); background: color-mix(in srgb, var(--labo-violet) 7%, var(--labo-bg)); }
+  button strong { color: var(--neurobranch-muted); font-size: 10.5px; }
+  button small { margin: 0; color: var(--neurobranch-faint); font: 8px var(--mono); }
+  button[aria-pressed='true'] { border-color: color-mix(in srgb, var(--neurobranch-green) 30%, var(--neurobranch-line)); color: var(--neurobranch-green); background: color-mix(in srgb, var(--neurobranch-green) 6%, var(--neurobranch-bg)); }
+  button[aria-pressed='true'] strong { color: var(--neurobranch-text); }
+  button:nth-child(2)[aria-pressed='true'] { border-color: color-mix(in srgb, var(--neurobranch-violet) 34%, var(--neurobranch-line)); color: var(--neurobranch-violet); background: color-mix(in srgb, var(--neurobranch-violet) 7%, var(--neurobranch-bg)); }
 }
 
 .desktop-update-facts {
@@ -40,13 +40,13 @@
   gap: 1px;
   overflow: hidden;
   margin: 0;
-  border: 1px solid var(--labo-line-soft);
+  border: 1px solid var(--neurobranch-line-soft);
   border-radius: 8px;
-  background: var(--labo-line-soft);
+  background: var(--neurobranch-line-soft);
 
-  > div { min-width: 0; display: grid; gap: 4px; padding: 9px 10px; background: var(--labo-bg); }
-  dt { color: var(--labo-faint); font: 8px var(--mono); text-transform: uppercase; letter-spacing: .7px; }
-  dd { overflow: hidden; margin: 0; color: var(--labo-text); font: 10px var(--mono); text-overflow: ellipsis; white-space: nowrap; }
+  > div { min-width: 0; display: grid; gap: 4px; padding: 9px 10px; background: var(--neurobranch-bg); }
+  dt { color: var(--neurobranch-faint); font: 8px var(--mono); text-transform: uppercase; letter-spacing: .7px; }
+  dd { overflow: hidden; margin: 0; color: var(--neurobranch-text); font: 10px var(--mono); text-overflow: ellipsis; white-space: nowrap; }
 }
 
 .studio-settings-modal .desktop-update-actions {
@@ -55,7 +55,7 @@
   gap: 7px;
 
   button { margin: 0; }
-  button:last-child { border-color: color-mix(in srgb, var(--labo-green) 28%, var(--labo-line)); color: color-mix(in srgb, var(--labo-green) 70%, white); background: color-mix(in srgb, var(--labo-green) 7%, var(--labo-panel-raised)); }
+  button:last-child { border-color: color-mix(in srgb, var(--neurobranch-green) 28%, var(--neurobranch-line)); color: color-mix(in srgb, var(--neurobranch-green) 70%, white); background: color-mix(in srgb, var(--neurobranch-green) 7%, var(--neurobranch-panel-raised)); }
 }
 
 @media (max-width: 560px) {

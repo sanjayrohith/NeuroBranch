@@ -101,16 +101,16 @@ export function TokenizerStudio({ onCatalogChange = () => undefined, onRequested
   useEffect(() => {
     let cancelled = false
     const load = async () => {
-      if (window.labo?.runtime === 'electron' && window.labo.loadDesktopState) {
-        const value = await window.labo.loadDesktopState('tokenizer')
+      if (window.neurobranch?.runtime === 'electron' && window.neurobranch.loadDesktopState) {
+        const value = await window.neurobranch.loadDesktopState('tokenizer')
         const stored = value && typeof value === 'object' ? value as { pipeline?: unknown; customCards?: unknown } : undefined
         if (!cancelled && isTokenizerPipeline(stored?.pipeline)) {
           setPipeline(stored.pipeline)
           setSelectedId(stored.pipeline.steps[0]?.id ?? '')
         }
         if (!cancelled && Array.isArray(stored?.customCards)) setCustomCards(stored.customCards.filter(isCustomTokenizerCard))
-      } else if (window.labo?.runtime === 'web' && window.labo.loadWebWorkspace) {
-        const result = await window.labo.loadWebWorkspace()
+      } else if (window.neurobranch?.runtime === 'web' && window.neurobranch.loadWebWorkspace) {
+        const result = await window.neurobranch.loadWebWorkspace()
         const authenticated = Boolean(result && typeof result === 'object' && result.authenticated)
         if (!cancelled) setWebAuthenticated(authenticated)
         const stored = result && typeof result === 'object' && result.tokenizer && typeof result.tokenizer === 'object' ? result.tokenizer as { pipeline?: unknown; customCards?: unknown } : undefined
@@ -128,10 +128,10 @@ export function TokenizerStudio({ onCatalogChange = () => undefined, onRequested
 
   useEffect(() => {
     if (!customCardsReady) return
-    if (window.labo?.runtime === 'electron' && window.labo.saveDesktopState) {
-      void window.labo.saveDesktopState('tokenizer', { pipeline, customCards, updatedAt: Date.now() })
-    } else if (window.labo?.runtime === 'web' && webAuthenticated && window.labo.saveWebWorkspace) {
-      void window.labo.saveWebWorkspace({ tokenizer: { pipeline, customCards, updatedAt: Date.now() } })
+    if (window.neurobranch?.runtime === 'electron' && window.neurobranch.saveDesktopState) {
+      void window.neurobranch.saveDesktopState('tokenizer', { pipeline, customCards, updatedAt: Date.now() })
+    } else if (window.neurobranch?.runtime === 'web' && webAuthenticated && window.neurobranch.saveWebWorkspace) {
+      void window.neurobranch.saveWebWorkspace({ tokenizer: { pipeline, customCards, updatedAt: Date.now() } })
     }
   }, [customCards, customCardsReady, pipeline, webAuthenticated])
 
@@ -278,7 +278,7 @@ export function TokenizerStudio({ onCatalogChange = () => undefined, onRequested
         <span>{pipeline.steps.length} atoms · {pipeline.links.length} typed links</span>
         <span className="status-spacer" />
         <span>Python backend</span>
-        <span>LABO Runtime · local</span>
+        <span>NeuroBranch Runtime · local</span>
       </StudioStatusbar>
       {cardMenu && (() => {
         const card = customCards.find((candidate) => candidate.id === cardMenu.cardId)

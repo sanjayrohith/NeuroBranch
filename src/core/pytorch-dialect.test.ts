@@ -21,7 +21,7 @@ describe('NeuroBranch PyTorch dialect', () => {
 
   it('removes a managed block when its canonical declaration is deleted', () => {
     const source = compileToPyTorch(gqaPreset).replace(
-      /\s*# labo:node=q-proj kind=linear\n\s*self\.q_proj = nn\.Linear\([^\n]+\)\n/,
+      /\s*# neurobranch:node=q-proj kind=linear\n\s*self\.q_proj = nn\.Linear\([^\n]+\)\n/,
       '\n',
     )
     const result = parsePyTorchDialect(source, gqaPreset)
@@ -33,7 +33,7 @@ describe('NeuroBranch PyTorch dialect', () => {
 
   it('removes an elastic from the IR when its managed PyTorch edge is deleted', () => {
     const source = compileToPyTorch(gqaPreset).replace(
-      /^\s*# labo:edge=k-sdpa source=k-proj target=sdpa[^\n]*\n/m,
+      /^\s*# neurobranch:edge=k-sdpa source=k-proj target=sdpa[^\n]*\n/m,
       '',
     )
     const result = parsePyTorchDialect(source, gqaPreset)
@@ -44,8 +44,8 @@ describe('NeuroBranch PyTorch dialect', () => {
 
   it('rewires an elastic when its managed PyTorch edge endpoints change', () => {
     const source = compileToPyTorch(gqaPreset).replace(
-      '# labo:edge=hidden-q source=hidden target=q-proj',
-      '# labo:edge=hidden-q source=output target=q-proj',
+      '# neurobranch:edge=hidden-q source=hidden target=q-proj',
+      '# neurobranch:edge=hidden-q source=output target=q-proj',
     )
     const result = parsePyTorchDialect(source, gqaPreset)
 
@@ -62,10 +62,10 @@ describe('NeuroBranch PyTorch dialect', () => {
     expect(result.graph.nodes.find((node) => node.id === 'norm')?.attributes?.epsilon).toBe(1e-5)
   })
 
-  it('adds a new semantic atom from a recognized LABO marker and declaration', () => {
+  it('adds a new semantic atom from a recognized NeuroBranch marker and declaration', () => {
     const source = compileToPyTorch(tokenMoePreset).replace(
       '    def forward(',
-      '        # labo:node=extra_relu atom=relu\n        self.extra_relu = nn.ReLU(inplace=False)\n\n    def forward(',
+      '        # neurobranch:node=extra_relu atom=relu\n        self.extra_relu = nn.ReLU(inplace=False)\n\n    def forward(',
     )
     const result = parsePyTorchDialect(source, tokenMoePreset)
     expect(result.diagnostics).toEqual([])
@@ -74,7 +74,7 @@ describe('NeuroBranch PyTorch dialect', () => {
 
   it('removes a semantic atom and its incident elastics when its marker is deleted', () => {
     const source = compileToPyTorch(tokenMoePreset).replace(
-      /\s*# labo:node=router atom=moe-router\n\s*self\.router = nn\.Linear\([^\n]+\)\n/,
+      /\s*# neurobranch:node=router atom=moe-router\n\s*self\.router = nn\.Linear\([^\n]+\)\n/,
       '\n',
     )
     const result = parsePyTorchDialect(source, tokenMoePreset)

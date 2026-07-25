@@ -1,4 +1,4 @@
-.app-shell.workspace-model { --labo-status-height: 54px; }
+.app-shell.workspace-model { --neurobranch-status-height: 54px; }
 
 .agent-prompt-dock {
   position: absolute;
@@ -18,13 +18,13 @@
   grid-template-rows: minmax(27px, auto) 17px;
   align-items: center;
   overflow: hidden;
-  border: 1px solid var(--labo-line);
+  border: 1px solid var(--neurobranch-line);
   border-radius: 8px;
-  background: var(--labo-panel-raised);
+  background: var(--neurobranch-panel-raised);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
 
   &:focus-within {
-    border-color: color-mix(in srgb, var(--pastel-sage) 42%, var(--labo-line));
+    border-color: color-mix(in srgb, var(--pastel-sage) 42%, var(--neurobranch-line));
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pastel-sage) 8%, transparent);
   }
 
@@ -42,12 +42,12 @@
     border: 0;
     outline: 0;
     padding: 7px 12px 4px;
-    color: var(--labo-text);
+    color: var(--neurobranch-text);
     background: transparent;
     box-shadow: none;
     font: 11px/1.35 Inter, sans-serif;
 
-    &::placeholder { color: var(--labo-faint); }
+    &::placeholder { color: var(--neurobranch-faint); }
     &:focus { border: 0; box-shadow: none; }
   }
 }
@@ -60,10 +60,10 @@
   align-items: center;
   gap: 9px;
   padding: 0 12px 4px;
-  color: var(--labo-muted);
+  color: var(--neurobranch-muted);
 
   span { display: inline-flex; align-items: center; gap: 5px; font-size: 9px; }
-  small { overflow: hidden; color: var(--labo-faint); font: 8px 'JetBrains Mono', monospace; text-overflow: ellipsis; white-space: nowrap; }
+  small { overflow: hidden; color: var(--neurobranch-faint); font: 8px 'JetBrains Mono', monospace; text-overflow: ellipsis; white-space: nowrap; }
 }
 
 .agent-prompt-send,
@@ -81,22 +81,22 @@
 
 .agent-prompt-send {
   grid-column: 2;
-  border: 1px solid color-mix(in srgb, var(--pastel-sage) 34%, var(--labo-line));
+  border: 1px solid color-mix(in srgb, var(--pastel-sage) 34%, var(--neurobranch-line));
   border-radius: 6px;
   color: #cfe7dc;
-  background: color-mix(in srgb, var(--pastel-sage) 10%, var(--labo-surface));
+  background: color-mix(in srgb, var(--pastel-sage) 10%, var(--neurobranch-surface));
 
-  &:disabled { border-color: var(--labo-line); color: var(--labo-faint); background: color-mix(in srgb, var(--labo-surface) 76%, transparent); }
+  &:disabled { border-color: var(--neurobranch-line); color: var(--neurobranch-faint); background: color-mix(in srgb, var(--neurobranch-surface) 76%, transparent); }
 }
 
 .agent-prompt-details {
   grid-column: 3;
-  border: 1px solid color-mix(in srgb, var(--pastel-lavender) 28%, var(--labo-line));
+  border: 1px solid color-mix(in srgb, var(--pastel-lavender) 28%, var(--neurobranch-line));
   border-radius: 6px;
-  color: var(--labo-muted);
+  color: var(--neurobranch-muted);
   background: color-mix(in srgb, var(--pastel-lavender) 7%, transparent);
 
-  &[aria-expanded='true'] { color: var(--labo-text); background: color-mix(in srgb, var(--pastel-lavender) 13%, transparent); }
+  &[aria-expanded='true'] { color: var(--neurobranch-text); background: color-mix(in srgb, var(--pastel-lavender) 13%, transparent); }
   &:disabled { opacity: .35; }
 
   b {

@@ -381,7 +381,7 @@ export function GraphCanvas({ editMode = false, graph, setGraph, selectedNodeId,
 
   const status = (nodeId: string) => playerSnapshot.results.find((result) => result.atomId === nodeId)?.status ?? 'pending'
 
-  const acceptsAtomDrag = (event: DragEvent<HTMLDivElement>) => event.dataTransfer.types.includes('application/x-labo-model-atom') || event.dataTransfer.types.includes('application/x-labo-graph-input') || event.dataTransfer.types.includes('application/x-labo-custom-card')
+  const acceptsAtomDrag = (event: DragEvent<HTMLDivElement>) => event.dataTransfer.types.includes('application/x-neurobranch-model-atom') || event.dataTransfer.types.includes('application/x-neurobranch-graph-input') || event.dataTransfer.types.includes('application/x-neurobranch-custom-card')
 
   const dragLibraryAtomOver = (event: DragEvent<HTMLDivElement>) => {
     if (!acceptsAtomDrag(event)) return
@@ -391,9 +391,9 @@ export function GraphCanvas({ editMode = false, graph, setGraph, selectedNodeId,
   }
 
   const dropLibraryAtom = (event: DragEvent<HTMLDivElement>) => {
-    const atomId = event.dataTransfer.getData('application/x-labo-model-atom')
-    const inputRole = event.dataTransfer.getData('application/x-labo-graph-input') as TensorRole
-    const customCardId = event.dataTransfer.getData('application/x-labo-custom-card')
+    const atomId = event.dataTransfer.getData('application/x-neurobranch-model-atom')
+    const inputRole = event.dataTransfer.getData('application/x-neurobranch-graph-input') as TensorRole
+    const customCardId = event.dataTransfer.getData('application/x-neurobranch-custom-card')
     setAcceptsLibraryDrop(false)
     if (!atomId && !inputRole && !customCardId) return
     event.preventDefault()
@@ -454,7 +454,7 @@ export function GraphCanvas({ editMode = false, graph, setGraph, selectedNodeId,
       </div>}
       {graph.nodes.length === 0 && <div className="graph-empty-state" aria-hidden="true">
         <span className="graph-empty-mark"><Sparkles size={19} /></span>
-        <div><strong>Start with an atomic idea</strong><p>Drag a card from the library, or ask LABO to compose the first architecture.</p></div>
+        <div><strong>Start with an atomic idea</strong><p>Drag a card from the library, or ask NeuroBranch to compose the first architecture.</p></div>
         <small><MousePointer2 size={12} /> The canvas stays infinite as your graph grows.</small>
       </div>}
       <div className="graph-world" data-testid="graph-world" style={camera.worldStyle}>

@@ -37,7 +37,7 @@ function replacePackageVersion(relativePath, packageName) {
 updateJson('apps/bootstrap-installer/package.json')
 updateJson('apps/bootstrap-installer/package-lock.json')
 updateJson('apps/bootstrap-installer/src-tauri/tauri.conf.json')
-replacePackageVersion('apps/bootstrap-installer/src-tauri/Cargo.toml', 'labo-ai-setup')
-replacePackageVersion('apps/bootstrap-installer/src-tauri/Cargo.lock', 'labo-ai-setup')
+replacePackageVersion('apps/bootstrap-installer/src-tauri/Cargo.toml', 'NeuroBranch-setup')
+replacePackageVersion('apps/bootstrap-installer/src-tauri/Cargo.lock', 'NeuroBranch-setup')
 
 console.log(`Synchronized NeuroBranch release version ${version}`)

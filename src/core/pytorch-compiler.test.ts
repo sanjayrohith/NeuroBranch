@@ -111,7 +111,7 @@ describe('registry-driven PyTorch compiler', () => {
         edges: atom.inputs.map((port, index) => ({ id: `edge-${index}`, source: inputNodes[index].id, sourcePort: 'output', target: 'under-test', targetPort: port.id })),
       } as unknown as ArchitectureGraph
       const code = compileRegistryGraph(graph)
-      expect(code, atom.id).toContain(`# labo:node=under-test atom=${atom.id}`)
+      expect(code, atom.id).toContain(`# neurobranch:node=under-test atom=${atom.id}`)
       expect(code, `${atom.id} unresolved template`).not.toContain('{{')
       expect(code, `${atom.id} invalid interpolation`).not.toContain('[object Object]')
       compiledIds.push(atom.id)
@@ -135,7 +135,7 @@ describe('registry-driven PyTorch compiler', () => {
     expect(validCustomPyTorchModule('torch.load("model.pt")')).toBe(false)
     expect(validCustomPyTorchModule("nn.Linear(__import__('os').system('echo nope'), 384)")).toBe(false)
     const code = compileRegistryGraph(graph)
-    expect(code).toContain('# labo:node=user-linear kind=custom-pytorch')
+    expect(code).toContain('# neurobranch:node=user-linear kind=custom-pytorch')
     expect(code).toContain('self.user_linear = nn.Linear(384, 384)')
     expect(code).toContain('user_linear_output = self.user_linear(hidden_states)')
   })
@@ -171,8 +171,8 @@ describe('registry-driven PyTorch compiler', () => {
     }
 
     const code = compileRegistryGraph(graph)
-    expect(code).toContain('class _LaboCard_card(nn.Module):')
-    expect(code).toContain('self.card = _LaboCard_card()')
+    expect(code).toContain('class _NeuroBranchCard_card(nn.Module):')
+    expect(code).toContain('self.card = _NeuroBranchCard_card()')
     expect(code).toContain('card_activation__output = self.card(left, right)')
     expect(code).toContain('return card_activation__output')
   })
@@ -191,10 +191,10 @@ describe('registry-driven PyTorch compiler', () => {
 
     expect(code).toContain('class GeneratedModel(nn.Module):')
     expect(code).not.toContain('GeneratedGQA')
-    expect(code).toContain('# labo:node=norm atom=rms-norm')
+    expect(code).toContain('# neurobranch:node=norm atom=rms-norm')
     expect(code).toContain('self.norm = nn.RMSNorm(384, eps=1e-05)')
     expect(code).toContain('self.activation = nn.ReLU(inplace=False)')
-    expect(code).toContain('# labo:edge=hidden-norm source=hidden target=norm source_port=output target_port=hidden')
+    expect(code).toContain('# neurobranch:edge=hidden-norm source=hidden target=norm source_port=output target_port=hidden')
     expect(code).toContain('norm_output = self.norm(hidden_states)')
     expect(code).toContain('activation_output = self.activation(norm_output)')
     expect(code).toContain('return activation_output')
@@ -251,7 +251,7 @@ describe('registry-driven PyTorch compiler', () => {
     const code = compileToPyTorch(isolated)
 
     expect(code).toContain('class GeneratedModel(nn.Module):')
-    expect(code).toContain('# labo:node=activation atom=relu')
+    expect(code).toContain('# neurobranch:node=activation atom=relu')
     expect(code).toContain('self.activation = nn.ReLU(inplace=False)')
     expect(code).toContain('return None')
     expect(code).not.toContain('GeneratedInvalidGraph')
@@ -277,7 +277,7 @@ describe('registry-driven PyTorch compiler', () => {
       sourceId: 'tokens', sourcePort: 'token-ids', sourcePortId: 'tokenIds',
       targetId: 'embedding', targetPort: 'token-ids', targetPortId: 'tokenIds',
     }).graph
-    const nodeOrder = (source: string) => [...source.matchAll(/# labo:node=([^ ]+)/g)].map((match) => match[1])
+    const nodeOrder = (source: string) => [...source.matchAll(/# neurobranch:node=([^ ]+)/g)].map((match) => match[1])
 
     expect(nodeOrder(compileToPyTorch(reconnected))).toEqual(nodeOrder(compileToPyTorch(complexityDeepPreset)))
   })

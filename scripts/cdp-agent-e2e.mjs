@@ -66,16 +66,16 @@ if (prepare) {
   await waitFor(`document.querySelector('.reset-model-preset-button')?.textContent.includes('Confirm restore') === true`)
   await evaluate(`document.querySelector('.reset-model-preset-button')?.click()`)
   await waitFor(`document.querySelectorAll('.architecture-node').length === 0`)
-  await evaluate(`[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Ask LABO'))?.click()`)
-  await waitFor(`document.querySelector('#ask-labo-request') !== null`)
+  await evaluate(`[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Ask NeuroBranch'))?.click()`)
+  await waitFor(`document.querySelector('#ask-neurobranch-request') !== null`)
   await evaluate(`(() => {
-    const textarea = document.querySelector('#ask-labo-request')
+    const textarea = document.querySelector('#ask-neurobranch-request')
     const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set
     setter.call(textarea, '')
     textarea.dispatchEvent(new Event('input', { bubbles: true }))
-    document.querySelector('button[aria-label="Close Ask LABO"]')?.click()
+    document.querySelector('button[aria-label="Close Ask NeuroBranch"]')?.click()
   })()`)
-  await waitFor(`document.querySelector('.ask-labo-panel') === null`)
+  await waitFor(`document.querySelector('.ask-neurobranch-panel') === null`)
   await evaluate(`(() => {
     const panel = (label) => [...document.querySelectorAll('.panel-visibility-button')].find((button) => button.textContent.includes(label))
     if (panel('Library')?.getAttribute('aria-pressed') !== 'true') panel('Library')?.click()
@@ -102,17 +102,17 @@ await evaluate(`(() => {
 await evaluate(`(() => {
   const exactButton = (text) => [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === text)
   exactButton(${JSON.stringify(parallel ? 'TR 300M' : 'Blank starter')})?.click()
-  const askButton = [...document.querySelectorAll('button')].find((button) => button.textContent.includes('Ask LABO'))
+  const askButton = [...document.querySelectorAll('button')].find((button) => button.textContent.includes('Ask NeuroBranch'))
   askButton?.click()
 })()`)
-await waitFor(`document.querySelector('.ask-labo-key-heading')?.textContent.includes('Connected') === true`)
+await waitFor(`document.querySelector('.ask-neurobranch-key-heading')?.textContent.includes('Connected') === true`)
 if (demo) await wait(2500)
 const beforeCards = await evaluate(`[...document.querySelectorAll('.architecture-node')].map((element) => ({ atomId: element.dataset.atomId, label: element.querySelector('strong')?.textContent.trim(), x: Number.parseFloat(element.style.left), y: Number.parseFloat(element.style.top) }))`)
 await evaluate(`(() => {
   const review = [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === 'Review')
   review?.click()
   if (${parallel}) [...document.querySelectorAll('button')].find((button) => button.textContent.trim() === 'New parallel')?.click()
-  const textarea = document.querySelector('#ask-labo-request')
+  const textarea = document.querySelector('#ask-neurobranch-request')
   const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set
   setter.call(textarea, ${JSON.stringify(prompt)})
   textarea.dispatchEvent(new Event('input', { bubbles: true }))
@@ -120,36 +120,36 @@ await evaluate(`(() => {
 if (demo) await wait(3500)
 await waitFor(`[...document.querySelectorAll('button')].some((button) => button.textContent.includes('Propose graph changes') && !button.disabled)`)
 await evaluate(`[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Propose graph changes')).click()`)
-await waitFor(`document.querySelector('.ask-labo-result, .ask-labo-error') !== null`, 210_000)
+await waitFor(`document.querySelector('.ask-neurobranch-result, .ask-neurobranch-error') !== null`, 210_000)
 if (demo) await wait(5000)
 
 const preview = await evaluate(`(() => ({
-  error: document.querySelector('.ask-labo-error')?.textContent.trim() ?? null,
-  summary: document.querySelector('.ask-labo-result section p')?.textContent.trim() ?? null,
-  addedBlocks: [...document.querySelectorAll('.ask-labo-added-blocks > div')].map((element) => ({
+  error: document.querySelector('.ask-neurobranch-error')?.textContent.trim() ?? null,
+  summary: document.querySelector('.ask-neurobranch-result section p')?.textContent.trim() ?? null,
+  addedBlocks: [...document.querySelectorAll('.ask-neurobranch-added-blocks > div')].map((element) => ({
     nodeId: element.querySelector('strong')?.textContent.trim(),
     atomId: element.querySelector('code')?.textContent.trim(),
     reason: element.querySelector('small')?.textContent.trim(),
   })),
-  createdBlocks: [...document.querySelectorAll('.ask-labo-created-blocks > div')].map((element) => ({
+  createdBlocks: [...document.querySelectorAll('.ask-neurobranch-created-blocks > div')].map((element) => ({
     label: element.querySelector('strong')?.textContent.trim(),
     pytorchModule: element.querySelector('code')?.textContent.trim(),
     reason: element.querySelector('small')?.textContent.trim(),
   })),
-  missingBlocks: [...document.querySelectorAll('.ask-labo-missing > div')].map((element) => ({
+  missingBlocks: [...document.querySelectorAll('.ask-neurobranch-missing > div')].map((element) => ({
     label: element.querySelector('strong')?.textContent.trim(),
     reason: element.querySelector('small')?.textContent.trim(),
   })),
-  warnings: [...document.querySelectorAll('.ask-labo-warnings p')].map((element) => element.textContent.trim()),
-  connectionCount: document.querySelectorAll('.ask-labo-connections li').length,
-  canApply: !document.querySelector('.ask-labo-apply')?.disabled,
+  warnings: [...document.querySelectorAll('.ask-neurobranch-warnings p')].map((element) => element.textContent.trim()),
+  connectionCount: document.querySelectorAll('.ask-neurobranch-connections li').length,
+  canApply: !document.querySelector('.ask-neurobranch-apply')?.disabled,
 }))()`)
 
 let graph = null
 let player = null
   if (preview.canApply) {
-  await evaluate(`document.querySelector('.ask-labo-apply').click()`)
-  await waitFor(`document.querySelector('.ask-labo-panel') === null`)
+  await evaluate(`document.querySelector('.ask-neurobranch-apply').click()`)
+  await waitFor(`document.querySelector('.ask-neurobranch-panel') === null`)
   if (demo) await wait(5000)
   if (demo) {
     await evaluate(`(() => {

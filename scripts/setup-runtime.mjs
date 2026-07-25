@@ -17,7 +17,7 @@ const virtualEnvironment = resolve(targetFlagIndex === -1 ? join(projectRoot, '.
 const virtualPython = process.platform === 'win32'
   ? join(virtualEnvironment, 'Scripts', 'python.exe')
   : join(virtualEnvironment, 'bin', 'python')
-const stampPath = join(virtualEnvironment, '.labo-runtime-requirements.sha256')
+const stampPath = join(virtualEnvironment, '.neurobranch-runtime-requirements.sha256')
 const requiredImports = 'import torch, tokenizers, typing_extensions, jinja2, setuptools'
 
 function run(command, args, options = {}) {
@@ -35,7 +35,7 @@ function usablePython(command, prefixArgs = []) {
 }
 
 function findPython() {
-  const configured = process.env.LABO_AI_PYTHON
+  const configured = process.env.NEUROBRANCH_AI_PYTHON
   const candidates = configured
     ? [[configured, []]]
     : process.platform === 'win32'
@@ -46,7 +46,7 @@ function findPython() {
     const candidate = usablePython(command, prefixArgs)
     if (candidate) return candidate
   }
-  throw new Error('Python 3.10 or newer is required to prepare the NeuroBranch runtime. Set LABO_AI_PYTHON to a compatible interpreter.')
+  throw new Error('Python 3.10 or newer is required to prepare the NeuroBranch runtime. Set NEUROBRANCH_AI_PYTHON to a compatible interpreter.')
 }
 
 function runOrThrow(command, args, description) {

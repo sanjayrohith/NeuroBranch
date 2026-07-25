@@ -21,7 +21,7 @@ describe('Electron atomic runtime bridge', () => {
   })
 
   it('resolves the standard Windows virtual-environment layout', () => {
-    const root = mkdtempSync(join(tmpdir(), 'labo-ai-windows-'))
+    const root = mkdtempSync(join(tmpdir(), 'NeuroBranch-windows-'))
     try {
       mkdirSync(join(root, '.venv', 'Scripts'), { recursive: true })
       mkdirSync(join(root, 'scripts'), { recursive: true })
@@ -38,7 +38,7 @@ describe('Electron atomic runtime bridge', () => {
   })
 
   it('prefers the managed installed runtime over PATH Python', () => {
-    const root = mkdtempSync(join(tmpdir(), 'labo-ai-managed-runtime-'))
+    const root = mkdtempSync(join(tmpdir(), 'NeuroBranch-managed-runtime-'))
     try {
       const userData = join(root, 'user-data')
       const resources = join(root, 'resources')

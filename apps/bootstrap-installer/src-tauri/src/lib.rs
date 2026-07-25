@@ -14,7 +14,7 @@ use std::{
 use tauri::{AppHandle, Emitter, Manager};
 use tempfile::TempDir;
 
-const REPOSITORY: &str = "Complexity-ML/labo-ai";
+const REPOSITORY: &str = "Complexity-ML/NeuroBranch";
 const NODE_VERSION: &str = "v22.14.0";
 static INSTALL_IN_PROGRESS: AtomicBool = AtomicBool::new(false);
 
@@ -110,7 +110,7 @@ struct ProgressEvent {
 
 fn client() -> Result<Client, String> {
     Client::builder()
-        .user_agent("LABO-AI-Setup")
+        .user_agent("NeuroBranch-Setup")
         .build()
         .map_err(|error| error.to_string())
 }
@@ -143,12 +143,12 @@ fn latest_release() -> Result<GitHubRelease, String> {
             .ok_or_else(|| format!("Unable to resolve the latest GitHub tag after: {api_error}"))?
             .to_string();
         let asset_names = [
-            "LABO-AI-Setup-arm64-helper",
-            "LABO-AI-Setup-arm64-helper.sha256",
-            "LABO-AI-Setup-x64-helper.exe",
-            "LABO-AI-Setup-x64-helper.exe.sha256",
-            "LABO-AI-Setup-x64.AppImage",
-            "LABO-AI-Setup-x64.AppImage.sha256",
+            "NeuroBranch-Setup-arm64-helper",
+            "NeuroBranch-Setup-arm64-helper.sha256",
+            "NeuroBranch-Setup-x64-helper.exe",
+            "NeuroBranch-Setup-x64-helper.exe.sha256",
+            "NeuroBranch-Setup-x64.AppImage",
+            "NeuroBranch-Setup-x64.AppImage.sha256",
         ];
         Ok(GitHubRelease {
             tarball_url: format!(
@@ -404,16 +404,16 @@ fn helper_destination() -> Result<PathBuf, String> {
     };
     Ok(electron_user_data()?
         .join("installer")
-        .join(format!("labo-ai-setup{extension}")))
+        .join(format!("NeuroBranch-setup{extension}")))
 }
 
 fn setup_helper_asset() -> Result<&'static str, String> {
     match (env::consts::OS, env::consts::ARCH) {
-        ("macos", "aarch64") => Ok("LABO-AI-Setup-arm64-helper"),
-        ("macos", "x86_64") => Ok("LABO-AI-Setup-x64-helper"),
-        ("windows", "x86_64") => Ok("LABO-AI-Setup-x64-helper.exe"),
-        ("windows", "aarch64") => Ok("LABO-AI-Setup-arm64-helper.exe"),
-        ("linux", "x86_64") => Ok("LABO-AI-Setup-x64.AppImage"),
+        ("macos", "aarch64") => Ok("NeuroBranch-Setup-arm64-helper"),
+        ("macos", "x86_64") => Ok("NeuroBranch-Setup-x64-helper"),
+        ("windows", "x86_64") => Ok("NeuroBranch-Setup-x64-helper.exe"),
+        ("windows", "aarch64") => Ok("NeuroBranch-Setup-arm64-helper.exe"),
+        ("linux", "x86_64") => Ok("NeuroBranch-Setup-x64.AppImage"),
         _ => Err(format!(
             "Unsupported Setup helper platform: {} {}",
             env::consts::OS,
@@ -485,9 +485,9 @@ fn relaunch_latest_setup(
         fs::create_dir_all(parent).map_err(|error| error.to_string())?;
     }
     let next = destination.with_file_name(if cfg!(target_os = "windows") {
-        "labo-ai-setup-next.exe"
+        "NeuroBranch-setup-next.exe"
     } else {
-        "labo-ai-setup-next"
+        "NeuroBranch-setup-next"
     });
     fs::write(&next, bytes).map_err(|error| format!("Unable to stage the new Setup: {error}"))?;
     #[cfg(unix)]
@@ -763,7 +763,7 @@ fn launch_application(destination: &Path) -> Result<(), String> {
 
 #[cfg(target_os = "linux")]
 fn linux_application_executable(destination: &Path) -> Result<PathBuf, String> {
-    ["labo-ai", "NeuroBranch"]
+    ["NeuroBranch", "NeuroBranch"]
         .iter()
         .map(|name| destination.join(name))
         .find(|path| path.is_file())
@@ -778,7 +778,7 @@ fn linux_application_executable(destination: &Path) -> Result<PathBuf, String> {
 #[cfg(target_os = "linux")]
 fn install_linux_integration(destination: &Path, source: &Path) -> Result<(), String> {
     let executable = linux_application_executable(destination)?;
-    let icon = destination.join("resources").join("labo-ai.png");
+    let icon = destination.join("resources").join("NeuroBranch.png");
     if let Some(parent) = icon.parent() {
         fs::create_dir_all(parent).map_err(|error| error.to_string())?;
     }
@@ -794,7 +794,7 @@ fn install_linux_integration(destination: &Path, source: &Path) -> Result<(), St
         executable.display().to_string().replace('"', "\\\""),
         icon.display()
     );
-    fs::write(applications.join("labo-ai.desktop"), desktop_entry)
+    fs::write(applications.join("NeuroBranch.desktop"), desktop_entry)
         .map_err(|error| format!("Unable to create the Linux application launcher: {error}"))?;
 
     if background_command("update-desktop-database")
@@ -844,7 +844,7 @@ fn install_windows_integration(destination: &Path, release_tag: &str) -> Result<
         ));
     }
 
-    let uninstall_script = install_root()?.join("uninstall-labo-ai.ps1");
+    let uninstall_script = install_root()?.join("uninstall-NeuroBranch.ps1");
     let uninstall_body = format!(
         "$ErrorActionPreference = 'SilentlyContinue'\n\
          Stop-Process -Name 'NeuroBranch' -Force\n\
@@ -882,7 +882,7 @@ fn install_windows_integration(destination: &Path, release_tag: &str) -> Result<
          New-ItemProperty -Path $key -Name Publisher -Value 'Complexity-ML' -PropertyType String -Force | Out-Null; \
          New-ItemProperty -Path $key -Name InstallLocation -Value '{destination_literal}' -PropertyType String -Force | Out-Null; \
          New-ItemProperty -Path $key -Name DisplayIcon -Value \"$exe,0\" -PropertyType String -Force | Out-Null; \
-         New-ItemProperty -Path $key -Name URLInfoAbout -Value 'https://www.complexity-ai.fr/labo-ai' -PropertyType String -Force | Out-Null; \
+         New-ItemProperty -Path $key -Name URLInfoAbout -Value 'https://www.complexity-ai.fr/NeuroBranch' -PropertyType String -Force | Out-Null; \
          New-ItemProperty -Path $key -Name UninstallString -Value 'powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"{uninstall_literal}\"' -PropertyType String -Force | Out-Null; \
          New-ItemProperty -Path $key -Name NoModify -Value 1 -PropertyType DWord -Force | Out-Null; \
          New-ItemProperty -Path $key -Name NoRepair -Value 1 -PropertyType DWord -Force | Out-Null"

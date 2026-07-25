@@ -4,8 +4,8 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { createInterface } from 'node:readline'
-import type { AskLaboPayload, AskLaboPlan } from './ask-labo.js'
-import { validateAskLaboPayload } from './ask-labo.js'
+import type { AskNeuroBranchPayload, AskNeuroBranchPlan } from './ask-neurobranch.js'
+import { validateAskNeuroBranchPayload } from './ask-neurobranch.js'
 
 export interface ChatGPTSessionStatus {
   available: boolean
@@ -73,7 +73,7 @@ function asRecord(value: unknown): JsonRecord {
 }
 
 function codexCommand(): { command: string; args: string[]; env?: NodeJS.ProcessEnv } {
-  const configured = process.env.LABO_CODEX_PATH?.trim()
+  const configured = process.env.NEUROBRANCH_CODEX_PATH?.trim()
   if (configured) return { command: configured, args: ['app-server'] }
   const target = ({
     'darwin-arm64': ['@openai/codex-darwin-arm64', 'aarch64-apple-darwin'],
@@ -117,7 +117,7 @@ function errorMessage(value: unknown): string {
   return typeof record.message === 'string' ? record.message : String(value)
 }
 
-function conversationPlan(summary: string): AskLaboPlan {
+function conversationPlan(summary: string): AskNeuroBranchPlan {
   return {
     summary,
     addedBlocks: [],
@@ -144,7 +144,7 @@ export class CodexAppServer {
   constructor(
     private readonly openExternal: OpenExternal,
     private readonly version = '0.0.0',
-    private readonly codexHome = process.env.LABO_CODEX_HOME?.trim() || join(process.cwd(), 'data', 'codex'),
+    private readonly codexHome = process.env.NEUROBRANCH_CODEX_HOME?.trim() || join(process.cwd(), 'data', 'codex'),
   ) {}
 
   private start(): Promise<void> {
@@ -319,8 +319,8 @@ export class CodexAppServer {
     return { available: true, connected: false }
   }
 
-  async ask(payload: AskLaboPayload, configuration: ChatGPTAgentConfiguration = {}): Promise<AskLaboPlan> {
-    validateAskLaboPayload(payload)
+  async ask(payload: AskNeuroBranchPayload, configuration: ChatGPTAgentConfiguration = {}): Promise<AskNeuroBranchPlan> {
+    validateAskNeuroBranchPayload(payload)
     const status = await this.status()
     if (!status.connected) throw new Error('Connect your ChatGPT account from Settings → Agent first')
     const threadResponse = asRecord(await this.request('thread/start', {
@@ -330,7 +330,7 @@ export class CodexAppServer {
       developerInstructions: 'Answer greetings, questions, explanations, and architecture advice naturally in summary, with every mutation array empty. Only create a graph plan when the user explicitly asks to build, edit, arrange, run, save, or export. For graph plans, use only atom IDs and exact port IDs present in the supplied context. When context.editing.active is true, restrict every edit, replacement, deletion, movement and run-selection to context.editing.nodeIds and never add unrelated cards. When it is false, Add Blocks may add and connect but must not silently edit existing cards. Prefer existing cards, keep IDs alphanumeric with hyphens, preserve current work unless asked, and include a layout action after graph mutations. If a capability is absent, report it in missingBlocks instead of inventing an atom.',
     }))
     const thread = asRecord(threadResponse.thread)
-    if (typeof thread.id !== 'string') throw new Error('Codex did not start a LABO planning thread')
+    if (typeof thread.id !== 'string') throw new Error('Codex did not start a NeuroBranch planning thread')
     const agentText = this.collectAgentText(thread.id)
     const completed = this.waitFor('turn/completed', (params) => params.threadId === thread.id, turnTimeoutMs)
     try {
@@ -362,7 +362,7 @@ export class CodexAppServer {
         ...(Array.isArray(plan.missingBlocks) ? { missingBlocks: plan.missingBlocks } : {}),
         ...(Array.isArray(plan.warnings) ? { warnings: plan.warnings } : {}),
         ...(Array.isArray(plan.toolTrace) ? { toolTrace: plan.toolTrace } : {}),
-      } as AskLaboPlan
+      } as AskNeuroBranchPlan
     } finally {
       agentText.stop()
       void this.request('thread/delete', { threadId: thread.id }).catch(() => undefined)

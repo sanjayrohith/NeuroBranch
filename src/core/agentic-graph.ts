@@ -332,7 +332,7 @@ export function repairAgentGraphPlan(graph: ArchitectureGraph, sourcePlan: Agent
         source = {
           atomId: virtualAtomId,
           nodeId: uniqueAgentNodeId(graph, plan, input.tensor === 'token-ids' ? 'agent-token-ids' : input.tensor === 'labels' ? 'agent-training-labels' : input.tensor === 'image' ? 'agent-image' : input.tensor === 'video' ? 'agent-video' : 'agent-audio'),
-          reason: `LABO repaired the missing ${input.tensor} graph source locally.`,
+          reason: `NeuroBranch repaired the missing ${input.tensor} graph source locally.`,
         }
         plan.addedBlocks.push(source)
       }
@@ -341,7 +341,7 @@ export function repairAgentGraphPlan(graph: ArchitectureGraph, sourcePlan: Agent
         sourcePortId: input.tensor === 'token-ids' ? 'tokenIds' : input.tensor,
         targetId: block.nodeId,
         targetPortId: input.id,
-        reason: `LABO connected the available ${input.tensor} source locally.`,
+        reason: `NeuroBranch connected the available ${input.tensor} source locally.`,
       })
     }
   }
@@ -355,7 +355,7 @@ export function repairAgentGraphPlan(graph: ArchitectureGraph, sourcePlan: Agent
     if (!qkvSource || !capacity()) continue
     let layout = plan.addedBlocks.find((block) => block.atomId === 'attention-head-layout' && plan.connections.some((connection) => connection.targetId === block.nodeId && connection.sourceId === qkvSource))
     if (!layout) {
-      layout = { atomId: 'attention-head-layout', nodeId: uniqueAgentNodeId(graph, plan, 'agent-head-layout'), reason: 'LABO inserted the required rank-3 to rank-4 attention head layout.' }
+      layout = { atomId: 'attention-head-layout', nodeId: uniqueAgentNodeId(graph, plan, 'agent-head-layout'), reason: 'NeuroBranch inserted the required rank-3 to rank-4 attention head layout.' }
       plan.addedBlocks.push(layout)
     }
     plan.connections = plan.connections.filter((connection) => !(connection.targetId === attention.nodeId && connection.sourceId === qkvSource && ['q', 'k', 'v'].includes(connection.targetPortId)))
@@ -376,7 +376,7 @@ export function repairAgentGraphPlan(graph: ArchitectureGraph, sourcePlan: Agent
       const alreadyDecoded = plan.connections.some((connection) => connection.sourceId === head.nodeId && connection.sourcePortId === 'logits')
       if (alreadyDecoded || !capacity()) continue
       const nodeId = uniqueAgentNodeId(graph, plan, 'agent-greedy-decoder')
-      plan.addedBlocks.push({ atomId: 'greedy-token-decoder', nodeId, reason: 'LABO resolved the requested logits-to-token capability with the native greedy decoder.' })
+      plan.addedBlocks.push({ atomId: 'greedy-token-decoder', nodeId, reason: 'NeuroBranch resolved the requested logits-to-token capability with the native greedy decoder.' })
       plan.connections.push({ sourceId: head.nodeId, sourcePortId: 'logits', targetId: nodeId, targetPortId: 'logits', reason: 'Decode language-model logits into generated Token IDs.' })
     }
   }
@@ -464,7 +464,7 @@ export function previewAgentGraphPlan(graph: ArchitectureGraph, plan: AgentGraph
     const virtual = agentVirtualAtomics[block.atomId]
     const definition = modelAtomRegistry[block.atomId]
     if (!definition && !virtual) {
-      rejectedBlocks.push({ block, reason: 'Atomic block is not available in the LABO library' })
+      rejectedBlocks.push({ block, reason: 'Atomic block is not available in the NeuroBranch library' })
       continue
     }
     if (definition?.composite) {

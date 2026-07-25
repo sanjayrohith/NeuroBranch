@@ -25,12 +25,12 @@ function SettingsCard({ children, icon, tone = 'sage' }: { children: ReactNode; 
 
 export function StudioSettingsModal({ onClose, sections }: { onClose(): void; sections: StudioSettingsSection[] }) {
   const [sectionId, setSectionId] = useState('general')
-  const runtime = window.labo?.runtime
+  const runtime = window.neurobranch?.runtime
   const sectionContent = Object.fromEntries(sections.map((section) => [section.id, section.content]))
   const sectionDescriptions: Record<string, string> = {
     general: 'Storage, privacy and desktop updates.',
     workspaces: 'Save, restore and compare your private graphs.',
-    agent: 'Choose how Ask LABO plans and applies changes.',
+    agent: 'Choose how Ask NeuroBranch plans and applies changes.',
     studio: 'Appearance shared across every NeuroBranch studio.',
     tips: 'Shortcuts and gestures for faster graph editing.',
   }
@@ -46,7 +46,7 @@ export function StudioSettingsModal({ onClose, sections }: { onClose(): void; se
   const activeSection = navigation.find((section) => section.id === sectionId) ?? navigation[0]
   const fallbackCopy: Record<string, { title: string; body: string }> = {
     workspaces: { title: 'Private workspace', body: 'The active studio saves its current draft automatically for this profile.' },
-    agent: { title: 'Shared agent preferences', body: 'Ask LABO uses the same private credentials and review defaults throughout the application.' },
+    agent: { title: 'Shared agent preferences', body: 'Ask NeuroBranch uses the same private credentials and review defaults throughout the application.' },
     studio: { title: 'Application appearance', body: 'Choose one visual identity shared by the complete NeuroBranch workspace.' },
     tips: { title: 'Studio shortcuts', body: 'Use the same selection, editing and keyboard conventions throughout NeuroBranch.' },
   }

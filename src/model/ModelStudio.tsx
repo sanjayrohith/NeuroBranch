@@ -29,7 +29,7 @@ import { customCardInputPorts, customCardOutputPorts, validateCustomCardGraph } 
 import { deriveGraphStats } from '../core/stats'
 import { GraphCanvas } from './GraphCanvas'
 import { PythonCodeEditor, PythonCodePreview } from './PythonCodeEditor'
-import { AskLaboPanel } from './AskLaboPanel'
+import { AskNeuroBranchPanel } from './AskNeuroBranchPanel'
 import type { AgentGraphAction } from '../core/agentic-graph'
 import type { CustomCardCreatorHandle, CustomCardDestination, CustomCardCreateResult } from './CustomCardCreator'
 import type { CustomPyTorchCard } from './custom-card'
@@ -57,7 +57,7 @@ interface CardEditDraft {
   code?: string
 }
 
-const CUSTOM_CARDS_STORAGE_KEY = 'labo.custom-pytorch-cards.v1'
+const CUSTOM_CARDS_STORAGE_KEY = 'neurobranch.custom-pytorch-cards.v1'
 
 function isCustomCard(value: unknown): value is CustomPyTorchCard {
   if (!value || typeof value !== 'object') return false
@@ -102,8 +102,8 @@ const graphInputDefinitions: Array<{ role: TensorRole; label: string }> = [
 
 
 export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onEditorContextChange = () => undefined, requestedCard, onRequestedCardHandled = () => undefined }: { askOpen?: boolean; onCloseAsk?: () => void; onEditorContextChange?: (context: ModelEditorContext) => void; requestedCard?: { atomId: string; requestId: number }; onRequestedCardHandled?: () => void }) {
-  const webRuntime = window.labo?.runtime === 'web'
-  const desktopRuntime = window.labo?.runtime === 'electron'
+  const webRuntime = window.neurobranch?.runtime === 'web'
+  const desktopRuntime = window.neurobranch?.runtime === 'electron'
   const [initialWorkspace] = useState(() => webRuntime || desktopRuntime ? emptyModelWorkspace() : loadModelWorkspace())
   const initialPreset = initialWorkspace.userPresets.find((preset) => preset.id === initialWorkspace.activePresetId)
     ?? builtInModelPresets.find((preset) => preset.id === initialWorkspace.activePresetId)
@@ -154,7 +154,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
   const [parseDiagnostics, setParseDiagnostics] = useState<PyTorchDialectDiagnostic[]>([])
   const [sampleText, setSampleText] = useState('Hello NeuroBranch')
   const [promptTokenCount, setPromptTokenCount] = useState<number>()
-  const [modelOutput, setModelOutput] = useState<LaboRuntimeTrace['modelOutput']>()
+  const [modelOutput, setModelOutput] = useState<NeuroBranchRuntimeTrace['modelOutput']>()
   const [customCards, setCustomCards] = useState<CustomPyTorchCard[]>(() => webRuntime || desktopRuntime ? [] : loadCustomCards())
   const [editingNodeId, setEditingNodeId] = useState<string>()
   const [cardEditDraft, setCardEditDraft] = useState<CardEditDraft>()
@@ -166,7 +166,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
   const blankGraph = graph.nodes.length === 0
   const pytorchMappingComplete = validation.valid && code.includes('class GeneratedModel(nn.Module):')
   const pytorchDraftAvailable = code.includes('class GeneratedModel(nn.Module):')
-  const nativePyTorchRuntime = typeof window.labo?.runAtomic === 'function'
+  const nativePyTorchRuntime = typeof window.neurobranch?.runAtomic === 'function'
   const runtimeAvailable = !blankGraph
   const selectedNode = graph.nodes.find((node) => node.id === selectedNodeId)
   const selectedGroup = graph.groups?.find((group) => group.id === selectedNodeId)
@@ -193,7 +193,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
   useEffect(() => {
     let cancelled = false
     if (webRuntime) {
-      const load = window.labo?.loadWebWorkspace
+      const load = window.neurobranch?.loadWebWorkspace
       if (!load) {
         setDatabaseReady(true)
         return
@@ -241,8 +241,8 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
       })
       return () => { cancelled = true }
     }
-    if (desktopRuntime && window.labo?.loadDesktopState) {
-      const loadDesktopState = window.labo.loadDesktopState
+    if (desktopRuntime && window.neurobranch?.loadDesktopState) {
+      const loadDesktopState = window.neurobranch.loadDesktopState
       void (async () => {
         const nativePayload = await loadDesktopState('model')
         const payload = nativePayload && typeof nativePayload === 'object' ? nativePayload as { workspace?: unknown; customCards?: unknown } : undefined
@@ -285,18 +285,18 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
     }
     if (databaseReady) {
       if (webRuntime) {
-        if (webAuthenticated && window.labo?.saveWebWorkspace) {
+        if (webAuthenticated && window.neurobranch?.saveWebWorkspace) {
           const payload = { workspace, customCards }
           webPendingSaveRef.current = payload
           if (webSaveTimerRef.current) clearTimeout(webSaveTimerRef.current)
           webSaveTimerRef.current = setTimeout(() => {
-            void window.labo?.saveWebWorkspace?.(payload).then(() => {
+            void window.neurobranch?.saveWebWorkspace?.(payload).then(() => {
               if (webPendingSaveRef.current === payload) webPendingSaveRef.current = undefined
             })
           }, 700)
         }
-      } else if (desktopRuntime && window.labo?.saveDesktopState) {
-        void window.labo.saveDesktopState('model', { workspace, customCards })
+      } else if (desktopRuntime && window.neurobranch?.saveDesktopState) {
+        void window.neurobranch.saveDesktopState('model', { workspace, customCards })
       } else saveModelWorkspace(workspace)
     } else if (!webRuntime && !desktopRuntime && (graph !== startupGraphRef.current || selectedNodeId !== startupSelectionRef.current || userPresets !== startupUserPresetsRef.current)) {
       saveModelWorkspaceCache(workspace)
@@ -309,16 +309,16 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
   useEffect(() => () => {
     if (webSaveTimerRef.current) clearTimeout(webSaveTimerRef.current)
     const pending = webPendingSaveRef.current
-    if (webRuntime && webAuthenticatedRef.current && pending && window.labo?.saveWebWorkspace) void window.labo.saveWebWorkspace(pending)
+    if (webRuntime && webAuthenticatedRef.current && pending && window.neurobranch?.saveWebWorkspace) void window.neurobranch.saveWebWorkspace(pending)
   }, [webRuntime])
 
   useEffect(() => {
-    let tracePromise: Promise<LaboRuntimeTrace> | undefined
+    let tracePromise: Promise<NeuroBranchRuntimeTrace> | undefined
     setModelOutput(undefined)
     setPromptTokenCount(undefined)
     const executionPlan = validation.valid ? executionLayers(graph) : graph.nodes.map((node) => [node.id])
     const player = new AtomicPlayer(executionPlan, async (atomId) => {
-      const runAtomic = window.labo?.runAtomic
+      const runAtomic = window.neurobranch?.runAtomic
       if (!runAtomic) return previewModelAtom(graph, atomId)
       const runArchitectures = async (tokenIds?: number[]) => {
         const traces = await Promise.all(graphArchitectures.map((architecture) => runAtomic({ kind: 'model', graph: architecture.graph, ...(tokenIds ? { tokenIds } : {}) })))
@@ -468,11 +468,11 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
       setSelectedNodeId(graphNodeId)
     } else if (destination === 'new-architecture') {
       const metadata = {
-        laboArchitectureName: `Custom · ${label}`,
-        laboArchitectureHiddenSize: current.config.hiddenSize,
-        laboArchitectureQueryHeads: current.config.queryHeads,
-        laboArchitectureKeyValueHeads: current.config.keyValueHeads,
-        laboArchitectureHeadDim: current.config.headDim,
+        neurobranchArchitectureName: `Custom · ${label}`,
+        neurobranchArchitectureHiddenSize: current.config.hiddenSize,
+        neurobranchArchitectureQueryHeads: current.config.queryHeads,
+        neurobranchArchitectureKeyValueHeads: current.config.keyValueHeads,
+        neurobranchArchitectureHeadDim: current.config.headDim,
       }
       const externalInputs = cardInputs.length > 0 ? cardInputs : [{ id: 'input', label: `${label} input`, tensor: inputTensor }]
       let withNodes = addNode(current, { ...customNode, attributes: { ...customNode.attributes, ...metadata } })
@@ -682,11 +682,11 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
       while (architecture.nodeIds.some((nodeId) => usedIds.has(`${prefix}-${nodeId}`))) prefix = `${preset.id}-${componentIndex + 1}-${++sequence}`
       const remap = new Map(architecture.nodeIds.map((nodeId) => [nodeId, `${prefix}-${nodeId}`]))
       const metadata = {
-        laboArchitectureName: architecture.label,
-        laboArchitectureHiddenSize: architecture.graph.config.hiddenSize,
-        laboArchitectureQueryHeads: architecture.graph.config.queryHeads,
-        laboArchitectureKeyValueHeads: architecture.graph.config.keyValueHeads,
-        laboArchitectureHeadDim: architecture.graph.config.headDim,
+        neurobranchArchitectureName: architecture.label,
+        neurobranchArchitectureHiddenSize: architecture.graph.config.hiddenSize,
+        neurobranchArchitectureQueryHeads: architecture.graph.config.queryHeads,
+        neurobranchArchitectureKeyValueHeads: architecture.graph.config.keyValueHeads,
+        neurobranchArchitectureHeadDim: architecture.graph.config.headDim,
       }
       const nodes = architecture.graph.nodes.map((node) => ({ ...node, id: remap.get(node.id)!, position: { ...node.position }, attributes: { ...node.attributes, ...metadata } }))
       const edges = architecture.graph.edges.map((edge) => ({ ...edge, id: `${prefix}-${edge.id}`, source: remap.get(edge.source)!, target: remap.get(edge.target)! }))
@@ -806,7 +806,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
     onDragEnd={(event) => event.currentTarget.blur()}
     onDragStart={(event) => {
       event.dataTransfer.effectAllowed = 'copy'
-      event.dataTransfer.setData('application/x-labo-model-atom', definition.id)
+      event.dataTransfer.setData('application/x-neurobranch-model-atom', definition.id)
       event.dataTransfer.setData('text/plain', definition.label)
       setLibraryDragPreview(event.dataTransfer, definition.label, `glyph-${definition.category}`)
     }}
@@ -825,7 +825,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
     onDragEnd={(event) => event.currentTarget.blur()}
     onDragStart={(event) => {
       event.dataTransfer.effectAllowed = 'copy'
-      event.dataTransfer.setData('application/x-labo-model-atom', 'lm-head:tied')
+      event.dataTransfer.setData('application/x-neurobranch-model-atom', 'lm-head:tied')
       event.dataTransfer.setData('text/plain', 'Tied language-model head')
       setLibraryDragPreview(event.dataTransfer, 'Tied language-model head', 'glyph-output')
     }}
@@ -835,7 +835,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
     Tied language-model head
   </button>
   const activeAgentSelection = agentSelectedNodeIds.length > 0 ? agentSelectedNodeIds : selectedNodeId ? [selectedNodeId] : []
-  const askLaboPanel = <AskLaboPanel customCards={customCards} dockClassName={`view-${view} ${libraryOpen ? 'library-visible' : ''} ${inspectorOpen ? 'inspector-visible' : ''}`} graph={graph} interactionMode={interactionMode} selectedNodeIds={activeAgentSelection} onApply={applyAgentGraph} onClose={onCloseAsk} open={askOpen} workspaceSettings={<WorkspaceSettingsContent comparisonPresets={[...builtInModelPresets.filter((preset) => preset.nodes.length > 0), ...userPresets.filter((preset) => preset.nodes.length > 0)]} currentGraph={graph} currentLabel={presetMenuLabels[graph.id] ?? graph.name} error={presetError} name={presetName} onAddComparison={addPresetForComparison} onCreateBlank={createBlankWorkspace} onDeleteWorkspace={deleteUserPreset} onLoadWorkspace={(preset) => loadPreset(preset, preset.nodes[0]?.id ?? '')} onNameChange={setPresetName} onReset={resetCurrentPreset} onSave={createUserPreset} presetLabel={(preset) => presetMenuLabels[preset.id] ?? preset.name} resetConfirming={confirmPresetReset} resetDisabled={!builtInModelPresets.some((preset) => preset.id === graph.id) && !userPresets.some((preset) => preset.id === graph.id)} savedWorkspaces={userPresets} />} />
+  const askNeuroBranchPanel = <AskNeuroBranchPanel customCards={customCards} dockClassName={`view-${view} ${libraryOpen ? 'library-visible' : ''} ${inspectorOpen ? 'inspector-visible' : ''}`} graph={graph} interactionMode={interactionMode} selectedNodeIds={activeAgentSelection} onApply={applyAgentGraph} onClose={onCloseAsk} open={askOpen} workspaceSettings={<WorkspaceSettingsContent comparisonPresets={[...builtInModelPresets.filter((preset) => preset.nodes.length > 0), ...userPresets.filter((preset) => preset.nodes.length > 0)]} currentGraph={graph} currentLabel={presetMenuLabels[graph.id] ?? graph.name} error={presetError} name={presetName} onAddComparison={addPresetForComparison} onCreateBlank={createBlankWorkspace} onDeleteWorkspace={deleteUserPreset} onLoadWorkspace={(preset) => loadPreset(preset, preset.nodes[0]?.id ?? '')} onNameChange={setPresetName} onReset={resetCurrentPreset} onSave={createUserPreset} presetLabel={(preset) => presetMenuLabels[preset.id] ?? preset.name} resetConfirming={confirmPresetReset} resetDisabled={!builtInModelPresets.some((preset) => preset.id === graph.id) && !userPresets.some((preset) => preset.id === graph.id)} savedWorkspaces={userPresets} />} />
 
   return (
     <>
@@ -867,7 +867,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
                 onDragEnd={(event) => event.currentTarget.blur()}
                 onDragStart={(event) => {
                   event.dataTransfer.effectAllowed = 'copy'
-                  event.dataTransfer.setData('application/x-labo-graph-input', definition.role)
+                  event.dataTransfer.setData('application/x-neurobranch-graph-input', definition.role)
                   event.dataTransfer.setData('text/plain', definition.label)
                   setLibraryDragPreview(event.dataTransfer, definition.label, 'glyph-input')
                 }}
@@ -888,7 +888,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
                   onDragEnd={(event) => event.currentTarget.blur()}
                   onDragStart={(event) => {
                     event.dataTransfer.effectAllowed = 'copy'
-                    event.dataTransfer.setData('application/x-labo-custom-card', card.id)
+                    event.dataTransfer.setData('application/x-neurobranch-custom-card', card.id)
                     event.dataTransfer.setData('text/plain', card.label)
                     setLibraryDragPreview(event.dataTransfer, card.label, 'glyph-custom')
                   }}
@@ -933,7 +933,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
           }} onDropInput={(role, position) => addGraphInput(role, position)} playerSnapshot={modelPlayerSnapshot} selectedNodeId={selectedNodeId} setGraph={setGraph} setSelectedNodeId={setSelectedNodeId} />}
 
           {view !== 'blocks' && (
-            <StudioCodePanel tab={<StudioPanelTab actions={<button aria-label="Apply PyTorch to blocks" onClick={applyPyTorch}>Apply to blocks</button>} icon={<Code2 size={13} />} status="LABO DIALECT">generated_attention.py {graphArchitectures.length > 1 && <select aria-label="PyTorch architecture" onChange={(event) => { const architecture = graphArchitectures.find((candidate) => candidate.id === event.target.value); setSelectedArchitectureId(event.target.value); if (architecture?.nodeIds[0]) setSelectedNodeId(architecture.nodeIds[0]) }} value={selectedArchitecture?.id ?? ''}>{graphArchitectures.map((architecture) => <option key={architecture.id} value={architecture.id}>{architecture.label}</option>)}</select>}</StudioPanelTab>}>
+            <StudioCodePanel tab={<StudioPanelTab actions={<button aria-label="Apply PyTorch to blocks" onClick={applyPyTorch}>Apply to blocks</button>} icon={<Code2 size={13} />} status="NeuroBranch DIALECT">generated_attention.py {graphArchitectures.length > 1 && <select aria-label="PyTorch architecture" onChange={(event) => { const architecture = graphArchitectures.find((candidate) => candidate.id === event.target.value); setSelectedArchitectureId(event.target.value); if (architecture?.nodeIds[0]) setSelectedNodeId(architecture.nodeIds[0]) }} value={selectedArchitecture?.id ?? ''}>{graphArchitectures.map((architecture) => <option key={architecture.id} value={architecture.id}>{architecture.label}</option>)}</select>}</StudioPanelTab>}>
               {blankGraph ? <div className="code-empty-state">
                 <span><Code2 size={20} /></span>
                 <strong>PyTorch appears with your graph</strong>
@@ -948,7 +948,7 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
         <StudioInspector heading="INSPECTOR" hidden={!inspectorOpen} icon={<Cpu size={14} />}>
           <InspectorSection title="Selection">
             <InspectorSelection detail={selectedNode?.id ?? selectedGroup?.id ?? '—'} icon={<Zap size={15} />} title={selectedNode?.label ?? selectedGroup?.label ?? 'No selection'} />
-            {blankGraph && <p className="blank-graph-hint">Add an atomic block from the library or ask LABO to build a starter graph.</p>}
+            {blankGraph && <p className="blank-graph-hint">Add an atomic block from the library or ask NeuroBranch to build a starter graph.</p>}
             {!blankGraph && !validation.valid && <p className="graph-incomplete-hint" title={validation.errors.join('\n')}>Graph incomplete · {validation.errors.length} wiring issue{validation.errors.length === 1 ? '' : 's'}. Connect the open ports before running.</p>}
           </InspectorSection>
           <section className="equivalence-card">
@@ -992,16 +992,16 @@ export function ModelStudio({ askOpen = false, onCloseAsk = () => undefined, onE
       </div>}
 
       <StudioStatusbar className="model-statusbar">
-      {askLaboPanel}
+      {askNeuroBranchPanel}
 
         <span><span className={`status-dot ${validation.valid || blankGraph ? '' : 'invalid'}`} /> Neural IR {blankGraph ? 'blank' : validation.valid ? 'valid' : 'invalid'}</span>
         <span>{stats.nodeCount} nodes · {stats.edgeCount} links</span>
         <span className="status-spacer" />
         <span>PyTorch 2.7</span>
-        <span>LABO Runtime · local</span>
+        <span>NeuroBranch Runtime · local</span>
       </StudioStatusbar>
       </>}
-      {createCardOpen && askOpen && askLaboPanel}
+      {createCardOpen && askOpen && askNeuroBranchPanel}
     </>
   )
 }

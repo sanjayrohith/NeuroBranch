@@ -36,7 +36,7 @@ interface ManagedEdge {
 }
 
 function managedBlocks(source: string): ManagedBlock[] {
-  const marker = /^\s*# labo:node=([^\s]+) (kind|atom)=([^\s]+)\s*$/gm
+  const marker = /^\s*# neurobranch:node=([^\s]+) (kind|atom)=([^\s]+)\s*$/gm
   const matches = [...source.matchAll(marker)]
   return matches.map((match, index) => {
     const start = (match.index ?? 0) + match[0].length
@@ -89,7 +89,7 @@ function settingsFromDeclarations(definition: ModelAtomDefinition, declarations:
 }
 
 function managedEdges(source: string): ManagedEdge[] {
-  const marker = /^\s*# labo:edge=([^\s]+) source=([^\s]+) target=([^\s]+)(?: source_port=([^\s]+) target_port=([^\s]+))?\s*$/gm
+  const marker = /^\s*# neurobranch:edge=([^\s]+) source=([^\s]+) target=([^\s]+)(?: source_port=([^\s]+) target_port=([^\s]+))?\s*$/gm
   return [...source.matchAll(marker)].map((match) => ({
     id: match[1],
     source: match[2],

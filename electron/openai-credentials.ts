@@ -16,7 +16,7 @@ interface StoredCredentials {
 }
 
 function credentialsDirectory(): string {
-  return join(app.getPath('userData'), 'labo-ai')
+  return join(app.getPath('userData'), 'NeuroBranch')
 }
 
 function credentialsPath(): string {

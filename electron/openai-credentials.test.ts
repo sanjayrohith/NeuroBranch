@@ -25,7 +25,7 @@ let userDataDirectory = ''
 const previousApiKey = process.env.OPENAI_API_KEY
 
 beforeEach(async () => {
-  userDataDirectory = await mkdtemp(join(tmpdir(), 'labo-ai-credentials-'))
+  userDataDirectory = await mkdtemp(join(tmpdir(), 'NeuroBranch-credentials-'))
   electronMocks.getPath.mockReturnValue(userDataDirectory)
   electronMocks.isAsyncEncryptionAvailable.mockClear()
   electronMocks.encryptStringAsync.mockClear()
@@ -60,7 +60,7 @@ describe('per-user OpenAI credentials', () => {
 
     await expect(saveOpenAIApiKey({ apiKey })).resolves.toMatchObject({ configured: true, source: 'secure-storage' })
     await expect(resolveOpenAIConfig()).resolves.toMatchObject({ apiKey })
-    const stored = await readFile(join(userDataDirectory, 'labo-ai', 'openai-credentials.json'), 'utf8')
+    const stored = await readFile(join(userDataDirectory, 'NeuroBranch', 'openai-credentials.json'), 'utf8')
     expect(stored).not.toContain(apiKey)
 
     await expect(deleteOpenAIApiKey()).resolves.toMatchObject({ configured: false, source: 'none' })

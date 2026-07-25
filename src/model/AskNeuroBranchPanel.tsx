@@ -11,11 +11,11 @@ import { AgentPrompt } from '../studio/AgentPrompt'
 import { AgentActivityPanel, type AgentActivityItem } from '../studio/AgentActivityPanel'
 import { AgentSettingsContent, StudioEditingTips } from '../studio/AgentSettingsContent'
 import { ApplicationAppearanceSettings } from '../studio/ApplicationAppearanceSettings'
-import { useLaboLanguage } from '../studio/application-language'
+import { useNeuroBranchLanguage } from '../studio/application-language'
 import { AgentPlanReview } from './AgentPlanReview'
 import { agentPlanReviewText } from './agent-plan-review-text'
 
-interface AskLaboPanelProps {
+interface AskNeuroBranchPanelProps {
   graph: ArchitectureGraph
   customCards: CustomPyTorchCard[]
   dockClassName?: string
@@ -27,10 +27,10 @@ interface AskLaboPanelProps {
   onClose(): void
 }
 
-const AGENT_AUTO_APPLY_STORAGE_KEY = 'labo.ask.auto-apply.v1'
+const AGENT_AUTO_APPLY_STORAGE_KEY = 'neurobranch.ask.auto-apply.v1'
 
 function loadAutoApply(): boolean {
-  if (window.labo?.runtime === 'web') return false
+  if (window.neurobranch?.runtime === 'web') return false
   try {
     return window.localStorage.getItem(AGENT_AUTO_APPLY_STORAGE_KEY) === 'true'
   } catch {
@@ -44,8 +44,8 @@ interface AgentCardOverride {
   code?: string
 }
 
-export function AskLaboPanel({ graph, customCards, dockClassName = '', interactionMode, selectedNodeIds = [], open, workspaceSettings, onApply, onClose }: AskLaboPanelProps) {
-  const language = useLaboLanguage()
+export function AskNeuroBranchPanel({ graph, customCards, dockClassName = '', interactionMode, selectedNodeIds = [], open, workspaceSettings, onApply, onClose }: AskNeuroBranchPanelProps) {
+  const language = useNeuroBranchLanguage()
   const copy = agentPlanReviewText[language]
   const [request, setRequest] = useState('')
   const [plan, setPlan] = useState<AgentGraphPlan>()
@@ -85,15 +85,15 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
 
   useEffect(() => {
     setConfirmDelete(false)
-    if (!window.labo?.getOpenAISettings) {
+    if (!window.neurobranch?.getOpenAISettings) {
       setSettings({ configured: false, source: 'none', encryptionAvailable: false })
       return
     }
-    void window.labo.getOpenAISettings()
+    void window.neurobranch.getOpenAISettings()
       .then(setSettings)
       .catch((reason) => setCredentialMessage(reason instanceof Error ? reason.message : String(reason)))
-    if (window.labo.runtime === 'electron' && window.labo.getChatGPTSession) {
-      void window.labo.getChatGPTSession()
+    if (window.neurobranch.runtime === 'electron' && window.neurobranch.getChatGPTSession) {
+      void window.neurobranch.getChatGPTSession()
         .then(setChatGPT)
         .catch((reason) => setChatGPT({ available: false, connected: false, error: reason instanceof Error ? reason.message : String(reason) }))
     }
@@ -106,7 +106,7 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
   }, [error])
 
   useEffect(() => {
-    if (window.labo?.runtime !== 'web') window.localStorage.setItem(AGENT_AUTO_APPLY_STORAGE_KEY, String(autoApply))
+    if (window.neurobranch?.runtime !== 'web') window.localStorage.setItem(AGENT_AUTO_APPLY_STORAGE_KEY, String(autoApply))
   }, [autoApply])
 
   useEffect(() => {
@@ -136,14 +136,14 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
 
   const runAgentRequest = async (prompt: string) => {
     if (!prompt || loading) return
-    if (!window.labo?.askLabo) {
-      setError('Connect an agent from Settings before using Ask LABO.')
+    if (!window.neurobranch?.askNeuroBranch) {
+      setError('Connect an agent from Settings before using Ask NeuroBranch.')
       return
     }
     if (settings?.configured !== true && chatGPT?.connected !== true) {
-      const currentSettings = settings ?? await window.labo.getOpenAISettings?.()
+      const currentSettings = settings ?? await window.neurobranch.getOpenAISettings?.()
       if (currentSettings) setSettings(currentSettings)
-      const currentChatGPT = chatGPT ?? await window.labo.getChatGPTSession?.()
+      const currentChatGPT = chatGPT ?? await window.neurobranch.getChatGPTSession?.()
       if (currentChatGPT) setChatGPT(currentChatGPT)
       if (currentSettings?.configured !== true && currentChatGPT?.connected !== true) {
         setError('Open Settings → Agent to connect an agent first.')
@@ -159,7 +159,7 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
     setPlan(undefined)
     setCardOverrides({})
     try {
-      const rawResponse = await window.labo.askLabo({
+      const rawResponse = await window.neurobranch.askNeuroBranch({
         request: prompt,
         context: {
           ...createAgentGraphContext(graph, graphMode, customCards, { active: interactionMode === 'edit', nodeIds: selectedNodeIds }),
@@ -263,15 +263,15 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
 
   const saveApiKey = async (event: FormEvent) => {
     event.preventDefault()
-    if (!window.labo?.saveOpenAIKey || !apiKey.trim() || credentialBusy) return
+    if (!window.neurobranch?.saveOpenAIKey || !apiKey.trim() || credentialBusy) return
     setCredentialBusy(true)
     setCredentialMessage('')
     try {
-      const status = await window.labo.saveOpenAIKey(apiKey)
+      const status = await window.neurobranch.saveOpenAIKey(apiKey)
       setSettings(status)
       setApiKey('')
-      if (window.labo.testOpenAIKey) {
-        await window.labo.testOpenAIKey()
+      if (window.neurobranch.testOpenAIKey) {
+        await window.neurobranch.testOpenAIKey()
         setCredentialMessage('Key saved and verified with OpenAI.')
       } else setCredentialMessage('Key saved securely.')
     } catch (reason) {
@@ -282,11 +282,11 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
   }
 
   const testApiKey = async () => {
-    if (!window.labo?.testOpenAIKey || credentialBusy) return
+    if (!window.neurobranch?.testOpenAIKey || credentialBusy) return
     setCredentialBusy(true)
     setCredentialMessage('')
     try {
-      await window.labo.testOpenAIKey()
+      await window.neurobranch.testOpenAIKey()
       setCredentialMessage('OpenAI connection successful.')
     } catch (reason) {
       setCredentialMessage(reason instanceof Error ? reason.message : String(reason))
@@ -300,11 +300,11 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
       setConfirmDelete(true)
       return
     }
-    if (!window.labo?.deleteOpenAIKey || credentialBusy) return
+    if (!window.neurobranch?.deleteOpenAIKey || credentialBusy) return
     setCredentialBusy(true)
     setCredentialMessage('')
     try {
-      setSettings(await window.labo.deleteOpenAIKey())
+      setSettings(await window.neurobranch.deleteOpenAIKey())
       setConfirmDelete(false)
       setCredentialMessage('API key removed from this user account.')
     } catch (reason) {
@@ -315,13 +315,13 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
   }
 
   const connectChatGPT = async () => {
-    if (!window.labo?.connectChatGPT || credentialBusy) return
+    if (!window.neurobranch?.connectChatGPT || credentialBusy) return
     setCredentialBusy(true)
     setCredentialMessage('Complete ChatGPT sign-in in your browser.')
     try {
-      const status = await window.labo.connectChatGPT()
+      const status = await window.neurobranch.connectChatGPT()
       setChatGPT(status)
-      setCredentialMessage(status.connected ? 'ChatGPT account connected. Ask LABO will use it by default.' : 'ChatGPT sign-in was not completed.')
+      setCredentialMessage(status.connected ? 'ChatGPT account connected. Ask NeuroBranch will use it by default.' : 'ChatGPT sign-in was not completed.')
     } catch (reason) {
       setCredentialMessage(reason instanceof Error ? reason.message : String(reason))
     } finally {
@@ -330,11 +330,11 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
   }
 
   const disconnectChatGPT = async () => {
-    if (!window.labo?.disconnectChatGPT || credentialBusy) return
+    if (!window.neurobranch?.disconnectChatGPT || credentialBusy) return
     setCredentialBusy(true)
     setCredentialMessage('')
     try {
-      setChatGPT(await window.labo.disconnectChatGPT())
+      setChatGPT(await window.neurobranch.disconnectChatGPT())
       setCredentialMessage('ChatGPT account disconnected from NeuroBranch.')
     } catch (reason) {
       setCredentialMessage(reason instanceof Error ? reason.message : String(reason))
@@ -344,11 +344,11 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
   }
 
   const configureChatGPT = async (configuration: { model: string; effort: string }) => {
-    if (!window.labo?.configureChatGPT || credentialBusy) return
+    if (!window.neurobranch?.configureChatGPT || credentialBusy) return
     setCredentialBusy(true)
     setCredentialMessage('')
     try {
-      setChatGPT(await window.labo.configureChatGPT(configuration))
+      setChatGPT(await window.neurobranch.configureChatGPT(configuration))
       setCredentialMessage('ChatGPT model settings saved for this desktop profile.')
     } catch (reason) {
       setCredentialMessage(reason instanceof Error ? reason.message : String(reason))
@@ -368,10 +368,10 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
     onClose()
   }
 
-  return <div className={`ask-labo-backdrop ${dockClassName} ${plan ? 'review-open' : ''}`} onPointerDown={(event) => { if (event.target === event.currentTarget) closeOverlay() }}>
-  <aside aria-label="Ask LABO" aria-modal={Boolean(plan)} className={`ask-labo-panel ${plan ? 'has-plan' : ''}`} role={plan ? 'dialog' : 'region'}>
-    <header className="ask-labo-header">
-      <span>{plan ? <Sparkles size={15} /> : <Settings2 size={15} />}{plan ? copy.title : 'LABO settings'}</span>
+  return <div className={`ask-neurobranch-backdrop ${dockClassName} ${plan ? 'review-open' : ''}`} onPointerDown={(event) => { if (event.target === event.currentTarget) closeOverlay() }}>
+  <aside aria-label="Ask NeuroBranch" aria-modal={Boolean(plan)} className={`ask-neurobranch-panel ${plan ? 'has-plan' : ''}`} role={plan ? 'dialog' : 'region'}>
+    <header className="ask-neurobranch-header">
+      <span>{plan ? <Sparkles size={15} /> : <Settings2 size={15} />}{plan ? copy.title : 'NeuroBranch settings'}</span>
       <button aria-label={copy.close} onClick={closeOverlay}><X size={15} /></button>
     </header>
 
@@ -380,13 +380,13 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
     <AgentPrompt busy={loading} context={settings?.configured === false && chatGPT?.connected !== true ? 'Connect an agent in Settings' : `${autoApply ? 'Auto apply' : 'Review'} · ${graphMode === 'parallel' ? 'New parallel' : 'Extend current'}`} details={{ active: activityOpen, count: activities.length > 0 ? (activities.find((activity) => activity.status === 'running') ? '…' : activities.length) : undefined, label: 'Open agent activity', onToggle: () => setActivityOpen((current) => !current) }} disabled={settings?.configured === false && chatGPT?.connected !== true} mode={interactionMode === 'edit' ? 'card-editing' : 'architecture'} onChange={(value) => { setRequest(value); if (error) setError('') }} onSubmit={submit} value={request} />
 
     {open && <StudioSettingsModal onClose={closeOverlay} sections={[
-      { id: 'workspaces', label: 'Workspaces', icon: <FolderKanban size={13} />, content: <div className="ask-labo-workspace-settings">{workspaceSettings}</div> },
+      { id: 'workspaces', label: 'Workspaces', icon: <FolderKanban size={13} />, content: <div className="ask-neurobranch-workspace-settings">{workspaceSettings}</div> },
       { id: 'agent', label: 'Agent', icon: <Sparkles size={13} />, content: <AgentSettingsContent apiKey={apiKey} autoApply={autoApply} chatGPT={chatGPT} confirmDelete={confirmDelete} credentialBusy={credentialBusy} credentialMessage={credentialMessage} graphMode={graphMode} loading={loading} onApiKeyChange={setApiKey} onAutoApplyChange={setAutoApply} onChatGPTConfigurationChange={(configuration) => void configureChatGPT(configuration)} onConnectChatGPT={() => void connectChatGPT()} onDeleteApiKey={() => void deleteApiKey()} onDisconnectChatGPT={() => void disconnectChatGPT()} onGraphModeChange={(mode) => { setGraphMode(mode); setPlan(undefined) }} onSaveApiKey={(event) => void saveApiKey(event)} onShowApiKeyChange={setShowApiKey} onTestApiKey={() => void testApiKey()} settings={settings} showApiKey={showApiKey} /> },
       { id: 'studio', label: 'Application', icon: <Palette size={13} />, content: <ApplicationAppearanceSettings /> },
       { id: 'tips', label: 'Tips', icon: <Lightbulb size={13} />, content: <StudioEditingTips /> },
     ]} />}
 
-    {error && <div className="ask-labo-error"><AlertTriangle size={14} /><span>{error}</span><button aria-label="Dismiss agent error" onClick={() => setError('')} type="button"><X size={12} /></button></div>}
+    {error && <div className="ask-neurobranch-error"><AlertTriangle size={14} /><span>{error}</span><button aria-label="Dismiss agent error" onClick={() => setError('')} type="button"><X size={12} /></button></div>}
 
     {activePlan && preview && <AgentPlanReview
       language={language}
@@ -402,12 +402,12 @@ export function AskLaboPanel({ graph, customCards, dockClassName = '', interacti
       preview={preview}
     />}
 
-    {editingCard && editorDraft && <div className="ask-labo-card-modal-backdrop" onPointerDown={(event) => { if (event.target === event.currentTarget) { setEditingCard(undefined); setEditorDraft(undefined); setEditorError('') } }}>
-      <section aria-label="Edit agent card" aria-modal="true" className="ask-labo-card-modal" onPointerDown={(event) => event.stopPropagation()} role="dialog">
+    {editingCard && editorDraft && <div className="ask-neurobranch-card-modal-backdrop" onPointerDown={(event) => { if (event.target === event.currentTarget) { setEditingCard(undefined); setEditorDraft(undefined); setEditorError('') } }}>
+      <section aria-label="Edit agent card" aria-modal="true" className="ask-neurobranch-card-modal" onPointerDown={(event) => event.stopPropagation()} role="dialog">
         <header><strong>Edit card</strong><button aria-label="Close card editor" onClick={() => setEditingCard(undefined)} type="button"><X size={13} /></button></header>
         <label><span>Name</span><input aria-label="Agent card name" onChange={(event) => setEditorDraft((current) => current ? { ...current, label: event.target.value } : current)} value={editorDraft.label} /></label>
         <label><span>Block ID</span><input aria-label="Agent card ID" disabled value={editingCard.id} /></label>
-        {editingCard.kind === 'custom-pytorch' ? <label><span>PyTorch module</span><PythonCodeEditor ariaLabel="Agent card PyTorch module" className="compact-python-editor" onChange={(value) => setEditorDraft((current) => current ? { ...current, code: value } : current)} value={editorDraft.code ?? ''} /></label> : <div className="ask-labo-card-settings">
+        {editingCard.kind === 'custom-pytorch' ? <label><span>PyTorch module</span><PythonCodeEditor ariaLabel="Agent card PyTorch module" className="compact-python-editor" onChange={(value) => setEditorDraft((current) => current ? { ...current, code: value } : current)} value={editorDraft.code ?? ''} /></label> : <div className="ask-neurobranch-card-settings">
           {modelAtomRegistry[editingCard.atomId ?? '']?.settings.map((setting) => {
             const value = editorDraft.attributes?.[setting.id] ?? setting.default
             return <label key={setting.id}><span>{setting.id}</span>{setting.type === 'boolean'

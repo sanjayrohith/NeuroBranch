@@ -11,8 +11,8 @@ import { AppHeader, type StudioWorkspaceId } from './studio/AppHeader'
 import { GlobalSearch, type GlobalSearchResult } from './studio/GlobalSearch'
 import { useGlobalSearch } from './studio/useGlobalSearch'
 import './styles/desktop.scss'
-import { initializeLaboTheme } from './studio/application-appearance'
-import { initializeLaboLanguage } from './studio/application-language'
+import { initializeNeuroBranchTheme } from './studio/application-appearance'
+import { initializeNeuroBranchLanguage } from './studio/application-language'
 
 function App() {
   const [workspace, setWorkspace] = useState<StudioWorkspaceId>('model')
@@ -29,16 +29,16 @@ function App() {
   const searchResults = useMemo(() => workspace === 'model'
     ? (modelEditorContext === 'reusable-card' ? searchReusableCardAtoms(search.query) : searchModelCards(search.query)).map((result) => ({ ...result, id: result.atomId, kind: 'model' as const }))
     : workspace === 'training' ? searchOptimizers(search.query, customOptimizers) : searchTokenizerCards(search.query, customTokenizerCards), [customOptimizers, customTokenizerCards, modelEditorContext, search.query, workspace])
-  const platform = window.labo?.platform
-  const runtimeClass = window.labo?.runtime === 'electron' ? ` runtime-electron runtime-${platform ?? 'desktop'}` : ''
+  const platform = window.neurobranch?.platform
+  const runtimeClass = window.neurobranch?.runtime === 'electron' ? ` runtime-electron runtime-${platform ?? 'desktop'}` : ''
   const searchShortcut = platform === 'darwin' ? '⌘K' : 'Ctrl+K'
 
-  useLayoutEffect(() => { void Promise.all([initializeLaboTheme(), initializeLaboLanguage()]) }, [])
+  useLayoutEffect(() => { void Promise.all([initializeNeuroBranchTheme(), initializeNeuroBranchLanguage()]) }, [])
 
   useEffect(() => {
     let active = true
-    void window.labo?.getWindowState?.().then((state) => { if (active) setNativeFullScreen(state.fullScreen) })
-    const unsubscribe = window.labo?.onWindowStateChange?.((state) => setNativeFullScreen(state.fullScreen))
+    void window.neurobranch?.getWindowState?.().then((state) => { if (active) setNativeFullScreen(state.fullScreen) })
+    const unsubscribe = window.neurobranch?.onWindowStateChange?.((state) => setNativeFullScreen(state.fullScreen))
     return () => { active = false; unsubscribe?.() }
   }, [])
 

@@ -1,7 +1,7 @@
 import { CheckCircle2, Download, FlaskConical, RefreshCw, ShieldCheck } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
-type Status = Awaited<ReturnType<NonNullable<NonNullable<Window['labo']>['getDesktopUpdateStatus']>>>
+type Status = Awaited<ReturnType<NonNullable<NonNullable<Window['neurobranch']>['getDesktopUpdateStatus']>>>
 
 export function DesktopUpdateSettings() {
   const [statuses, setStatuses] = useState<Partial<Record<DesktopUpdateChannel, Status>>>({})
@@ -10,7 +10,7 @@ export function DesktopUpdateSettings() {
   const [error, setError] = useState('')
   const [checked, setChecked] = useState(false)
   const statusRequest = useRef(0)
-  const api = window.labo
+  const api = window.neurobranch
   const status = statuses[channel]
 
   useEffect(() => {

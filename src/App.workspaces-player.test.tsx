@@ -38,7 +38,7 @@ describe('NeuroBranch workspaces player', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: 'Blank starter' }))
     fireEvent.click(screen.getByRole('button', { name: 'Add Token IDs' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Workspaces' }))
     fireEvent.change(screen.getByRole('textbox', { name: 'New model preset name' }), { target: { value: 'My routed model' } })
     fireEvent.click(screen.getByRole('button', { name: 'Save a named copy of Blank starter' }))
@@ -57,7 +57,7 @@ describe('NeuroBranch workspaces player', () => {
   
   it('creates independent blank workspaces, mixes presets, and deletes a multi-selection in edit mode', () => {
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open LABO settings' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open NeuroBranch settings' }))
     fireEvent.click(screen.getByRole('button', { name: 'Workspaces' }))
     fireEvent.click(screen.getByRole('button', { name: 'Create and open a blank workspace' }))
     expect(screen.getByText('0 atoms')).toBeInTheDocument()
@@ -96,7 +96,7 @@ describe('NeuroBranch workspaces player', () => {
         results: nodes.map((node) => ({ atomId: node.id, status: 'passed' as const, summary: `${node.id} ok` })),
       }
     })
-    window.labo = { platform: 'darwin', runtime: 'electron', runAtomic }
+    window.neurobranch = { platform: 'darwin', runtime: 'electron', runAtomic }
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: 'GPT-like' }))
     fireEvent.change(screen.getByRole('textbox', { name: 'Model generation prompt' }), { target: { value: 'Salut GPT' } })
@@ -110,11 +110,11 @@ describe('NeuroBranch workspaces player', () => {
     expect(screen.getByText('6 Token IDs')).toBeInTheDocument()
     expect(screen.getByLabelText('Model generation output')).toHaveTextContent('Predicted Token ID42')
     expect(screen.getByLabelText('Model generation output')).toHaveTextContent('42 (40.00%)')
-    delete window.labo
+    delete window.neurobranch
   })
   
   it('steps one elastic execution level without completing the whole graph', async () => {
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       runAtomic: async (payload) => {
@@ -131,7 +131,7 @@ describe('NeuroBranch workspaces player', () => {
     expect(screen.getByText('embedding + fixed-routes')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Select Token IDs' }).closest('.architecture-node')).toHaveClass('status-passed')
     expect(screen.getByRole('button', { name: 'Select Tied token embedding' }).closest('.architecture-node')).toHaveClass('status-pending')
-    delete window.labo
+    delete window.neurobranch
   })
   
   it('starts a fresh PyTorch trace when replaying or stepping after completion', async () => {
@@ -140,7 +140,7 @@ describe('NeuroBranch workspaces player', () => {
       const nodes = payload.kind === 'model' ? (payload.graph as { nodes: { id: string }[] }).nodes : []
       return { engine: 'pytorch' as const, status: 'completed' as const, results: nodes.map((node) => ({ atomId: node.id, status: 'passed' as const, summary: `${node.id} ok` })) }
     })
-    window.labo = { platform: 'darwin', runtime: 'electron', runAtomic }
+    window.neurobranch = { platform: 'darwin', runtime: 'electron', runAtomic }
     render(<App />)
   
     fireEvent.click(screen.getByRole('button', { name: 'Play model atoms' }))
@@ -151,11 +151,11 @@ describe('NeuroBranch workspaces player', () => {
     await waitFor(() => expect(screen.getAllByText('paused')).toHaveLength(2))
     expect(runAtomic).toHaveBeenCalledTimes(4)
     expect(screen.getByText('embedding + fixed-routes')).toBeInTheDocument()
-    delete window.labo
+    delete window.neurobranch
   })
 
   it('resets every green execution highlight when Stop is pressed', async () => {
-    window.labo = {
+    window.neurobranch = {
       platform: 'darwin',
       runtime: 'electron',
       runAtomic: async (payload) => {
@@ -174,6 +174,6 @@ describe('NeuroBranch workspaces player', () => {
     expect(document.querySelectorAll('.architecture-node.status-passed')).toHaveLength(0)
     expect(document.querySelectorAll('.architecture-node.status-pending')).toHaveLength(20)
     expect(screen.getAllByText('idle')).toHaveLength(2)
-    delete window.labo
+    delete window.neurobranch
   })
 })

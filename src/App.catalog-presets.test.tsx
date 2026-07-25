@@ -25,7 +25,7 @@ describe('NeuroBranch catalog presets', () => {
     const pytorch = (screen.getByRole('textbox', { name: 'PyTorch editor' }) as HTMLTextAreaElement).value
     expect(pytorch).toContain('class GeneratedModel')
     expect(pytorch).toContain('self.embedding = nn.Embedding(32000, 1024)')
-    expect(pytorch).toContain('# labo:edge=rope-q-sdpa source=rope target=sdpa')
+    expect(pytorch).toContain('# neurobranch:edge=rope-q-sdpa source=rope target=sdpa')
     expect(pytorch).toContain('self.head.weight = self.embedding.weight')
     expect(document.querySelector('.python-syntax-layer')).toHaveAttribute('aria-hidden', 'true')
     expect(document.querySelector('.python-token.keyword')).toHaveTextContent('import')

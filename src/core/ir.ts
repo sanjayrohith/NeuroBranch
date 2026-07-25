@@ -246,7 +246,7 @@ function topologicalNodes(graph: ArchitectureGraph): ArchitectureNode[] {
 function edgeMarker(edge: ArchitectureEdge): string {
   const sourcePort = edge.sourcePort ?? 'output'
   const targetPort = edge.targetPort ?? 'input'
-  return `        # labo:edge=${edge.id} source=${edge.source} target=${edge.target} source_port=${sourcePort} target_port=${targetPort}`
+  return `        # neurobranch:edge=${edge.id} source=${edge.source} target=${edge.target} source_port=${sourcePort} target_port=${targetPort}`
 }
 
 function compileGqaForward(graph: ArchitectureGraph): string {
@@ -339,10 +339,10 @@ class GeneratedInvalidGraph(nn.Module):
         const input = Number(node.attributes?.inFeatures ?? 0)
         const output = Number(node.attributes?.outFeatures ?? 0)
         const bias = node.attributes?.bias === true ? 'True' : 'False'
-        return [`        # labo:node=${node.id} kind=linear`, `        self.${name} = nn.Linear(${input}, ${output}, bias=${bias})`]
+        return [`        # neurobranch:node=${node.id} kind=linear`, `        self.${name} = nn.Linear(${input}, ${output}, bias=${bias})`]
       }
       if (node.kind === 'custom-pytorch' && node.code) {
-        return [`        # labo:node=${node.id} kind=custom-pytorch`, `        self.${node.id.replaceAll('-', '_')} = ${node.code}`]
+        return [`        # neurobranch:node=${node.id} kind=custom-pytorch`, `        self.${node.id.replaceAll('-', '_')} = ${node.code}`]
       }
       return []
     }).join('\n')
@@ -371,7 +371,7 @@ ${declarations || '        pass'}
   }
   const gqaDeclarations = graph.nodes.flatMap((node) => {
     if (node.kind === 'custom-pytorch' && node.code) {
-      return [`        # labo:node=${node.id} kind=custom-pytorch`, `        self.${moduleName(node)} = ${node.code}`]
+      return [`        # neurobranch:node=${node.id} kind=custom-pytorch`, `        self.${moduleName(node)} = ${node.code}`]
     }
     if (node.kind !== 'linear') return []
     const fallbackOutput = node.role === 'query'
@@ -380,7 +380,7 @@ ${declarations || '        pass'}
         ? keyValueHeads * headDim
         : hiddenSize
     const spec = linear(node.id, hiddenSize, fallbackOutput)
-    return [`        # labo:node=${node.id} kind=linear`, `        self.${moduleName(node)} = nn.Linear(${spec.input}, ${spec.output}, bias=${spec.bias})`]
+    return [`        # neurobranch:node=${node.id} kind=linear`, `        self.${moduleName(node)} = nn.Linear(${spec.input}, ${spec.output}, bias=${spec.bias})`]
   }).join('\n')
   return `import torch
 import torch.nn as nn

@@ -110,16 +110,16 @@ export function restoreDesktopUpdateStatus(status: DesktopUpdateStatus, cache: D
 }
 
 export function desktopUpdateHelperPath(userData: string, platform = process.platform): string {
-  return join(userData, 'installer', platform === 'win32' ? 'labo-ai-setup.exe' : 'labo-ai-setup')
+  return join(userData, 'installer', platform === 'win32' ? 'NeuroBranch-setup.exe' : 'NeuroBranch-setup')
 }
 
 export function desktopUpdateHelperPaths(userData: string, platform = process.platform, home = homedir(), appData = process.env.APPDATA): string[] {
-  const filename = platform === 'win32' ? 'labo-ai-setup.exe' : 'labo-ai-setup'
+  const filename = platform === 'win32' ? 'NeuroBranch-setup.exe' : 'NeuroBranch-setup'
   const primary = desktopUpdateHelperPath(userData, platform)
   const legacyRoot = platform === 'darwin'
-    ? join(home, 'Library', 'Application Support', 'labo-ai')
+    ? join(home, 'Library', 'Application Support', 'NeuroBranch')
     : platform === 'win32'
-      ? join(appData || join(home, 'AppData', 'Roaming'), 'labo-ai')
+      ? join(appData || join(home, 'AppData', 'Roaming'), 'NeuroBranch')
       : userData
   return [...new Set([primary, join(legacyRoot, 'installer', filename)])]
 }
