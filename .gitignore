@@ -22,6 +22,10 @@ apps/bootstrap-installer/ui/styles.css
 build/icon-source.png
 build/icon.iconset
 
+# Python bytecode (atomic runtime, hero generator)
+__pycache__/
+*.py[cod]
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

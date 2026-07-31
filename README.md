@@ -2,13 +2,18 @@
 
 # NeuroBranch
 
-<img src="public/neurobranch.png" alt="NeuroBranch — a glowing neural graph flowing into generated PyTorch code" width="100%" />
-
-### Neural networks you can *see*, *touch*, and *run* — one typed block at a time.
-
 NeuroBranch turns model architecture from a wall of Python into a **living graph of small, executable cards**.
 Snap typed blocks together on a canvas, watch the **PyTorch write itself**, step through execution tensor-by-tensor,
 and let a **constrained AI copilot** build alongside you — using the exact same auditable tools you do.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="public/neurobranch-hero-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="public/neurobranch-hero-light.png">
+  <img src="public/neurobranch-hero-light.png" width="100%"
+       alt="NeuroBranch: typed cards compose a GPT-like graph, Ask NeuroBranch plans it, PyTorch generates alongside, and the graph runs on a local Python runtime" />
+</picture>
+
+### Neural networks you can *see*, *touch*, and *run* — one typed block at a time.
 
 ![Platform](https://img.shields.io/badge/desktop-macOS%20%7C%20Windows%20%7C%20Linux-4c8bf5)
 ![Electron](https://img.shields.io/badge/Electron-2b2e3b?logo=electron&logoColor=9feaf9)
@@ -130,6 +135,8 @@ instead of overwriting it.
 ---
 
 ## Feature tour
+
+<img src="public/neurobranch.png" alt="NeuroBranch — a glowing neural graph flowing into generated PyTorch code" width="100%" />
 
 <details>
 <summary><b>Composition & catalog</b></summary>
